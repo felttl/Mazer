@@ -40,6 +40,7 @@ char entree = '⌂'; // priorite 1 les autres 0
 
 int display(int row, int column, char ** matrice){
     int result=0;
+    char cp_display[row][column];
     printf("\n ");
 
     // affichage des indexes 
@@ -69,6 +70,7 @@ int display(int row, int column, char ** matrice){
                 }
             }
         }
+        printf("\n");
     }
 
 
