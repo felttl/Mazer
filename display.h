@@ -76,6 +76,8 @@ int*display(int row, int column, char ** matrice){
             if (matrice[line][col] == '0'){ 
                 printf(' ');
             } else if (matrice[line][col] == '1'){ // si on a un mur
+                // affichage colorimétrique pour le passage du pion
+
                 // traitement des angles (4 angles)
                 if (line == 0 && col == 0 || matrice[line][col+1] == '1' && matrice[line+1][col] == '1'){
                     printf("%c", nw);
@@ -89,30 +91,27 @@ int*display(int row, int column, char ** matrice){
                     // mur horizontal
                     printf("%c", s);
                 } else if (matrice[line][col-1] == '1' && matrice[line][col+1] == '1'){
-                    // mur vertical
-                    printf("%c", w);
-                } else if (){
-                    // jointure horizontal droite
-                } else if (){
-                    // jointure horizontal gauche
-                } else if (){
-                    // jointure verticale haut
-                } else if (){
-                    // jointure verticale bas
-                } else if (){
-                    // quadruple jointure
-                } else if(){
-                    // erreur si pas de points a priximité
-                    printf("affichage impossible au point (%d,%d) pas de points autour", line, col);
-                    exit(EXIT_FAILURE);
+                    printf("%c", w);// mur vertical
+                } else if (matrice[line][col+1] == '1' && matrice[line-1][col] == '1' && matrice[line+1][col] == '1'){
+                    printf("%c", je);// jointure verticale est
+                } else if (matrice[line][col-1] == '1' && matrice[line-1][col] == '1' && matrice[line+1][col] == '1'){
+                    printf("%c", jw);// jointure verticale west                    
+                } else if (matrice[line][col+1] == '1' && matrice[line][col-1] == '1' && matrice[line-1][col] == '1'){
+                    printf("%c", jn);// jointure horizontale nord  
+                } else if (matrice[line][col+1] == '1' && matrice[line][col-1] == '1' && matrice[line+1][col] == '1'){
+                    printf("%c", js)// jointure horizontale sud;  
+                } else if (matrice[line][col+1] == '1' && matrice[line][col-1] == '1' && matrice[line+1][col] == '1' && matrice[line-1][col] == '1'){
+                    printf("%c", s);// quadruple jointure  
                 }
-
+            } else if(matrice[line][col+1] == '0' && matrice[line][col-1] == '0' && matrice[line+1][col] == '0' && matrice[line-1][col] == '0'){
+                // erreur si pas de points a priximité
+                printf("affichage impossible au point (%d,%d) pas de points autour", line, col);
+                exit(EXIT_FAILURE);
             }else if (matrice[line][col] == '2'){// si entrée
                 coorXY[0] = line;
                 coorXY[1] = col;
                 // position de la suite de l'entrée (2 cases obligatoires) (3 || 2) && (4 || 0)
                 printf("%c", entree);
-            }else if (){
             } else {// exit error
                 printf("\nla valeur de la case (%d,%d) de la matrice n'est pas valide\n", line, col);
                 exit(EXIT_FAILURE);
@@ -120,8 +119,6 @@ int*display(int row, int column, char ** matrice){
         }
         printf("\n");
     }
-
-
     printf("\n");
     return coorXY;
 }
