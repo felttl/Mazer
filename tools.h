@@ -9,19 +9,25 @@ typedef struct Etape{
 } Etape ;
 
 
-/*
-    pour charger les donnéees du labyrinthe
+/**
+ * @param filename le nom du fichier (le chemin d'accés) pour extraire les données
+ * @return la matrice sous forme de string affichable
 */
-int ** charger_labyrinthe(char * filename){
+char ** charger_labyrinthe(char * filename){
     FILE * file;
     file = fopen(filename, 'r');
 
 
     int row_number = 1; // dynamic
     int col_number = 1; // dynamic
-    int ** res_matr =  (int**)malloc(col_number * sizeof(int*));
+    char ** res_matr =  (char**)malloc(col_number * sizeof(char*));
 
-    // parcours des lignes
+    // parcours du fichier texte
+    int i=0;
+    int j=0;
+    int carry = 1;
+
+    while(carry == 1 && )
 
 }
 
