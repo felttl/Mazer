@@ -51,6 +51,7 @@ char entree = '⌂'; // priorite 1 les autres 0
 
 int display(int row, int column, char ** matrice){
     int result=0;
+    int coorXY[2] = {0,0};
     printf("\n\n ");
 
     // affichage des indexes 
@@ -75,6 +76,12 @@ int display(int row, int column, char ** matrice){
                     printf("%c", sw);                    
                 } else if (line == row-1 && col == column-1 || matrice[line][col-1] == '1' && matrice[line-1][col] == '1'){
                     printf("%c", se);
+                } else if (matrice[line][col-1] == '1' && matrice[line][col+1] == '1'){
+                    // mur horizontal
+                    printf("%c", s);
+                } else if (matrice[line][col-1] == '1' && matrice[line][col+1] == '1'){
+                    // mur vertical
+                    printf("%c", w);
                 }
 
             }else if (matrice[line][col] == '2' || matrice[line][col] == '3'){// si entrée ou sortie
