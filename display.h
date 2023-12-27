@@ -20,6 +20,13 @@
  * pas de déplacement en diagonales + les autres règles générales
  * il est impossible de créer une entrée dans les 4 angles du labyrinthe car incohérence de déplacement
  * 
+ * regles :
+ * 0 passage
+ * 1 mur
+ * 2 entree
+ * 3 sortie
+ * (pas de 4 pour le pion car on connais déja l'entrée et le 
+ * pion commencera toujours par l'entrée)
 */
 
 
@@ -59,26 +66,32 @@ int display(int row, int column, char ** matrice){
             if (matrice[line][col] == '0'){ 
                 printf(' ');
             } else if (matrice[line][col] == '1'){ // si on a un mur
-                // traitement des cas particuliers
-                if (line == 0){
-                    // horizontal nord
-                    if (col == 0){
-                        printf('%c', nw);
-                    } else if (col == column-1){
-                        printf('%c', ne);
-                    } else {
-                        printf('%c', n);
-                    }
-                } else if (line == row-1){
-                    // horizontal sud
-                    if ()
-                    
-                } else if (col == column - 1){
-
-                } else {
-                    // pas au bord
+                // traitement des angles (4 angles)
+                if (line == 0 && col == 0 || matrice[line][col+1] == '1' && matrice[line+1][col] == '1'){
+                    printf("%c", nw);
+                } else if (line == 0 && col == column-1 || matrice[line][col-1] == '1' && matrice[line+1][col] == '1'){
+                    printf("%c", ne);
+                } else if (line == row-1 && col == 0 || matrice[line-1][col] == '1' && matrice[line][col+1] == '1'){
+                    printf("%c", sw);                    
+                } else if (line == row-1 && col == column-1 || matrice[line][col-1] == '1' && matrice[line-1][col] == '1'){
+                    printf("%c", se);
                 }
+
             }else if (matrice[line][col] == '2' || matrice[line][col] == '3'){// si entrée ou sortie
+                // position de la suite de l'entrée (2 cases obligatoires) (3 || 2) && (4 || 0)
+                // si droite
+                if(){
+
+                } else if (){// gauche
+
+                } else if (){// haut
+
+                } else if (){// bas
+
+                } else {// erreur
+                    printf("\nla valeur de la case (%d,%d) de la matrice n'est pas valide\n", line, col);
+                    exit(EXIT_FAILURE);
+                }
 
             } else {// exit error
                 printf("\nla valeur de la case (%d,%d) de la matrice n'est pas valide\n", line, col);
