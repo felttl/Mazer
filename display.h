@@ -40,7 +40,7 @@
  * @param matrice la matrice d'entrée que l'on doit afficher
  * @return la position de l'entrée (coordonnées x et y)
 */
-int display(int row, int column, char ** matrice){
+int display(int row, int column, char ** matr){
     // blocs muraux basiques
     const char nw[4] = "┌";
     const char h[4] = "─"; // horizontal
@@ -57,6 +57,9 @@ int display(int row, int column, char ** matrice){
     // points spécifiques
     const char nous[4] = "○"; // priorite 2 d'affichage
     const char entree[4] = "⌂"; // priorite 1 les autres 0   
+
+    // matrice fixe pour pas gérer les cases mémoires overflow
+    char matrice[row][column] = matr;
 
     int coorXY[2] = {-1,-1}; // input coordinates
     printf("\n\n ");
