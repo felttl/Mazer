@@ -1,27 +1,22 @@
-// 
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
-// fichiers personnels
-#include "tools.h"
+/**
+ * author : felix TTL 
+ * date : 24/12/2023 - 7/1/2024
+ * project name : Mazer
+ * 
+*/
 
 
-// programme principal
-int main(){
-    // char a[20] = "salut ";
-    // char b[20] = "c'est moi !\n";
-    // char d[100] = "";
-    // strcat(d, a);
-    // strcat(d, b);
-    // printf("%s",d);
+#include "./add_lib.h"
+
+
+
+void main(){
 
 
 
 
 
-    return 0;
+
 }
 
 

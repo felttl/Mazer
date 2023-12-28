@@ -10,10 +10,11 @@ typedef struct Etape{
 
 
 /**
+ * @brief charger les données du fichier de données avec le labyrinthe
  * @param filename le nom du fichier (le chemin d'accés) pour extraire les données
  * @return la matrice sous forme de string affichable
 */
-char ** charger_labyrinthe(char * filename){
+char ** load(char * filename){
     FILE * file;
     file = fopen(filename, 'r');
 

@@ -35,6 +35,7 @@
  * 2 entree
  * 3 sortie
  * 4 pour le pion (pour affichage successif si on veut voir l'avancée de "l'utilisateur") 
+ * 5 couleur grise (passage du pion)
  * @param row nombre de lignes
  * @param column nombre de colonnes
  * @param matrice la matrice d'entrée que l'on doit afficher
@@ -77,10 +78,7 @@ int display(int row, int column, char ** matr){
             if (matrice[line][col] == '0'){ 
                 printf("%c", ' ');
             } else if (matrice[line][col] == '1'){ // si on a un mur
-                // affichage colorimétrique pour le passage du pion
-
-                // traitement des angles (4 angles)
-                if (line == 0 && col == 0 || matrice[line][col+1] == '1' && matrice[line+1][col] == '1'){
+                 if (line+1 <= row-1 && col+1 <= column-1 && *(*(matrice+line)+col+1) == '1' && *(*(matrice+line+1)+col) == '1'){
                     printf("%s", nw);
                 } else if (line == 0 && col == column-1 || matrice[line][col-1] == '1' && matrice[line+1][col] == '1'){
                     printf("%s", ne);
@@ -103,6 +101,9 @@ int display(int row, int column, char ** matr){
                 } else if (matrice[line][col+1] == '1' && matrice[line][col-1] == '1' && matrice[line+1][col] == '1' && matrice[line-1][col] == '1'){
                     printf("%s", star);// quadruple jointure  
                 }
+            } else if(*(*(matrice+line)+col) == '5'){
+                // affichage colorimétrique pour le passage du pion
+                printf("\033[7;40m \033[0m");
             } else if(matrice[line][col+1] == '0' && matrice[line][col-1] == '0' && matrice[line+1][col] == '0' && matrice[line-1][col] == '0'){
                 // erreur si pas de points a priximité
                 printf("affichage impossible au point (%d,%d) pas de points autour", line, col);
