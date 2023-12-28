@@ -1,0 +1,24 @@
+
+
+
+1) on ne peut pas scanner une zone en dehors de la matrice quand on utilise une matrice dynamique
+    mais on peut le faire avec une matrice normale (avec la taille définie préalablement, donc fixe)
+    ou on pourrait le faire avec une matrice dyna mais il faudrait gérer les overflow
+
+2) on a besoin de récupérer la valeur d'entrée et la position du pion pour les
+    déplacements dans la labyrinthe et mettre la surbrillance a l'affichange pour 
+    le tracé du chemin avec la liste chainée
+
+
+
+
+################## problèmes rencontrés ###########################
+
+1 problèmes sur les chaines de caractères :
+
+    pour optimiser l'utilisation de mémoire on aurait tendance a avoir un heap fractionné
+    CAD qu'en fait on met un caractère dans la mémoire "heap" (le tas) et on étend la taille
+    de la mémoire que l'on a besoin a chaque fois que l'on souhaite ajouter un élément que l'on
+    veut utiliser plus tard
+
+
