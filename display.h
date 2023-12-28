@@ -40,27 +40,25 @@
  * @param matrice la matrice d'entrée que l'on doit afficher
  * @return la position de l'entrée (coordonnées x et y)
 */
-int*display(int row, int column, char ** matrice){
+int display(int row, int column, char ** matrice){
     // blocs muraux basiques
-    char nw = '┌';
-    char n = '─';
-    char s = n;
-    char ne = '┐';
-    char e = '|';
-    char w = e;
-    char sw = '└';
-    char se = '┘';
+    const char nw[4] = "┌";
+    const char h[4] = "─"; // horizontal
+    const char ne[4] = "┐";
+    const char v[4] = "|"; // vertical
+    const char sw[4] = "└";
+    const char se[4] = "┘";
     // jointures murales
-    char jn = '┴';
-    char js = '┬';
-    char s = '┼'; // star
-    char je = '├';
-    char jw = '┤';
+    const char jn[4] = "┴";
+    const char js[4] = "┬";
+    const char star[4] = "┼"; // star
+    const char je[4] = "├";
+    const char jw[4] = "┤";
     // points spécifiques
-    char nous = '○'; // priorite 2 d'affichage
-    char entree = '⌂'; // priorite 1 les autres 0   
+    const char nous[4] = "○"; // priorite 2 d'affichage
+    const char entree[4] = "⌂"; // priorite 1 les autres 0   
 
-    int coorXY[2] = {NULL,NULL}; // input coordinates
+    int coorXY[2] = {-1,-1}; // input coordinates
     printf("\n\n ");
 
     // affichage des indexes 
@@ -74,34 +72,33 @@ int*display(int row, int column, char ** matrice){
         for (int col=0;col<column;col++){
             // pas de murs
             if (matrice[line][col] == '0'){ 
-                printf(' ');
+                printf("%c", ' ');
             } else if (matrice[line][col] == '1'){ // si on a un mur
                 // affichage colorimétrique pour le passage du pion
 
                 // traitement des angles (4 angles)
                 if (line == 0 && col == 0 || matrice[line][col+1] == '1' && matrice[line+1][col] == '1'){
-                    printf("%c", nw);
+                    printf("%s", nw);
                 } else if (line == 0 && col == column-1 || matrice[line][col-1] == '1' && matrice[line+1][col] == '1'){
-                    printf("%c", ne);
+                    printf("%s", ne);
                 } else if (line == row-1 && col == 0 || matrice[line-1][col] == '1' && matrice[line][col+1] == '1'){
-                    printf("%c", sw);                    
+                    printf("%s", sw);                    
                 } else if (line == row-1 && col == column-1 || matrice[line][col-1] == '1' && matrice[line-1][col] == '1'){
-                    printf("%c", se);
+                    printf("%s", se);
                 } else if (matrice[line][col-1] == '1' && matrice[line][col+1] == '1'){
-                    // mur horizontal
-                    printf("%c", s);
+                    printf("%s", h);// mur horizontal
                 } else if (matrice[line][col-1] == '1' && matrice[line][col+1] == '1'){
-                    printf("%c", w);// mur vertical
+                    printf("%s", v);// mur vertical
                 } else if (matrice[line][col+1] == '1' && matrice[line-1][col] == '1' && matrice[line+1][col] == '1'){
-                    printf("%c", je);// jointure verticale est
+                    printf("%s", je);// jointure verticale est
                 } else if (matrice[line][col-1] == '1' && matrice[line-1][col] == '1' && matrice[line+1][col] == '1'){
-                    printf("%c", jw);// jointure verticale west                    
+                    printf("%s", jw);// jointure verticale west                    
                 } else if (matrice[line][col+1] == '1' && matrice[line][col-1] == '1' && matrice[line-1][col] == '1'){
-                    printf("%c", jn);// jointure horizontale nord  
+                    printf("%s", jn);// jointure horizontale nord  
                 } else if (matrice[line][col+1] == '1' && matrice[line][col-1] == '1' && matrice[line+1][col] == '1'){
-                    printf("%c", js)// jointure horizontale sud;  
+                    printf("%s", js);// jointure horizontale sud;  
                 } else if (matrice[line][col+1] == '1' && matrice[line][col-1] == '1' && matrice[line+1][col] == '1' && matrice[line-1][col] == '1'){
-                    printf("%c", s);// quadruple jointure  
+                    printf("%s", star);// quadruple jointure  
                 }
             } else if(matrice[line][col+1] == '0' && matrice[line][col-1] == '0' && matrice[line+1][col] == '0' && matrice[line-1][col] == '0'){
                 // erreur si pas de points a priximité
@@ -111,7 +108,9 @@ int*display(int row, int column, char ** matrice){
                 coorXY[0] = line;
                 coorXY[1] = col;
                 // position de la suite de l'entrée (2 cases obligatoires) (3 || 2) && (4 || 0)
-                printf("%c", entree);
+                printf("%s", entree);
+            }else if(matrice[line][col] == '3'){
+                printf("%c", ' ');
             } else {// exit error
                 printf("\nla valeur de la case (%d,%d) de la matrice n'est pas valide\n", line, col);
                 exit(EXIT_FAILURE);
@@ -120,7 +119,6 @@ int*display(int row, int column, char ** matrice){
         printf("\n");
     }
     printf("\n");
-    return coorXY;
 }
 
 // bash grey color 840
