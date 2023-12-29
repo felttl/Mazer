@@ -2,11 +2,7 @@
 // package de librairies extérieures
 #include "add_lib.h"
 
-// lisite chainée
-typedef struct Etape{
-    int line, column;
-    struct Etape * suivant;
-} Etape ;
+
 
 
 /**
@@ -35,14 +31,18 @@ char ** load(char * filename){
 
 
 /**
- * sauvegarde les données d'une ligne 
+ * @brief sauvegarde les données d'une ligne 
  *  (séparateur avec \n pour plusieurs lignes)
  * 
- * -ATTENTION : les données sont écrasées a chaque fois
+ * 
+ *  -   ATTENTION : les données sont écrasées a chaque fois
  *  pour permettre de compiler plusieurs fois le même fichier
  *  de la même manière (si le fichier a la même nom)
+ *  mais n'as pas forcément le même contenu dans le fichier d'entree
+ * et de sortie
+ * 
 */
-int sauvegarderDonnees(char*data){
+int save(char*data){
     FILE *fp;
     fp = fopen("out.txt", "w+");
 	if(fp == NULL){
@@ -57,7 +57,7 @@ int sauvegarderDonnees(char*data){
 
 
 /*
-    chercher la sortie en tournant
+    chercher la sortie en tournant à droite
         - "méthode 1"
     @param depart étape de départ du labyrinthe
 */

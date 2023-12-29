@@ -41,7 +41,7 @@
  * @param matrice la matrice d'entrée que l'on doit afficher
  * @return la position de l'entrée (coordonnées x et y)
 */
-int display(int row, int column, char ** matr){
+void display(int row, int column, char ** matr){
     // blocs muraux basiques
     const char nw[4] = "┌";
     const char h[4] = "─"; // horizontal
@@ -59,12 +59,6 @@ int display(int row, int column, char ** matr){
     const char nous[4] = "○"; // priorite 2 d'affichage
     const char entree[4] = "⌂"; // priorite 1 les autres 0   
 
-    // matrice fixe pour pas gérer les cases mémoires overflow
-    char matrice[row][column] = matr;
-
-    int coorXY[2] = {-1,-1}; // input coordinates
-    printf("\n\n ");
-
     // affichage des indexes 
     for (int i=0;i<row;i++){
         printf("%d|", i);
@@ -75,15 +69,17 @@ int display(int row, int column, char ** matr){
         printf("%d ", line);
         for (int col=0;col<column;col++){
             // pas de murs
-            if (matrice[line][col] == '0'){ 
+            if (*(*(matrice+line)+col) == '0'){ 
                 printf("%c", ' ');
             } else if (matrice[line][col] == '1'){ // si on a un mur
+                // test pour les 4 angles
                  if (line+1 <= row-1 && col+1 <= column-1 && *(*(matrice+line)+col+1) == '1' && *(*(matrice+line+1)+col) == '1'){
                     printf("%s", nw);
-                } else if (line == 0 && col == column-1 || matrice[line][col-1] == '1' && matrice[line+1][col] == '1'){
+                } else if (line-1 >= 0 && col+1 <= column-1 && *(*(matrice+line-1)+col) == '1' && *(*(matrice+line)+col+1) == '1'){
                     printf("%s", ne);
-                } else if (line == row-1 && col == 0 || matrice[line-1][col] == '1' && matrice[line][col+1] == '1'){
-                    printf("%s", sw);                    
+                } else if (line+1 <= row-1 && col-1 >= 0 && *(*(matrice+line+1)+col) == '1' && *(*(matrice+line)+col-1) == '1'){
+                    printf("%s", sw); 
+                                       
                 } else if (line == row-1 && col == column-1 || matrice[line][col-1] == '1' && matrice[line-1][col] == '1'){
                     printf("%s", se);
                 } else if (matrice[line][col-1] == '1' && matrice[line][col+1] == '1'){
@@ -125,7 +121,7 @@ int display(int row, int column, char ** matr){
     printf("\n");
 }
 
-// bash grey color 840
+// linux bash grey color 840
 // \u{001B}[\(iii);\(ii)\(i)m
 // \n{001B}[\8;40m
 
