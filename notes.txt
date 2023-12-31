@@ -22,3 +22,11 @@
     veut utiliser plus tard
 
 
+
+
+MEMO :
+
+	faire le test pour savoir si je supprime le pointer head de la liste chainée si elle supprime aussi les autres 
+	pointeurs suivants
+
+	faire le test pour supprimer une chaine avec chaque pointeurs dans un while
