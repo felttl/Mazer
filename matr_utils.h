@@ -24,7 +24,7 @@ int ** get_borders(int nblignes, int nbcolonnes){
     int ** bords = (int**)malloc((2*(nblignes+nbcolonnes)-8) * sizeof(int*));
     
     // obligation de parcourir uniquement les bords
-    // car les autres cases du labyrinthe ne nou servent a rien
+    // car les autres cases du labyrinthe ne nous servent a rien
     // et ce serait une perte de temps inutile (donc pas de double for)
     // ex matrice de 400 * 300 = 120 000 cases 
     // mais uniquement 2*400 + 2*300 - 8 = 1392 cases nous intéressent

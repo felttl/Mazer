@@ -43,6 +43,12 @@ int ** generate(int nbline, int nbcol){
     int sortie = 4;
     int alea;
 
+    // entrée et sortie
+    int inx;
+    int iny;
+    int outx;
+    int outy;
+
     // matrice remplie de murs
     if (nbline > 2 || nbcol > 2){
         for (int x=0;x<nbline;x++){
@@ -53,7 +59,21 @@ int ** generate(int nbline, int nbcol){
             }        
         }
         // placement entrée sortie
-        alea = rand();
+        inx = rand() % nbline; // nord est sud west
+        if (inx == 0 || inx == nbline-1){
+            iny = (rand()%(nbcol-2))+1;
+        } else {
+            iny = (rand()%2)*(nbcol-1);
+        }
+        outx = rand() % nbline; // nord est sud west
+        if (outx == 0 || outx == nbline-1){
+            outy = (rand()%(nbcol-2))+1;
+        } else {
+            outy = (rand()%2)*(nbcol-1);
+        }
+        // on vérifie que l'entrée ne soit pas trop près
+        // de la sortie dans l'insertions suivante
+        if (outx - inx >= -3 && outx - inx <= 3)
 
 
         // algorithme DFS pour casser les murs dans la labyrinthe 'vierge'
