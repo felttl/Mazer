@@ -2,7 +2,22 @@
 
 
 
+`
+autor : felix TTL
+date : 24/12/2023 - 7/1/2024
+`
 
+#### fonctionnalités principales
+
+- charger un labyrinthe a partir d'un fichier txt
+- algorithme de parcours du labyrinthe pour trouver la sortie
+
+
+
+#### fonctionnalités supplémentaires
+
+- génération de labyrinthe aléatoirement avec l'algorithe DFS
+- ecrire et enregistrer les données dans un fichier txt de sortie
 
 
 #### test
