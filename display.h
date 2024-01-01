@@ -73,7 +73,7 @@ void display(int row, int column, char ** matr){
                 printf("%c", ' ');
             } else if (*(*(matrice+line)+col) == '1'){ // si on a un mur
                 // test pour les 4 angles
-                 if (line+1 <= row-1 && col+1 <= column-1 && *(*(matrice+line)+col+1) == '1' && *(*(matrice+line+1)+col) == '1'){
+                if (line+1 <= row-1 && col+1 <= column-1 && *(*(matrice+line)+col+1) == '1' && *(*(matrice+line+1)+col) == '1'){
                     printf("%s", nw);
                 } else if (line-1 >= 0 && col+1 <= column-1 && *(*(matrice+line-1)+col) == '1' && *(*(matrice+line)+col+1) == '1'){
                     printf("%s", ne);

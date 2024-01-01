@@ -11,7 +11,9 @@
  * @param nblignes le nombre de lignes de la matrice
  * @param nbcolonnes le nombre de colonnes
  * @return les points qui sont au bords de la matrice
- * dans une liste (sauf les 4 angles)
+ * dans une liste (sauf les 4 angles) du type 
+ * 
+ * int *2 var
  * 
  * exemple de la structure des données :
  * [(0,1), (0,2), etc...]
@@ -58,9 +60,7 @@ int ** get_borders(int nblignes, int nbcolonnes){
         printf("error: le nombre de lignes ou colonnees n'est pas suffisament élevé pour cette fonction\n");
         exit(EXIT_FAILURE);
     } 
-
     return bords;      
-
 }
 
 // end page
