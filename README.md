@@ -33,9 +33,11 @@ date : 24/12/2023 - 7/1/2024
 <h6>
      outils terminés
 
-  -    [X] display
+  -    [x] display
   -    [ ] generate
   -    [ ] load
   -    [ ] save
+  -    [ ] pion chainée
+  -    [x] get_borders
 
 </h6>

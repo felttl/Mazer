@@ -1,6 +1,6 @@
 #include "../add_lib.h"
 #include "../display.h"
-
+#include "../tools.h"
 
 void main(){
     char model[5][5]={

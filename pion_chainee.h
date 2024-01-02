@@ -22,8 +22,6 @@ typedef struct Pion{
 } Pion ;
 
 
-
-
 /**
  * creer pion
 */
@@ -45,8 +43,7 @@ Pion * create_Pion(int x, int y, int num){
  * on doit la liberer elle
 */
 void free_pion_chain(Pion * head){
-    Pion*temp=head;
-    Pion*last=head;
+    Pion*temp=head, last=head;
     // et pas temp->null car il manque le dernier
     while(temp != NULL){ 
         temp=temp->next;
