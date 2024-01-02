@@ -21,7 +21,8 @@ char ** load_maze(char * filename){
         while(!feof(fp)){
             if (addlloc == 1){// si de la mémoire supplémentaire est nécessaire
                 sortie_donnee[x] = (char*)malloc(nbchar * sizeof(char));
-                addlloc = 0;
+                sortie_donnee[strlen(sortie_donnee)*sizeof(char)-1]='\0';
+                addlloc--;
             }
             c = fgetc(fp);
             if (c == '\n'){// si nouvelle ligne on change dans la matrice de ligne
@@ -37,11 +38,17 @@ char ** load_maze(char * filename){
             // pas assez d'espace
             if (strlen(sortie_donnee[x]) == nbchar){
                 nbchar *= 2;
-                sortie_donnee[x] = (char*)realloc(sortie_donnee, nbchar * sizeof(char));
+                sortie_donnee[x] = (char*)realloc(sortie_donnee, nbchar*sizeof(char));
+            }
+            if (x == nbline){// pas assez de place pour les lignes et colonnes
+                nbline *=2;
+                sortie_donnee = (char**)realloc(sortie_donnee, nbline*sizeof(char*));
             }
             y++;
-
         }
+        // on peut réajuster définitivement la taille de la matrice
+        // pour que le plus de mémoire soit libérée
+        sortie_donnee = (char**)realloc(sortie_donnee, ++x*sizeof(char*));
     }
 
     return sortie_donnee;
@@ -61,7 +68,7 @@ char ** load_maze(char * filename){
  * et de sortie
  * 
 */
-int save(char*data){
+void save(char*data){
     FILE *fp;
     fp = fopen("out.txt", "w+");
 	if(fp == NULL){
@@ -71,7 +78,6 @@ int save(char*data){
     }
     fputs(data, fp);
     fclose(fp);
-    return EXIT_SUCCESS;
 }
 
 
