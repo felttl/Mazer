@@ -61,7 +61,7 @@ void display(int row, int column, char ** matrice){
     const char je[4] = "├";
     const char jw[4] = "┤";
     // points spécifiques
-    const char nous[4] = "○"; // priorite 2 d'affichage
+    // const char nous[4] = "○"; // priorite 2 d'affichage
     const char entree[4] = "⌂"; // priorite 1 les autres 0   
     printf("\n  ");
     // affichage des indexes 

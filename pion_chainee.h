@@ -110,6 +110,18 @@ void insert(Pion * head, Pion * inser, int index){
     }    
 
 }
+/**
+ * @brief permet de parcourir la chaine de pions pour placer les coordonnées
+ * dans la matrice
+*/
+void add_path(Pion*head, char**matr){
+    Pion*cursor=head;
+    // parcours des points
+    while(cursor != NULL){
+        matr[cursor->line][cursor->column]='5';
+        cursor=cursor->suivant;
+    }
+}
 
 
 

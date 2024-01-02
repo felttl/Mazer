@@ -36,8 +36,19 @@ date : 24/12/2023 - 7/1/2024
   -    [x] display
   -    [ ] generate
   -    [ ] load
-  -    [ ] save
+  -    [x] save
   -    [ ] pion chainée
   -    [x] get_borders
+
+###### fonctions annexes
+
+    methodes/fonctions de gestion des pions
+
+  -    [x] create pion
+  -    [ ] forward right
+  -    [x] add_path
+  -    [x] insert
+  -    [x] remove_at
+  -    [ ] free_pion_chain
 
 </h6>
