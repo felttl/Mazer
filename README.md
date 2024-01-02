@@ -28,3 +28,14 @@ date : 24/12/2023 - 7/1/2024
 - les ficiers de test doivent toujours utiliser un fichier externe en *.h pour faire le test 
   ce qui permet de pouvoir utiliser les méthodes ou fonctions a l'extérieur du fichier de test
   sans géner les fichier de tests
+
+##### Tasks :
+<h6>
+     outils terminés
+
+  -    [X] display
+  -    [ ] generate
+  -    [ ] load
+  -    [ ] save
+
+</h6>

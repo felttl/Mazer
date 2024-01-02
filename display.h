@@ -16,7 +16,7 @@
 
 
 
-
+//OK
 /**
  * @brief fonction d'affichage d'un labyrinthe dont les données soont extraites d'un fichier txt
  * dans lequel les données seront écrites avec des entiers mais extraites sous forme de caractères
@@ -63,10 +63,10 @@ void display(int row, int column, char ** matrice){
     // points spécifiques
     const char nous[4] = "○"; // priorite 2 d'affichage
     const char entree[4] = "⌂"; // priorite 1 les autres 0   
-
+    printf("\n  ");
     // affichage des indexes 
     for (int i=0;i<row;i++){
-        printf("%d|", i);
+        printf("%d", i);
     }
     printf("\n");
     // affichage des éléments
@@ -74,38 +74,49 @@ void display(int row, int column, char ** matrice){
         printf("%d ", line);
         for (int col=0;col<column;col++){
             // pas de murs
-            if (*(*(matrice+line)+col) == '0'){ 
+
+            if (*(*(matrice+line)+col) == '0'){
                 printf("%c", ' ');
             } else if (*(*(matrice+line)+col) == '1'){ // si on a un mur
+
+                if (col-1 >= 0 && col+1 <= column-1 && *(*(matrice+line)+col-1)-'0'>0 && *(*(matrice+line)+col-1)-'0'<4&&*(*(matrice+line)+col+1)-'0'>0&&*(*(matrice+line)+col+1)-'0'<4){
+                    // jointure nord ou sud
+                    if (line-1 >= 0 && *(*(matrice+line-1)+col)-'0'>0 && *(*(matrice+line-1)+col)-'0'<4){// nord
+                        printf("%s", jn);// jointure horizontale nord  
+                    } else if (line+1 < row && *(*(matrice+line+1)+col)-'0'>0 && *(*(matrice+line+1)+col)-'0'<4){//sud
+                        printf("%s", js);// jointure horizontale sud; 
+                    }else {// pas de jointure just horizontal
+                        printf("%s", h);
+                    }
+                } else if (line-1 >= 0 && line+1 < row && *(*(matrice+line-1)+col)-'0'>0&&*(*(matrice+line-1)+col)-'0'<4 && *(*(matrice+line+1)+col)-'0'>0&&*(*(matrice+line+1)+col)-'0'<4){
+                    // jointure est ou west
+                    if (col+1 < column && *(*(matrice+line)+col+1)-'0'>0 && *(*(matrice+line)+col+1)-'0'<4){// est
+                        // star
+                        if(col-1 >= 0 && *(*(matrice+line)+col-1)-'0'>0 && *(*(matrice+line)+col-1)-'0'<4){
+                            printf("%s", star);// quadruple jointure 
+                        } else {
+                            printf("%s", je);// jointure verticale est 
+                        }
+                    } else if (col-1 >= 0 && *(*(matrice+line)+col-1)-'0'>0 && *(*(matrice+line)+col-1)-'0'<4){// west
+                        printf("%s", jw);// jointure verticale west  
+                    } else {// simple mur vertical
+                        printf("%s", v);// mur vertical
+                    } 
                 // test pour les 4 angles
-                if (line+1 <= row-1 && col+1 <= column-1 && *(*(matrice+line)+col+1) == '1' && *(*(matrice+line+1)+col) == '1'){
+                } else if (line+1 <= row-1 && col+1 < column && *(*(matrice+line)+col+1)-'0'>0 && *(*(matrice+line)+col+1)-'0'<4 && *(*(matrice+line+1)+col)-'0' > 0 && *(*(matrice+line+1)+col)-'0' < 4 ){
                     printf("%s", nw);
-                } else if (line-1 >= 0 && col+1 <= column-1 && *(*(matrice+line-1)+col) == '1' && *(*(matrice+line)+col+1) == '1'){
-                    printf("%s", ne);
-                } else if (line+1 <= row-1 && col-1 >= 0 && *(*(matrice+line+1)+col) == '1' && *(*(matrice+line)+col-1) == '1'){
-                    printf("%s", sw);           
-                } else if (line-1 >= 0 && col-1 >= 0 && *(*(matrice+line)+col-1) == '1' && *(*(matrice+line-1)+col) == '1'){
-                    printf("%s", se);
-                } else if (col-1 >= 0 && col+1 <= column-1 && *(*(matrice+line)+col-1) == '1' && *(*(matrice+line)+col+1) == '1'){
-                    printf("%s", h);// mur horizontal
-                } else if (line-1 >= 0 && line+1 < row && *(*(matrice+line-1)+col) == '1' && *(*(matrice+line+1)+col) == '1'){
-                    printf("%s", v);// mur vertical
-                } else if (line-1 >= 0 && line+1 < row && col+1 < row && *(*(matrice+line-1)+col) == '1' && *(*(matrice+line+1)+col) == '1' && *(*(matrice+line)+col+1) == '1'){
-                    printf("%s", je);// jointure verticale est
-                } else if (line-1 >= 0 && line+1 < row && col-1 >= 0 && *(*(matrice+line-1)+col) == '1' && *(*(matrice+line+1)+col) == '1' && *(*(matrice+line)+col-1) == '1'){
-                    printf("%s", jw);// jointure verticale west                    
-                } else if (line-1 >= 0 && col-1 >= 0 && col+1 < column && *(*(matrice+line-1)+col) == '1' && *(*(matrice+line)+col-1) == '1' && *(*(matrice+line)+col+1) == '1'){
-                    printf("%s", jn);// jointure horizontale nord  
-                } else if (line+1 < row && col-1 >= 0 && col+1 < column && *(*(matrice+line+1)+col) == '1' && *(*(matrice+line)+col-1) == '1' && *(*(matrice+line)+col+1) == '1'){
-                    printf("%s", js);// jointure horizontale sud;  
-                } else if (line-1 >= 0 && line+1 < row && col-1 >= 0 && col+1 < column && *(*(matrice+line+1)+col) == '1' && *(*(matrice+line-1)+col) == '1' && *(*(matrice+line)+col-1) == '1' && *(*(matrice+line)+col+1) == '1'){
-                    printf("%s", star);// quadruple jointure  
-                }
+                } else if (line-1 >= 0 && col+1 < column && *(*(matrice+line-1)+col)-'0' > 0 && *(*(matrice+line-1)+col)-'0' < 4 && *(*(matrice+line)+col+1)-'0' > 0 && *(*(matrice+line)+col+1)-'0' < 4){
+                    printf("%s", sw); 
+                } else if (line+1<row && col-1 >= 0 && *(*(matrice+line+1)+col)-'0' > 0 && *(*(matrice+line+1)+col)-'0' < 4 && *(*(matrice+line)+col-1)-'0' > 0 && *(*(matrice+line)+col-1)-'0' < 4 ){
+                    printf("%s", ne); 
+                } else if (line-1 >= 0 && col-1 >= 0 && *(*(matrice+line)+col-1)-'0' > 0 && *(*(matrice+line)+col-1)-'0' < 4 && *(*(matrice+line-1)+col)-'0' > 0 && *(*(matrice+line-1)+col)-'0' < 4){
+                    printf("%s", se);                   
+                }                
             } else if(*(*(matrice+line)+col) == '5'){
                 // affichage colorimétrique pour le passage du pion
-                printf("\033[7;40m \033[0m");
+                printf("·");
             } else if(*(*(matrice+line)+col+1) == '0' && *(*(matrice+line)+col-1) == '0' && *(*(matrice+line+1)+col) == '0' && *(*(matrice+line-1)+col) == '0'){
-                // erreur si pas de points a priximité
+                // erreur si pas de points a proximité
                 printf("affichage impossible au point (%d,%d) pas de points autour", line, col);
                 exit(EXIT_FAILURE);
             }else if (*(*(matrice+line)+col) == '2'){// si entrée
