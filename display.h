@@ -12,6 +12,11 @@
 
 
 
+
+
+
+
+
 /**
  * @brief fonction d'affichage d'un labyrinthe dont les données soont extraites d'un fichier txt
  * dans lequel les données seront écrites avec des entiers mais extraites sous forme de caractères
@@ -41,7 +46,7 @@
  * @param matrice la matrice d'entrée que l'on doit afficher
  * @return la position de l'entrée (coordonnées x et y)
 */
-void display(int row, int column, char ** matr){
+void display(int row, int column, char ** matrice){
     // blocs muraux basiques
     const char nw[4] = "┌";
     const char h[4] = "─"; // horizontal

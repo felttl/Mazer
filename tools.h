@@ -5,27 +5,46 @@
 
 
 
+
 /**
- * @brief charger les données du fichier de données avec le labyrinthe
- * @param filename le nom du fichier (le chemin d'accés) pour extraire les données
- * @return la matrice sous forme de string affichable
+ * @brief charge les données du fichier txt pour le labyrinthe
 */
-char ** load(char * filename){
-    FILE * file;
-    file = fopen(filename, 'r');
+char ** load_maze(char * filename){
+    // fichier de sortie
+    int size = 5; // taille de base
+    FILE *fp = fopen(filename,"r");
+    // transfert d'addresse pour faire un free en dehors    
+    char ** sortie_donnee = (char**) malloc (size * sizeof(char*));
+    int x = 0, y = 0, addlloc = 1, nbchar = 10;
+    char c;
+    if (fp != NULL){
+        while(!feof(fp)){
+            if (addlloc == 1){// si de la mémoire supplémentaire est nécessaire
+                sortie_donnee[x] = (char*)malloc(nbchar * sizeof(char));
+                addlloc = 0;
+            }
+            c = fgetc(fp);
+            if (c == '\n'){// si nouvelle ligne on change dans la matrice de ligne
+                // on ajuste pour la dernière fois
+                // a la bonne taille la mémoire pour cette ligne
+                sortie_donnee[x] = (char*)realloc(sortie_donnee[x], strlen(sortie_donnee[x] * sizeof(char)))
+                x++;
+                nbchar = 10;
+                addlloc++;
+                y=0;
+            }
+            *(*(sortie_donnee+x)+y) = c;            
+            // pas assez d'espace
+            if (strlen(sortie_donnee[x]) == nbchar){
+                nbchar *= 2;
+                sortie_donnee[x] = (char*)realloc(sortie_donnee, nbchar * sizeof(char));
+            }
+            y++;
 
+        }
+    }
 
-    int row_number = 1; // dynamic
-    int col_number = 1; // dynamic
-    char ** res_matr =  (char**)malloc(col_number * sizeof(char*));
-
-    // parcours du fichier texte
-    int i=0;
-    int j=0;
-    int carry = 1;
-
-    while(carry == 1 && )
-
+    return sortie_donnee;
 }
 
 
@@ -56,15 +75,7 @@ int save(char*data){
 }
 
 
-/*
-    chercher la sortie en tournant à droite
-        - "méthode 1"
-    @param depart étape de départ du labyrinthe
-*/
-void recherche_a_droite(Etape*depart){
-    // parcours le bord du labyrinthe pour trouver l'entrée (valeur 3)
 
-}
 
 
 

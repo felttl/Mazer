@@ -63,4 +63,42 @@ void main(){
 
 }
 
+/*
+char ** charger_lab(str nomfichier){
+    entier x = 0, y=0, nbchar=10, nbline=5, ataille=1;    
+    matrice sortie_donnees = allouer_taille(nbline);
+    char c;
+
+    tq(fin du fichier pas fini)faire
+        si (ataille == 1)faire // besoin d'espace pour une ligne
+            matrice[x] = allouer_taille(nbchar);
+            ataille--;
+        fin si
+        c = nouveau_char_du_fichier(nomfichier);
+        si (c == fin_ligne)alors
+            // mémoire pille a la bonne taille
+            matrice[x] = realloue(get_nbchar(matrice[x]) * taille_char);
+            x++;
+            y=0;
+            nbchar=10;
+            ataille++;
+        fin si
+        matrice[x][y] = c;
+        si (longueur(matrice[x]) == nbchar)alors
+            nbchar *= 2;
+            matrice[x] = realloue_memooire(nbchar);
+        fin si
+        si (x == nbline)alors// pas suffisament de lignes
+            nbline *=2;
+            matrice = realloue(nbline);
+        fin si
+    fin tq
+    renvoyer sortie_donnees;
+}
+*/
+
+
+
+
+
 // end page
