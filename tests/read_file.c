@@ -21,7 +21,7 @@ char * read_file_char_by_char(char * filename){
             //printf("%c", c);                 
             strncat(sortie_donnee, &c, 1); // concat un char dans un string
             // si pas assez de place en mémoire alors on double l'espace mémoire utilisable
-            if (size * sizeof(char) < count * sizeof(char)){
+            if (size < count){
                 sortie_donnee = (char*) realloc (sortie_donnee, 2 * count * sizeof(char));
                 size = 2 * count;
             }
