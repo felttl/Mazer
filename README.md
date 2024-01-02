@@ -1,7 +1,7 @@
 
 <img class="mainimg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO5DN1ccVOiQsl485bbf5ADzUuPXuDwL72sA&usqp=CAU"
      alt="Markdown Monster icon"
-     style="margin: auto;width: 100%;height: 300px;object-fit: cover;object-position: 90% 0%"
+     style="margin: auto;width: 100%;height: 300px;object-fit: cover;object-position: 90% 0%;resize:none"
      />
 # Mazer
      - autor : felix TTL
