@@ -1,12 +1,13 @@
 
 <img class="mainimg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO5DN1ccVOiQsl485bbf5ADzUuPXuDwL72sA&usqp=CAU"
      alt="Markdown Monster icon"
-     style="margin: auto;width: 100%;height: 50%;object-fit: cover;object-position: 90% 0%;resize:none;"
+     style="margin: auto;width: 100%;height: 50%;object-fit: contain;object-position: 90% 0%;resize:none;"
      />
 # Mazer
-     - autor : felix TTL
-     - date : 24/12/2023 - 7/1/2024
-
+<h6>
+autor : felix TTL<br>
+date : 24/12/2023 - 7/1/2024
+</h6>
 
 #### fonctionnalités principales
 
