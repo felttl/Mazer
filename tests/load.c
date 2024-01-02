@@ -17,31 +17,27 @@ char ** load_maze(char * filename){
     int x = 0, y = 0, addlloc = 1, nbchar = 10, carry=1;
     char c;
     if (fp != NULL){
-        while(!feof(fp) && carry == 1){
+        while(!feof(fp)){
             c = fgetc(fp);     
             printf("%c", c);        
-            if (c == '\n' || c == '\0'){// si nouvelle ligne on change dans la matrice de ligne
+            if (c == '\n'){// si nouvelle ligne on change dans la matrice de ligne
                 // on ajuste pour la dernière fois
                 // la bonne taille de la mémoire pour cette ligne
                 sortie_donnee[x] = (char*)realloc(sortie_donnee[x], strlen(sortie_donnee[x]) * sizeof(char));
                 x++;
                 nbchar = 10;
-                addlloc++;
+
                 if (inouty == 0){
                     inouty=y;                   
                 }
                 y=0;
                 printf("preogmemb here\n");
                 c = fgetc(fp);
-                printf("is in and next : -%c-", c);                
-            }   
-                        
-            if (addlloc == 1){// si de la mémoire supplémentaire est nécessaire
-                sortie_donnee[x] = (char*)malloc(nbchar * sizeof(char));
-                addlloc--;
+                printf("is in and next : -%c-", c);  
+                // mémoire de base ("ligne suivante")
+                sortie_donnee[x] = (char*)malloc(nbchar * sizeof(char));              
             }    
-            if (c != '\n' && c != '\0')         
-                *(*(sortie_donnee+x)+y) = c;                               
+            *(*(sortie_donnee+x)+y) = c;                                        
             // pas assez d'espace dans la ligne actuelle
             if (strlen(sortie_donnee[x]) == nbchar){
                 nbchar *= 2;
