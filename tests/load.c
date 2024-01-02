@@ -1,11 +1,14 @@
 #include "../add_lib.h"
 #include "../display.h"
 
+
+static int inoutx, inouty;
+
 /**
  * @brief charge les données du fichier txt pour le labyrinthe
  * récupére tous les caractères et les place dans une matrice 2d
 */
-char ** load_maze(char * filename, int * inoutx, int * inouty){
+char ** load_maze(char * filename){
     // fichier de sortie
     int size = 5; // taille de base
     FILE *fp = fopen(filename,"r");
@@ -15,27 +18,30 @@ char ** load_maze(char * filename, int * inoutx, int * inouty){
     char c;
     if (fp != NULL){
         while(!feof(fp) && carry == 1){
-            c = fgetc(fp);            
+            c = fgetc(fp);     
+            printf("%c", c);        
             if (c == '\n' || c == '\0'){// si nouvelle ligne on change dans la matrice de ligne
                 // on ajuste pour la dernière fois
                 // la bonne taille de la mémoire pour cette ligne
                 sortie_donnee[x] = (char*)realloc(sortie_donnee[x], strlen(sortie_donnee[x]) * sizeof(char));
-                sortie_donnee[strlen(sortie_donnee[x])*sizeof(char)-1]='\0';
                 x++;
                 nbchar = 10;
                 addlloc++;
                 if (inouty == 0){
-                    printf("in inouty if %d\n", y);
-                    *inouty=(int*)y;
-                    printf("in inouty if %d\n", y);                    
+                    inouty=y;                   
                 }
                 y=0;
-            }                 
+                printf("preogmemb here\n");
+                c = fgetc(fp);
+                printf("is in and next : -%c-", c);                
+            }   
+                        
             if (addlloc == 1){// si de la mémoire supplémentaire est nécessaire
                 sortie_donnee[x] = (char*)malloc(nbchar * sizeof(char));
                 addlloc--;
-            }             
-            *(*(sortie_donnee+x)+y) = c;                               
+            }    
+            if (c != '\n' && c != '\0')         
+                *(*(sortie_donnee+x)+y) = c;                               
             // pas assez d'espace dans la ligne actuelle
             if (strlen(sortie_donnee[x]) == nbchar){
                 nbchar *= 2;
@@ -49,11 +55,9 @@ char ** load_maze(char * filename, int * inoutx, int * inouty){
         }
         // on peut réajuster définitivement la taille de la matrice
         // pour que le plus de mémoire soit libérée
-        sortie_donnee[x] = (char*)realloc(sortie_donnee[x], strlen(sortie_donnee[x]) * sizeof(char));
-        sortie_donnee[strlen(sortie_donnee[x])*sizeof(char)-1]='\0';      
-        *inoutx=(int*)++x;   
-        *inouty--; 
-        *inouty--;             
+        sortie_donnee[x] = (char*)realloc(sortie_donnee[x], strlen(sortie_donnee[x]) * sizeof(char));    
+        inoutx=++x;   
+        inouty--; 
     } else {
         printf("\n\nerreur : le fichier '%s'n'existe pas ou n'as pas pu être ouvert\n", filename);
         exit(EXIT_FAILURE);
@@ -69,18 +73,17 @@ void releaze(char ** matr, int x){
 }
 
 int main(){
-    int * xa, ya;
-    char ** get_data = load_maze("test.txt", &xa, &ya);
-    printf("xa : %d ya : %d\n", &xa, &ya);
-    for (int i=0;i<5;i++){
-        for (int j=0;j<5;j++){
+    char ** get_data = load_maze("test.txt");
+    for (int i=0;i<inoutx;i++){
+        for (int j=0;j<inouty;j++){
             printf("%c", *(*(get_data+i)+j));
         }
         printf("\n");
     }
-    display(5, 5, get_data);
+    // printf("\n");
+    // display(get_data, inoutx, inouty);
 
 
-    releaze(get_data, xa);
+    releaze(get_data, inoutx);
     return 0;
 }

@@ -46,7 +46,7 @@
  * @param matrice la matrice d'entrée que l'on doit afficher
  * @return la position de l'entrée (coordonnées x et y)
 */
-void display(int row, int column, char ** matrice){
+void display(char ** matrice, int row, int column){
     // blocs muraux basiques
     const char nw[4] = "┌";
     const char h[4] = "─"; // horizontal
@@ -124,7 +124,7 @@ void display(int row, int column, char ** matrice){
             }else if(*(*(matrice+line)+col) == '3'){
                 printf("%c", ' ');
             } else {// exit error
-                printf("\nla valeur de la case (%d,%d) de la matrice n'est pas valide\n", line, col);
+                printf("\nla valeur de la case (%d,%d) de la matrice n'est pas valide\nchar : (%c)", line, col, *(*(matrice+line)+col));
                 exit(EXIT_FAILURE);
             }
         }
