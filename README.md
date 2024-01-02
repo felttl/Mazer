@@ -1,8 +1,15 @@
 
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQld9BdYQuYsBWgKMkSQ2IUtbpXSmpRzMdcM8V21546BinPk3SvfAZFt0GYL-uGPFofwSU&usqp=CAU"
-     alt="Markdown Monster icon"
-     style="margin: auto;width: 100%;heigh:100px;" />
-
+<img class="mainimg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO5DN1ccVOiQsl485bbf5ADzUuPXuDwL72sA&usqp=CAU"
+     alt="Markdown Monster icon"/>
+<style>
+     .mainimg{
+          margin: auto;
+          width: 100%;
+          height: 300px;
+          object-fit: cover;
+          object-position: 10% 00%
+     }
+</style>
 # Mazer
      - autor : felix TTL
      - date : 24/12/2023 - 7/1/2024
