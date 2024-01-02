@@ -20,7 +20,6 @@ void main() {
         printf("%d(%d,%d)\n", i, **(res+i), *(*(res+i)+1));
     }
 
-
     //free
     for (int i=0;i<2*(line+col)-8;i++){
         free(res[i]);
