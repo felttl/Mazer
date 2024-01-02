@@ -42,17 +42,79 @@ Pion * create_Pion(int x, int y, int num){
  * 
  * on libere chaque element tant qu'il y en as encore un 
  * mais si l'entete n'est pas suivie de variable alors 
- * on doit le liberer elle
+ * on doit la liberer elle
 */
-void free_chain(Pion * head_Pion){
-    Pion * temp;
-    Pion * last=head_Pion;
-    while(temp->suivant != NULL || temp->num_step != 0){
-        first = head_Pion->suivant;
-        free(temp);
+void free_pion_chain(Pion * head){
+    Pion*temp=head;
+    Pion*last=head;
+    // et pas temp->null car il manque le dernier
+    while(temp != NULL){ 
+        temp=temp->next;
+        free(last);
+        last=temp;
     }
-    free(temp);
 }
+
+/**
+ * @brief permet de supprimer un maillon de la chaine de pion
+ * 
+ * ex avec les indexes des maillons:
+ * 
+ *      0->1->2->3->4->NULL
+ *      0->1->2->4->NULL
+*/
+void remove_at(Pion * head, int index){
+    int i=0;
+    Pion * cursor = head;
+    if (index > 1){
+        while(i != index-1 && cursor != NULL){
+            cursor=cursor->suivant;
+            i++;
+        }
+        cursor->suivant = cursor->suivant->suivant;
+        free(cursor->suivant);        
+    } else {
+        printf("impossible de supprimer un maillon qui n'est pas entre deux maillon\n");
+        exit(EXIT_FAILURE);
+    }
+}
+/**
+ * @brief permet d'insérer un maillon entre deux maillons
+ * 
+ * exemple avec les indexes des maillons :
+ * 
+ *      0->1->2->3->4->NULL
+ *      0   />1->2->3->4->NULL
+ *       \ /
+ *        1'
+ *      0->1->2->3->4->5->NULL
+ * 
+ * 
+*/
+void insert(Pion * head, Pion * inser, int index){
+    int i=0;
+    Pion * cursor = head;
+    Pion * tmp;
+    if (index >= 1){
+        while(i != index-1 && cursor != NULL){
+            cursor=cursor->suivant;
+            i++;
+        }     
+        if (cursor != NULL){
+            inser->suivant = cursor->suivant;
+            cursor->suivant = inser;            
+        } else {
+            printf("la longueur de la chaine n'est pas suffisante pour une insertion\n");
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        printf("impossible de d'ajouter un maillon qui n'est pas entre deux maillons (nb maillons inférieur a 2)\n");
+        exit(EXIT_FAILURE);
+    }    
+
+}
+
+
 
 /**
  * @brief permet de déplacer le pion dans la matrice en utilisant
@@ -68,15 +130,17 @@ void free_chain(Pion * head_Pion){
  * @param posx coordonnées x du pion
  * @param posy coordonnées y du pion
 */
-void forward_right(int posx, int posy){
+void forward_right(char ** matr){
 
     Pion * step_pion=create_Pion(posx, posy, 0); // entete de al chaine des pisotions du pion
     int carry = 1; 
 
-
+    // position de départ du pion puis des coordonnées
+    // au fur et a mesure de l'avancement
+    int y;
+    int y;
     Pion * head_pion = step_pion;
-    int headingx; // orientation du pion x
-    int headingy; // orientation du pion y
+    int heading; // orientation du pion (1 N, 2 E, 3 S, 4 W)
 
 
     // on continue tant que l'on trouve pas le point de sortie
