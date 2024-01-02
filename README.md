@@ -4,13 +4,9 @@
      style="float: left; margin-right: 10px;" />
 
 # Mazer
+> autor : felix TTL
+> date : 24/12/2023 - 7/1/2024
 
->
-
-<h1>
-autor : felix TTL
-date : 24/12/2023 - 7/1/2024
-</h1>
 
 #### fonctionnalités principales
 
