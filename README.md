@@ -42,7 +42,7 @@ date : 24/12/2023 - 7/1/2024
 
 ###### fonctions annexes
 
-    methodes/fonctions de gestion des pions
+methodes/fonctions de gestion des pions
 
   -    [x] create pion
   -    [ ] forward right
