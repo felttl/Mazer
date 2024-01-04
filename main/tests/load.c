@@ -61,6 +61,47 @@ char ** load_maze(char * filename){
     return sortie_donnee;
 }
 
+char * read_file_char_by_char(char * filename){
+    // fichier de sortie
+    int size = 5;
+    FILE *fp = fopen(filename,"r");
+    char * sortie_donnee = (char*) malloc (size * sizeof(char));
+    // transfert d'addresse pour faire un free en dehors
+    int count = 0;
+    int done = 0;
+    int nblignes=0;
+    if (fp != NULL){
+        while (!feof(fp)){
+            // récupère un caractère a la fois
+            char c = fgetc(fp);
+            //printf("%c", c);                 
+            strncat(sortie_donnee, &c, 1); // concat un char dans un string
+            // si pas assez de place en mémoire alors on double l'espace mémoire utilisable
+            if (size < count){
+                sortie_donnee = (char*) realloc (sortie_donnee, 2 * count * sizeof(char));
+                size = 2 * count;
+            }
+            if (sortie_donnee == NULL){// erreur donnnées
+                printf("\n\nproblème de création de l'allocation de mémoire ");
+                printf("dynamique dans la variable pointeur %s mémoire : %x\n", sortie_donnee, &sortie_donnee);
+                exit(EXIT_FAILURE);
+            }
+            if (c == '\n'){nblignes++;}
+            count++;
+        }
+        // réajuste la taille allouée a la bonne taille (pas de perte de mémoire)
+        sortie_donnee = (char*) realloc (sortie_donnee, strlen(sortie_donnee) * sizeof(char));
+        sortie_donnee[strlen(sortie_donnee) * sizeof(char) - 1] = '\0';
+        fclose(fp);    
+        printf("nombre de lignes : %d\n", ++nblignes);            
+    } else {
+        printf("\n\nerreur : le fichier '%s'n'existe pas ou n'as pas pu être ouvert\n", filename);
+    }
+
+    printf("\n");
+    return sortie_donnee;
+}
+
 //OK
 void releaze(char ** matr, int x){
     while (x-- != 0)
@@ -70,10 +111,28 @@ void releaze(char ** matr, int x){
 
 int main(){
 
+    // récupère la chaine de données
+    char * get_datas = read_file_char_by_char("test.txt");
+    // convertit la chaine de char en matrice de char
+    char ** get_data;
+
+    int x=0, y=0;
+    for (int i=0;i<strlen(get_datas);i++){
+        if (*(get_datas) == '\n'){// changement de ligne
+            x++;
+            y=0
+        } else if (*(get_datas) == '\0'){// fin de fichier
+
+        } else {
+            
+        }
+        y++;
+    }
+
 
 
     
-    char ** get_data = load_maze("test.txt");
+    // affichage simple
     for (int i=0;i<inoutx;i++){
         for (int j=0;j<inouty;j++){
             printf("%c", *(*(get_data+i)+j));
