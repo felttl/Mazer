@@ -69,6 +69,10 @@ void releaze(char ** matr, int x){
 }
 
 int main(){
+
+
+
+    
     char ** get_data = load_maze("test.txt");
     for (int i=0;i<inoutx;i++){
         for (int j=0;j<inouty;j++){
