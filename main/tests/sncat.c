@@ -33,6 +33,7 @@ int main() {
      * -> faire des test avec la chaine b (rajouter les \n et vérifier que la boucle fonctionne
      * puis l'intégrer au fichier load.c)
     */
+   
     
     
     
