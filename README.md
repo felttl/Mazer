@@ -29,6 +29,13 @@ date : 24/12/2023 - 7/1/2024
   ce qui permet de pouvoir utiliser les méthodes ou fonctions a l'extérieur du fichier de test
   sans géner les fichier de tests
 
+
+# Attention :
+
+  - lorsque le nombre de cases est supèrieur a 9 le numéro des cases sera décalé par rapport
+    a la colonne qui sera affiché (pour résoudre le probème il faudrait passer a un affichage sur 2 caractère
+    mais rajouterait des contraintes sur les conditions d'affichage (affichage double))
+
 ##### Tasks :
 <h6>
      outils terminés

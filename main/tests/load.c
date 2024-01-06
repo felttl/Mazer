@@ -69,7 +69,6 @@ char * read_file_char_by_char(char * filename){
     char*sortie_donnee=(char*)malloc(size*sizeof(char));
     // transfert d'addresse pour faire un free en dehors
     int count=0;
-    int done=0;
     if (fp!=NULL){
         while (!feof(fp)){
             // récupère un caractère a la fois
@@ -83,7 +82,7 @@ char * read_file_char_by_char(char * filename){
             }
             if (sortie_donnee==NULL){// erreur donnnées
                 printf("\n\nproblème de création de l'allocation de mémoire ");
-                printf("dynamique dans la variable pointeur %s mémoire : %x\n", sortie_donnee, &sortie_donnee);
+                printf("dynamique dans la variable pointeur %c mémoire : %p\n", sortie_donnee[count], sortie_donnee+count);
                 exit(EXIT_FAILURE);
             }
             if (c=='\n'){
@@ -130,13 +129,17 @@ int main(){ // gdb debugger
 
     for (int i=0;i<strlen(get_datas);i++){
 
-        if (get_datas[i] == '\n'){// changement de ligne         
+        if (get_datas[i] == '\n'){// changement de ligne   
+            // fin de string
+            get_data[x][y]='\0';      
             x++;
             y=0;
+        } else {
+            // récupération du caractère et mise dans la matrice
+            get_data[x][y] = get_datas[i]; // concat un char dans un string
+            y++;            
         }
-        // récupération du caractère et mise dans la matrice
-        get_data[x][y] = get_datas[i]; // concat un char dans un string
-        y++;
+
     }
     // fermeture de pointeur
     *(*(get_data+x)+y) = '\0';
@@ -150,9 +153,10 @@ int main(){ // gdb debugger
     printf("\n\nour formatted data:\n\n");
     // affichage simple
     for (int i=0;i<lines;i++){
-        for (int j=0;j<cols+1;j++){
+        for (int j=0;j<cols;j++){
             printf("%c", *(*(get_data+i)+j));
         }
+        printf("\n");
     }  
     printf("\nnumeric display:\n\n");
     for (int i=0;i<lines;i++){
@@ -161,14 +165,18 @@ int main(){ // gdb debugger
         }
         printf("\n");        
     }    
-    printf("\nlinear own display:\n\n");
+    printf("\n\nlinear own display(char by char):\n\n");
     for (int i=0;i<lines;i++){
-        printf("strlenget=%d\n", strlen(get_data[i]));
         for (int j=0;j<cols;j++){
             printf("%c", *(*(get_data+i)+j));
         }
+        printf("\n");
     }    
-
+    printf("\n\nlinear own display(str by str):\n\n");
+    for (int i=0;i<lines;i++){
+        printf("%s", get_data[i]);
+        printf("\n");
+    }   
     printf("\n");
     display(get_data, lines, cols);
 

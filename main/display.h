@@ -21,7 +21,7 @@
  * @brief fonction d'affichage d'un labyrinthe dont les données soont extraites d'un fichier txt
  * dans lequel les données seront écrites avec des entiers mais extraites sous forme de caractères
  * dans une matrice fournie en paramètre
- * ┘┌ ┐└ ┴ ┬ ─ ┼ ┤├ | | ○ ⌂
+ * ┘┌ ┐└ ┴ ┬ ─ ┼ ┤├ | ○ ⌂
  * 
  *              N       
  *         ┌ ──────── ┐
@@ -33,7 +33,8 @@
  * règles de base :
  * pas de déplacement en diagonales + les autres règles générales
  * il est impossible de créer une entrée dans les 4 angles du labyrinthe car incohérence de déplacement
- * 
+ * (attention a bien englober les OU quand il y a des ET dans la même expression 
+ * (règle de priorité des ET sur le OU)
  * regles :
  * 0 passage
  * 1 mur
@@ -44,7 +45,6 @@
  * @param row nombre de lignes
  * @param column nombre de colonnes
  * @param matrice la matrice d'entrée que l'on doit afficher
- * @return la position de l'entrée (coordonnées x et y)
 */
 void display(char ** matrice, int row, int column){
     // blocs muraux basiques
@@ -65,8 +65,8 @@ void display(char ** matrice, int row, int column){
     const char entree[4] = "⌂"; // priorite 1 les autres 0   
     printf("\n  ");
     // affichage des indexes 
-    for (int i=0;i<row;i++){
-        printf("%d", i);
+    for (int i=0;i<column;i++){
+        printf("%c", i+97);
     }
     printf("\n");
     // affichage des éléments
@@ -74,44 +74,71 @@ void display(char ** matrice, int row, int column){
         printf("%d ", line);
         for (int col=0;col<column;col++){
             // pas de murs
-
             if (*(*(matrice+line)+col) == '0'){
                 printf("%c", ' ');
             } else if (*(*(matrice+line)+col) == '1'){ // si on a un mur
-
-                if (col-1 >= 0 && col+1 <= column-1 && *(*(matrice+line)+col-1)-'0'>0 && *(*(matrice+line)+col-1)-'0'<4&&*(*(matrice+line)+col+1)-'0'>0&&*(*(matrice+line)+col+1)-'0'<4){
-                    // jointure nord ou sud
-                    if (line-1 >= 0 && *(*(matrice+line-1)+col)-'0'>0 && *(*(matrice+line-1)+col)-'0'<4){// nord
-                        printf("%s", jn);// jointure horizontale nord  
-                    } else if (line+1 < row && *(*(matrice+line+1)+col)-'0'>0 && *(*(matrice+line+1)+col)-'0'<4){//sud
-                        printf("%s", js);// jointure horizontale sud; 
-                    }else {// pas de jointure just horizontal
-                        printf("%s", h);
-                    }
-                } else if (line-1 >= 0 && line+1 < row && *(*(matrice+line-1)+col)-'0'>0&&*(*(matrice+line-1)+col)-'0'<4 && *(*(matrice+line+1)+col)-'0'>0&&*(*(matrice+line+1)+col)-'0'<4){
-                    // jointure est ou west
-                    if (col+1 < column && *(*(matrice+line)+col+1)-'0'>0 && *(*(matrice+line)+col+1)-'0'<4){// est
-                        // star
-                        if(col-1 >= 0 && *(*(matrice+line)+col-1)-'0'>0 && *(*(matrice+line)+col-1)-'0'<4){
-                            printf("%s", star);// quadruple jointure 
-                        } else {
-                            printf("%s", je);// jointure verticale est 
-                        }
-                    } else if (col-1 >= 0 && *(*(matrice+line)+col-1)-'0'>0 && *(*(matrice+line)+col-1)-'0'<4){// west
-                        printf("%s", jw);// jointure verticale west  
-                    } else {// simple mur vertical
-                        printf("%s", v);// mur vertical
-                    } 
-                // test pour les 4 angles
-                } else if (line+1 <= row-1 && col+1 < column && *(*(matrice+line)+col+1)-'0'>0 && *(*(matrice+line)+col+1)-'0'<4 && *(*(matrice+line+1)+col)-'0' > 0 && *(*(matrice+line+1)+col)-'0' < 4 ){
+                // cas mur vertical (soit haut soit bas soit les deux 
+                // (attention aux cases en dehors de la matrice))
+                if (((line-1>=0 && *(*(matrice+line-1)+col)=='1')||(line+1<row&&*(*(matrice+line+1)+col)=='1'))&& 
+                    ((col+1>=column)||(col+1<column&&*(*(matrice+line)+col+1)!='1'))&&
+                    ((col-1<0)||(col-1>=0&&*(*(matrice+line)+col-1)!='1'))){
+                    printf("%s", v);
+                // cas mur horizontal
+                } else if (((col-1>=0&&*(*(matrice+line)+col-1)=='1')||(col+1<column&&*(*(matrice+line)+col+1)=='1'))&&
+                            ((line-1<0)||(line-1>=0&&*(*(matrice+line-1)+col)!='1'))&&
+                            ((line+1>=row||line+1<row)&&*(*(matrice+line+1)+col)!='1')){
+                    printf("%s", h);
+                // cas des angles
+                } else if (line+1<row&&*(*(matrice+line+1)+col)=='1'&&
+                           col+1<column&&*(*(matrice+line)+col+1)=='1'&&
+                           ((col-1<0)||(col-1>=0&&*(*(matrice+line)+col-1)!='1'))&&     
+                           ((line-1<0)||(line-1>=0&&*(*(matrice+line-1)+col)!='1'))){
                     printf("%s", nw);
-                } else if (line-1 >= 0 && col+1 < column && *(*(matrice+line-1)+col)-'0' > 0 && *(*(matrice+line-1)+col)-'0' < 4 && *(*(matrice+line)+col+1)-'0' > 0 && *(*(matrice+line)+col+1)-'0' < 4){
-                    printf("%s", sw); 
-                } else if (line+1<row && col-1 >= 0 && *(*(matrice+line+1)+col)-'0' > 0 && *(*(matrice+line+1)+col)-'0' < 4 && *(*(matrice+line)+col-1)-'0' > 0 && *(*(matrice+line)+col-1)-'0' < 4 ){
-                    printf("%s", ne); 
-                } else if (line-1 >= 0 && col-1 >= 0 && *(*(matrice+line)+col-1)-'0' > 0 && *(*(matrice+line)+col-1)-'0' < 4 && *(*(matrice+line-1)+col)-'0' > 0 && *(*(matrice+line-1)+col)-'0' < 4){
-                    printf("%s", se);                   
-                }                
+                } else if (col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
+                           line+1<row&&*(*(matrice+line+1)+col)=='1'&&
+                           ((col+1>=column||col+1<column)&&*(*(matrice+line)+col+1)!='1')&&
+                           ((line-1<0)||(line-1>=0&&*(*(matrice+line-1)+col)!='1'))){
+                    printf("%s", ne);                    
+                } else if (col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
+                           line-1>=0&&*(*(matrice+line-1)+col)=='1'&&
+                           ((line+1>=row)||(line+1<row&&*(*(matrice+line+1)+col)!='1'))&&
+                           ((col+1>=column)||(col+1<column&&*(*(matrice+line)+col+1)!='1'))){
+                    printf("%s", se);                     
+                } else if (col+1<column&&*(*(matrice+line)+col+1)=='1'&&
+                           line-1>=0&&*(*(matrice+line-1)+col)=='1'&&
+                           ((col-1<0)||(col-1>=0&&*(*(matrice+line)+col-1)!='1'))&&
+                           ((line+1>=row)||(line+1<row&&*(*(matrice+line+1)+col)!='1'))){
+                    printf("%s", sw);
+                // jointure et etoile
+                } else if (col+1<column&&*(*(matrice+line)+col+1)=='1'&&
+                           ((col-1<0||col-1>=0)&&*(*(matrice+line)+col-1)!='1')&&
+                           line-1>=0&&*(*(matrice+line-1)+col)=='1'&&
+                           line+1<row&&*(*(matrice+line+1)+col)=='1'){
+                    printf("%s", je);
+                } else if (((col+1>=column)||(col+1<column&&*(*(matrice+line)+col+1)!='1'))&&
+                           col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
+                           line-1>=0&&*(*(matrice+line-1)+col)=='1'&&
+                           line+1<row&&*(*(matrice+line+1)+col)=='1'){
+                    printf("%s", jw);
+                } else if (col+1<column&&*(*(matrice+line)+col+1)=='1'&&
+                           col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
+                           ((line-1<0)||(line-1>=0&&*(*(matrice+line-1)+col)!='1'))&&
+                           line+1<row&&*(*(matrice+line+1)+col)=='1'){
+                    printf("%s", js);
+                } else if (col+1<column&&*(*(matrice+line)+col+1)=='1'&&
+                           col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
+                           line-1>=0&&*(*(matrice+line-1)+col)=='1'&&
+                           ((line+1>=row)||(line+1<row&&*(*(matrice+line+1)+col)!='1'))){
+                    printf("%s", jn);
+                } else if (col+1<column&&*(*(matrice+line)+col+1)=='1'&&
+                           col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
+                           line-1>=0&&*(*(matrice+line-1)+col)=='1'&&
+                           line+1<row&&*(*(matrice+line+1)+col)=='1'){
+                    printf("%s", star);// etoile
+                } else {
+                    printf("0");
+                }
+                
             } else if(*(*(matrice+line)+col) == '5'){
                 // affichage colorimétrique pour le passage du pion
                 printf("·");
