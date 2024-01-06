@@ -59,6 +59,7 @@ void free_pion_chain(Pion * head){
  * 
  *      0->1->2->3->4->NULL
  *      0->1->2->4->NULL
+ * 
 */
 void remove_at(Pion * head, int index){
     int i=0;
@@ -86,6 +87,10 @@ void remove_at(Pion * head, int index){
  *        1'
  *      0->1->2->3->4->5->NULL
  * 
+ * @warning
+ *  pas d'insertions "append" c'est a dire que l'on ne peut
+ *  pas ajouter de pion a la fin d'une chaine de pion
+ *  la fonction n'est pas adaptée pour faire ça
  * 
 */
 void insert(Pion * head, Pion * inser, int index){
@@ -101,11 +106,11 @@ void insert(Pion * head, Pion * inser, int index){
             inser->suivant = cursor->suivant;
             cursor->suivant = inser;            
         } else {
-            printf("la longueur de la chaine n'est pas suffisante pour une insertion\n");
+            printf("\nla longueur de la chaine n'est pas suffisante pour une insertion\n");
             exit(EXIT_FAILURE);
         }
     } else {
-        printf("impossible de d'ajouter un maillon qui n'est pas entre deux maillons (nb maillons inférieur a 2)\n");
+        printf("\nimpossible de d'ajouter un maillon qui n'est pas entre deux maillons (nb maillons inférieur a 2)\n");
         exit(EXIT_FAILURE);
     }    
 
@@ -135,7 +140,7 @@ void add_path(Pion*head, char**matr){
  * 
  * 3 dirrections possibles 1 pour reculer
  * 
- * less positions de départ sont données en paramètre
+ * les positions de départ sont données en paramètre
  * @param posx coordonnées x du pion
  * @param posy coordonnées y du pion
 */

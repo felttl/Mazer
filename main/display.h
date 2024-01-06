@@ -16,13 +16,13 @@
 
 
 
-//OK
+
 /**
  * @brief fonction d'affichage d'un labyrinthe dont les données soont extraites d'un fichier txt
  * dans lequel les données seront écrites avec des entiers mais extraites sous forme de caractères
  * dans une matrice fournie en paramètre
  * ┘┌ ┐└ ┴ ┬ ─ ┼ ┤├ | ○ ⌂
- * 
+ * (13 cas)
  *              N       
  *         ┌ ──────── ┐
  *         |          |
@@ -41,10 +41,13 @@
  * 2 entree
  * 3 sortie
  * 4 pour le pion (pour affichage successif si on veut voir l'avancée de "l'utilisateur") 
- * 5 couleur grise (passage du pion)
  * @param row nombre de lignes
  * @param column nombre de colonnes
  * @param matrice la matrice d'entrée que l'on doit afficher
+ * 
+ * @warning lorsqu'un nombre ou symbole est trouvé a la périphérie de de la case
+ * "scanné" qui n'est pas valide il y aura des 0 affichés
+ * le programme renverra une erreur s'il tombe sur l'element en question (dans le scanne)
 */
 void display(char ** matrice, int row, int column){
     // blocs muraux basiques
@@ -136,9 +139,8 @@ void display(char ** matrice, int row, int column){
                            line+1<row&&*(*(matrice+line+1)+col)=='1'){
                     printf("%s", star);// etoile
                 } else {
-                    printf("0");
+                    printf("0");// erreur de caractère
                 }
-                
             } else if(*(*(matrice+line)+col) == '5'){
                 // affichage colorimétrique pour le passage du pion
                 printf("·");

@@ -61,58 +61,6 @@
 //     return sortie_donnee;
 // }
 
-static int lines=0, cols=0;
-char * read_file_char_by_char(char * filename){
-    // fichier de sortie
-    int size = 5;
-    FILE *fp=fopen(filename,"r");
-    char*sortie_donnee=(char*)malloc(size*sizeof(char));
-    // transfert d'addresse pour faire un free en dehors
-    int count=0;
-    if (fp!=NULL){
-        while (!feof(fp)){
-            // récupère un caractère a la fois
-            char c=fgetc(fp);
-            //printf("%c", c);                 
-            strncat(sortie_donnee,&c,1); // concat un char dans un string
-            // si pas assez de place en mémoire alors on double l'espace mémoire utilisable
-            if (size<count){
-                sortie_donnee=(char*)realloc(sortie_donnee,2*count*sizeof(char));
-                size=2*count;
-            }
-            if (sortie_donnee==NULL){// erreur donnnées
-                printf("\n\nproblème de création de l'allocation de mémoire ");
-                printf("dynamique dans la variable pointeur %c mémoire : %p\n", sortie_donnee[count], sortie_donnee+count);
-                exit(EXIT_FAILURE);
-            }
-            if (c=='\n'){
-                lines++;
-                if (cols==0){
-                    cols=count-2;
-                }
-            }
-            count++;
-        }
-        // réajuste la taille allouée a la bonne taille (pas de perte de mémoire)
-        sortie_donnee=(char*)realloc(sortie_donnee,strlen(sortie_donnee)*sizeof(char));
-        sortie_donnee[strlen(sortie_donnee)*sizeof(char)-1]='\0';
-        fclose(fp);    
-        printf("%d lignes, %d colonnes\n",++lines,++cols); // affiche le nombre de lignes et colonnes aprés lecture 
-    } else {
-        printf("\n\nerreur : le fichier '%s'n'existe pas ou n'as pas pu être ouvert\n", filename);
-    }
-
-    printf("\n");
-    return sortie_donnee;
-}
-
-//OK
-void releaze(char ** matr, int x){
-    while (x-- != 0)
-        free(matr[x]);
-    free(matr);
-}
-
 int main(){ // gdb debugger
 
     // récupère la chaine de données
@@ -178,9 +126,12 @@ int main(){ // gdb debugger
         printf("\n");
     }   
     printf("\n");
-    display(get_data, lines, cols);
+    // display(get_data, lines, cols);
 
-    free(get_datas);
-    releaze(get_data, lines);
+    printf("get datas : %p\n", get_datas);
+
+    //releaze(get_data, lines);
+    free(get_datas);    
+    free(get_data);
     return 0;
 }
