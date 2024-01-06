@@ -51,6 +51,7 @@ int ** generate(int nbline, int nbcol){
 
     // matrice remplie de murs
     if (nbline > 2 || nbcol > 2){
+        // 
         for (int x=0;x<nbline;x++){
             matrice[x] = (int*)malloc(nbcol*sizeof(int));
             for (int y=0;y<nbcol;y++) *(*(matrice+nbline)+nbcol) = 1;     
@@ -72,6 +73,8 @@ int ** generate(int nbline, int nbcol){
                 outy = (rand()%2)*(nbcol-1);
             }            
         } while (!(outx == inx || outy == iny));
+        //affichage de test d'abord (dans le fichier c de test)
+
         // algorithme DFS pour casser les murs dans la labyrinthe 'vierge'
 
 
@@ -82,14 +85,6 @@ int ** generate(int nbline, int nbcol){
     return matrice;
 }
 
-int verifierMatr(int ** matrice){
-    int res = 1;
-
-    // prog principal
-
-
-    return res;
-}
 
 
 

@@ -24,6 +24,10 @@ void main(){
     char ** matrix=(char**)malloc(lines*sizeof(char*));
     for (int i=0;i<cols;i++)matrix[i]=(char*)malloc(cols*sizeof(char));
 
+    // varaibles des coordonnées :
+    int ex=0, ey=0;// entrée de la matrice
+    int sx=0, sy=0;// sortie de la matrice
+    int px=0, py=0;// position du pion de départ
 
     // placement des données dans la matrice
     int x=0;y=0;// ligne colonne
@@ -37,18 +41,28 @@ void main(){
             matrix[x][y] = extracted_data[i];
             y++;            
         }
+        if (extracted_data[i]=='2'){// entree
+            ex=x;
+            ey=y;
+        } else if (extracted_data[i]=='3'){//sortie
+            sx=x;
+            sy=y;
+        } else if(extracted_data[i]=='4'){// pion
+            px=x;
+            py=y;
+        }
     }
     // fermeture de pointeur
     *(*(matrix+x)+y) = '\0';
 
     // je trouve l'entrée et la sortie
     // je cherche le chemin entre les deux
-    int ex=0, ey=0;// entrée de la matrice
-    int sx=0, sy=0;// sortie de la matrice
-    int px=0, py=0;// position du pion de départ
 
 
-    // on lache la mémoire
+
+    // on lache la mémoire 
+    // pas besoin de faire un free(matrix[i]) avec uen boucle 
+    //(déja des contraintes de liaison avec extracted_data)
     free(extracted_data);
     free(matrix);
 

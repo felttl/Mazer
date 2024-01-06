@@ -3,6 +3,9 @@
 #include "add_lib.h"
 
 static int lines=0, cols=0;
+static int ex=0, ey=0;// entrée de la matrice
+static int sx=0, sy=0;// sortie de la matrice
+static int px=0, py=0;// pion
 
 /**
  * @brief charge les données d'un fichier dans une chaine de caractère
@@ -32,6 +35,12 @@ char * read_file_char_by_char(char * filename){
                 printf("\n\nproblème de création de l'allocation de mémoire ");
                 printf("dynamique dans la variable pointeur %c mémoire : %p\n", sortie_donnee[count], sortie_donnee+count);
                 exit(EXIT_FAILURE);
+            }
+            // récupération de l'entrée et de la sortie
+            if (c=='2'){// entree
+
+            }else if (c=='3'){// sortie
+
             }
             if (c=='\n'){
                 lines++;
