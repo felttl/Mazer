@@ -133,7 +133,7 @@ void add_path(Pion*head, char**matr){
 /**
  * @brief permet de déplacer le pion dans la matrice en utilisant
  * sa position de départ en longeant le coté droit du mur auquel 
- * il se trouve
+ * il se trouve (priorité au déplacement a droit puis devant)
  * 
  * - si le pion revient a une de ses positions précédentes
  *  il y a une erreur (sauf si c'est une impasse)
@@ -141,10 +141,10 @@ void add_path(Pion*head, char**matr){
  * 3 dirrections possibles 1 pour reculer
  * 
  * les positions de départ sont données en paramètre
- * @param posx coordonnées x du pion
- * @param posy coordonnées y du pion
+ * @param px coordonnées x du pion
+ * @param py coordonnées y du pion
 */
-void forward_right(char ** matr){
+void forward_right(char ** matr, int px, int py){
 
     Pion * step_pion=create_Pion(posx, posy, 0); // entete de al chaine des pisotions du pion
     int carry = 1; 
@@ -152,28 +152,38 @@ void forward_right(char ** matr){
     // position de départ du pion puis des coordonnées
     // au fur et a mesure de l'avancement
     int y;
-    int y;
+    int x;
     Pion * head_pion = step_pion;
     int heading; // orientation du pion (1 N, 2 E, 3 S, 4 W)
+    int etape=0;
 
 
     // on continue tant que l'on trouve pas le point de sortie
     while (carry == 1){
-        if(){// si pas de mur a droite
+        if(){// si pas de mur a droite (et dans la matr)
+            //
+        } else {// si pas de mur en face
 
-        } else if {// si pas de mur a gauche
+        }
+        if {// si pas de mur a gauche (et dans la matr)
 
-        } else if (){// si pas de mur devant
+        } else if (){// si pas de mur devant (et dans la matr)
 
-        } else {// si mur devant droite et gauche on recule et on sert de l'impasse
+        } else {
+            // si mur devant droite et gauche on recule et on 
+            // sert de l'impasse(on détruit les derniers blocs de la chaine)
 
+        }
+        // on s'arréte quand on est sur la sortie
+        if (matr[x][y] == '3'){
+            //
         }
                 
         
         
     }
 
-    // programme terminé 'relacement de mémoire'
+   // free memo
 
     
 }
