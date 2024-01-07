@@ -279,6 +279,4 @@ Pion * forward_right(char ** matr, int ex, int ey, int longx, int longy){
 
 
 
-
-
 // end page

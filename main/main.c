@@ -49,6 +49,9 @@ void main(){
     // j'affiche la matrice avant de rajouter le chemin
     display(matrix, lines, cols);
 
+    // pour infos on a placé dans l'exemple (fichier txt) :
+    // L'entrée à la position (1, 1), et la sortie à la position (15, 15). 
+
     // je cherche le chemin entre l'entrée et la sortie
     // une fois que je tiens la chaine de piosn entre l'entrée et la sortie
     // je change les cases concernées dans la matrice pour voir le chemin a l'affichange
@@ -63,8 +66,8 @@ void main(){
     save_matr(matrix, lines);
 
     // on lache la mémoire 
-    // pas besoin de faire un free(matrix[i]) avec uen boucle 
-    //(déja des contraintes de liaison avec extracted_data)
+    // pas besoin de faire un free(matrix[i]) avec une boucle 
+    //(déja des contraintes de liaison-pointeur avec extracted_data)
     free(extracted_data);
     free(matrix);
     free_pion_chain(chemin);
