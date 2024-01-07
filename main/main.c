@@ -14,7 +14,7 @@
 
 
 
-void main(){
+int main(){
     // on dépose un fichier dans la répertoire
 
     // on extrait les données + allocation
@@ -28,7 +28,7 @@ void main(){
     int ex=0, ey=0;// entrée de la matrice
 
     // placement des données dans la matrice
-    int x=0;y=0;// ligne colonne
+    int x=0,y=0;// ligne colonne
     for (int i=0;i<strlen(extracted_data);i++){
         if (extracted_data[i] == '\n'){// changement de ligne   
             // fin de string
@@ -57,7 +57,7 @@ void main(){
     // une fois que je tiens la chaine de piosn entre l'entrée et la sortie
     // je change les cases concernées dans la matrice pour voir le chemin a l'affichange
     // je récupère le chaine pour pouvoir libérer la mémoire prise par le programme
-    Pion*chemin=add_path(forward_right(matrix, ex, ey, lines, cols));
+    Pion*chemin=add_path(forward_right(matrix, ex, ey, lines, cols), matrix);
 
     // j'affiche la matrice aprés avoir ajouté le chemin
     display(matrix, lines, cols);
@@ -72,6 +72,7 @@ void main(){
     free(extracted_data);
     free(matrix);
     free_pion_chain(chemin);
+    return 0;
 }
 
 
