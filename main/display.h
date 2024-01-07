@@ -40,7 +40,7 @@
  * 1 mur
  * 2 entree
  * 3 sortie
- * 4 pour le pion (pour affichage successif si on veut voir l'avancée de "l'utilisateur") 
+ * 5 pour le pion (pour affichage successif si on veut voir l'avancée de "l'utilisateur") 
  * @param row nombre de lignes
  * @param column nombre de colonnes
  * @param matrice la matrice d'entrée que l'on doit afficher

@@ -8,13 +8,12 @@
 
 #include "./add_lib.h"
 #include "./display.h"
-#include "./pion_chainee.h"
+#include "./pion_chain.h"
 #include "tools.h"// gestion des fichiers + fonction utiles
 
 
 
 void main(){
-
     // on dépose un fichier dans la répertoire
 
     // on extrait les données + allocation
@@ -24,10 +23,8 @@ void main(){
     char ** matrix=(char**)malloc(lines*sizeof(char*));
     for (int i=0;i<cols;i++)matrix[i]=(char*)malloc(cols*sizeof(char));
 
-    // varaibles des coordonnées :
+    // variables des coordonnées :
     int ex=0, ey=0;// entrée de la matrice
-    int sx=0, sy=0;// sortie de la matrice
-    int px=0, py=0;// position du pion de départ
 
     // placement des données dans la matrice
     int x=0;y=0;// ligne colonne
@@ -41,34 +38,36 @@ void main(){
             matrix[x][y] = extracted_data[i];
             y++;            
         }
-        if (extracted_data[i]=='2'){// entree
+        if (extracted_data[i]=='2'){// entree (1 iteration)
             ex=x;
             ey=y;
-        } else if (extracted_data[i]=='3'){//sortie
-            sx=x;
-            sy=y;
-        } else if(extracted_data[i]=='4'){// pion
-            px=x;
-            py=y;
-        }
+        } 
     }
     // fermeture de pointeur
     *(*(matrix+x)+y) = '\0';
 
-    // je trouve l'entrée et la sortie
-    // je cherche le chemin entre les deux
+    // j'affiche la matrice avant de rajouter le chemin
+    display(matrix, lines, cols);
 
+    // je cherche le chemin entre l'entrée et la sortie
+    // une fois que je tiens la chaine de piosn entre l'entrée et la sortie
+    // je change les cases concernées dans la matrice pour voir le chemin a l'affichange
+    // je récupère le chaine pour pouvoir libérer la mémoire prise par le programme
+    Pion*chemin=add_path(forward_right(matrix, ex, ey, lines, cols));
 
+    // j'affiche la matrice aprés avoir ajouté le chemin
+    display(matrix, lines, cols);
+
+    // j'enregistre le tout dans le répertoire courant
+    // on peut faire la fonction avant ou aprés avoir écrit le chemin de sortie dedans
+    save_matr(matrix, lines);
 
     // on lache la mémoire 
     // pas besoin de faire un free(matrix[i]) avec uen boucle 
     //(déja des contraintes de liaison avec extracted_data)
     free(extracted_data);
     free(matrix);
-
-
-
-
+    free_pion_chain(chemin);
 }
 
 

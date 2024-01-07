@@ -3,9 +3,6 @@
 #include "add_lib.h"
 
 static int lines=0, cols=0;
-static int ex=0, ey=0;// entrée de la matrice
-static int sx=0, sy=0;// sortie de la matrice
-static int px=0, py=0;// pion
 
 /**
  * @brief charge les données d'un fichier dans une chaine de caractère
@@ -35,12 +32,6 @@ char * read_file_char_by_char(char * filename){
                 printf("\n\nproblème de création de l'allocation de mémoire ");
                 printf("dynamique dans la variable pointeur %c mémoire : %p\n", sortie_donnee[count], sortie_donnee+count);
                 exit(EXIT_FAILURE);
-            }
-            // récupération de l'entrée et de la sortie
-            if (c=='2'){// entree
-
-            }else if (c=='3'){// sortie
-
             }
             if (c=='\n'){
                 lines++;
@@ -79,7 +70,7 @@ char * read_file_char_by_char(char * filename){
  * et de sortie
  * 
 */
-void save(char**matr, int nbline){
+void save_matr(char**matr, int nbline){
     FILE *fp;
     fp = fopen("out.txt", "w+");
 	if(fp == NULL){
@@ -128,8 +119,8 @@ int ** get_borders(int nblignes, int nbcolonnes){
     // ligne doit toujours être suppérieur a 2 comme le nb de colonnes
     if (nblignes > 2 && nbcolonnes > 2){
         // ajout des points
-        int cpt = 0;
-        unsigned const int lenhozitonal = 2*(nblignes-2);
+        int cpt = 0; // connaitre les coordonnées des points dans la liste "bords"
+        unsigned const int lenhozitonal = 2*(nblignes-2); // connaitre le nombre de points horizontaux
         for (int x=1;x<nblignes-1;x++){
             bords[cpt] = (int*)malloc(2*sizeof(int));
             **(bords+cpt) = x;
