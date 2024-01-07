@@ -18,28 +18,30 @@ int main(){
     // on dépose un fichier dans la répertoire
 
     // on extrait les données + allocation
-    char * extracted_data = read_file_char_by_char("input.txt");
+    char*extracted_data = read_file_char_by_char("input.txt");
 
     // allocation d'espace pour la matrice
-    char ** matrix=(char**)malloc(lines*sizeof(char*));
+    char**matrix=(char**)malloc(lines*sizeof(char*));
     for (int i=0;i<cols;i++)matrix[i]=(char*)malloc(cols*sizeof(char));
 
     // variables des coordonnées :
     int ex=0, ey=0;// entrée de la matrice
-
     // placement des données dans la matrice
     int x=0,y=0;// ligne colonne
     for (int i=0;i<strlen(extracted_data);i++){
-        if (extracted_data[i] == '\n'){// changement de ligne   
+        printf("_%c_", *(extracted_data+i));        
+        if (*(extracted_data+i) == '\n'){// changement de ligne   
             // fin de string
-            matrix[x][y]='\0';      
+            *(*(matrix+x)+y)='\0';    
             x++;
             y=0;
         } else {
-            matrix[x][y] = extracted_data[i];
+            // dest bug
+            //*(*(matrix+x)+y) = extracted_data[i];
+            *(*(matrix+x)+y)<=*(extracted_data+i);
             y++;            
         }
-        if (extracted_data[i]=='2'){// entree (1 iteration)
+        if (*(extracted_data+i)=='2'){// entree (1 iteration)
             ex=x;
             ey=y;
         } 

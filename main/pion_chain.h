@@ -128,6 +128,7 @@ Pion*add_path(Pion*head, char**matr){
         matr[cursor->line][cursor->column]='5';
         cursor=cursor->suivant;
     }
+    return head;
 }
 
 
@@ -237,7 +238,7 @@ Pion * forward_right(char ** matr, int ex, int ey, int longx, int longy){
     // limite le nombrre de déplacement (au cas ou le pion tournerait en rond)
     int maxoccur=longx*longy-get_number_borders(longx, longy)+4;
 
-    // calcul de la position du pion avec l'entree + orientation
+    // calcul de la position du pion + orientation avec l'entree 
     if (ex == 0){
         heading=3;
         x=ex+1;

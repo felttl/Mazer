@@ -21,10 +21,11 @@ char * read_file_char_by_char(char * filename){
     char*sortie_donnee=(char*)malloc(size*sizeof(char));
     // transfert d'addresse pour faire un free en dehors
     int count=0;
+    char c=fgetc(fp);
     if (fp!=NULL){
-        while (!feof(fp)){
+        do {
             // récupère un caractère a la fois
-            char c=fgetc(fp);
+            c=fgetc(fp);
             //printf("%c", c);                 
             strncat(sortie_donnee,&c,1); // concat un char dans un string
             // si pas assez de place en mémoire alors on double l'espace mémoire utilisable
@@ -44,7 +45,7 @@ char * read_file_char_by_char(char * filename){
                 }
             }
             count++;
-        }
+        } while(c != EOF);
         // réajuste la taille allouée a la bonne taille (pas de perte de mémoire)
         sortie_donnee=(char*)realloc(sortie_donnee,strlen(sortie_donnee)*sizeof(char));
         sortie_donnee[strlen(sortie_donnee)*sizeof(char)-1]='\0';

@@ -23,11 +23,12 @@
 sci(){
     clear
     pwd
+    echo -e "\n"
     gcc -Wall -g $( echo "$1") -o $( echo "${1/.c/''}")
     gdb $( echo "${1/.c/''}")
     # manually run and quit with q
 
-    # 3 steps compiling : 
+    # # 3 steps compiling : 
     # gcc -c $( echo "$1") 
     # gcc $( echo "${1/.c/'.o'}") -o $( echo "${1/.c/'.sh'}") 
     # "./$( echo "${1/.c/'.sh'}")"        
