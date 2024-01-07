@@ -9,7 +9,8 @@
 #include "./add_lib.h"
 #include "./display.h"
 #include "./pion_chain.h"
-#include "tools.h"// gestion des fichiers + fonction utiles
+// déja importé dans pion_chain
+//#include "./tools.h"// gestion des fichiers + fonction utiles
 
 
 
