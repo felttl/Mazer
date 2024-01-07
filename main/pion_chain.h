@@ -43,11 +43,12 @@ Pion * create_Pion(int x, int y, int num){
  * on doit la liberer elle
 */
 void free_pion_chain(Pion * head){
-    Pion*temp=head, last=head;
+    Pion*temp=head;
+    Pion*last=head;
     // et pas temp->null car il manque le dernier
     while(temp != NULL){ 
         last=temp;        
-        temp=temp->next;
+        temp=temp->suivant;
         free(last);
     }
 }
@@ -95,8 +96,7 @@ void remove_at(Pion * head, int index){
 */
 void insert(Pion * head, Pion * inser, int index){
     int i=0;
-    Pion * cursor = head;
-    Pion * tmp;
+    Pion*cursor=head;
     if (index >= 1){
         while(i != index-1 && cursor != NULL){
             cursor=cursor->suivant;
@@ -155,13 +155,13 @@ int move_Pion_right_heading(char**matr, int x, int y, int heading, int lenx, int
         // on regarde a l'est et au nord 
         if (y+1<leny&&*(*(matr+x)+y+1)!='1'){
             y++;res=2;
-        } else if (lenx-1>=0&&*(*(matr+x-1)+y)!='1'){
+        } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){
             x--; 
         // on regarde a l'west              
-        } else if (y-1<leny&&*(*(matr+x)+y-1)!='1'){
+        } else if (y-1>=0&&*(*(matr+x)+y-1)!='1'){
             y--;res=4;             
         // on regarde au sud
-        } else if (lenx+1<longx&&*(*(matr+x+1)+y)!='1'){
+        } else if (x+1<lenx&&*(*(matr+x+1)+y)!='1'){
             x++;res=3;                 
         // on est bloqué
         } else {
@@ -171,9 +171,9 @@ int move_Pion_right_heading(char**matr, int x, int y, int heading, int lenx, int
         last->suivant=create_Pion(x, y, etape);
         last=last->suivant;            
     } else if (heading == 2){// sens de verification : sud, est, nord west (mêmes if pas dans le même ordre)
-        if (lenx+1<longx&&*(*(matr+x+1)+y)!='1'){x++;res=3;          
+        if (x+1<lenx&&*(*(matr+x+1)+y)!='1'){x++;res=3;          
         } else if (y+1<leny&&*(*(matr+x)+y+1)!='1'){y++;
-        } else if (lenx-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
+        } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
         } else if (y-1<leny&&*(*(matr+x)+y-1)!='1'){y--;res=4;           
         } else {
             printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
@@ -182,18 +182,18 @@ int move_Pion_right_heading(char**matr, int x, int y, int heading, int lenx, int
         last->suivant=create_Pion(x, y, etape);last=last->suivant;
     } else if (heading == 3) {// west sud est nord
         if (y-1<leny&&*(*(matr+x)+y-1)!='1'){y--;res=4;   
-        } else if (lenx+1<longx&&*(*(matr+x+1)+y)!='1'){x++;        
+        } else if (x+1<lenx&&*(*(matr+x+1)+y)!='1'){x++;        
         } else if (y+1<leny&&*(*(matr+x)+y+1)!='1'){y++;res=2;
-        } else if (lenx-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
+        } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
         } else {
             printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
             exit(EXIT_FAILURE);            
         }
         last->suivant=create_Pion(x, y, etape);last=last->suivant;        
     } else if (heading == 4){// sud est nord west
-        if (lenx+1<longx&&*(*(matr+x+1)+y)!='1'){x++;res=3;     
+        if (x+1<lenx&&*(*(matr+x+1)+y)!='1'){x++;res=3;     
         } else if (y+1<leny&&*(*(matr+x)+y+1)!='1'){y++;res=2;
-        } else if (lenx-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
+        } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
         } else if (y-1<leny&&*(*(matr+x)+y-1)!='1'){y--;   
         } else{printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
             exit(EXIT_FAILURE);              
@@ -235,7 +235,7 @@ Pion * forward_right(char ** matr, int ex, int ey, int longx, int longy){
     int heading=0; // orientation du pion (1 N, 2 E, 3 S, 4 W)
     int etape=1;  
     // limite le nombrre de déplacement (au cas ou le pion tournerait en rond)
-    int maxoccur=longx*longy-get_borders(longx, longy)-4;
+    int maxoccur=longx*longy-get_number_borders(longx, longy)+4;
 
     // calcul de la position du pion avec l'entree + orientation
     if (ex == 0){

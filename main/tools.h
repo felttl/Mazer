@@ -1,10 +1,14 @@
-
 // package de librairies extérieures
 #include "add_lib.h"
 
-static int lines=0, cols=0;
+// variables globales non constantes
+#ifndef isdefined
+#define isdefined 0
+    static int lines=0, cols=0;
+#endif
 
 /**
+ * #tools file
  * @brief charge les données d'un fichier dans une chaine de caractère
  * QUELQUE SOIT LA TAILLE DE CHAQUE LIGNE 
  *
@@ -25,12 +29,12 @@ char * read_file_char_by_char(char * filename){
             strncat(sortie_donnee,&c,1); // concat un char dans un string
             // si pas assez de place en mémoire alors on double l'espace mémoire utilisable
             if (size<count){
-                size=2*count;                
+                size*=2;                
                 sortie_donnee=(char*)realloc(sortie_donnee,size*sizeof(char));
             }
             if (sortie_donnee==NULL){// erreur donnnées
                 printf("\n\nproblème de création de l'allocation de mémoire ");
-                printf("dynamique dans la variable pointeur %c mémoire : %p\n", sortie_donnee[count], sortie_donnee+count);
+                printf("dynamique dans la variable pointeur %c mémoire : %p\n\n", sortie_donnee[count], sortie_donnee+count);
                 exit(EXIT_FAILURE);
             }
             if (c=='\n'){
@@ -47,10 +51,8 @@ char * read_file_char_by_char(char * filename){
         fclose(fp);    
         //printf("%d lignes, %d colonnes\n",++lines,++cols); // affiche le nombre de lignes et colonnes aprés lecture 
     } else {
-        printf("\n\nerreur : le fichier '%s'n'existe pas ou n'as pas pu être ouvert\n", filename);
+        printf("\n\nerreur : le fichier '%s'n'existe pas ou n'as pas pu être ouvert\n\n", filename);
     }
-
-    printf("\n");
     return sortie_donnee;
 }
 
@@ -61,7 +63,7 @@ char * read_file_char_by_char(char * filename){
 /**
  * @brief sauvegarde les données d'une ligne 
  *  (séparateur avec \n pour plusieurs lignes)
- * 
+ * #tools file
  * 
  *  -   ATTENTION : les données sont écrasées a chaque fois
  *  pour permettre de compiler plusieurs fois le même fichier
@@ -98,7 +100,7 @@ void save_matr(char**matr, int nbline){
  * @param nbcolonnes le nombre de colonnes
  * @return les points qui sont au bords de la matrice
  * dans une liste (sauf les 4 angles) du type 
- * 
+ * #tools file
  * int *2 var
  * 
  * exemple de la structure des données :
@@ -149,6 +151,15 @@ int ** get_borders(int nblignes, int nbcolonnes){
     return bords;      
 }
 
+
+/**
+ * @brief permet de récupérer le longueur d'un array de points
+ * #tools file
+ * @return le nombre déélément dans la liste
+*/
+int get_number_borders(int line, int col){
+    return 2*(line+col-4);
+}
 
 
 

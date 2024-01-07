@@ -44,7 +44,7 @@ date : 24/12/2023 - 7/1/2024
   -    [ ] generate
   -    [ ] load
   -    [x] save
-  -    [ ] pion chainée
+  -    [x] pion chainée
   -    [x] get_borders
 
 ###### fonctions annexes
