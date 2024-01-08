@@ -23,13 +23,13 @@ int main(){
     int y=0;
 
     // on demande le nom du fichier
-    char filename[60]="test5ct.txt";
+    char filename[60];
 
-    // "interface" avec le terminal
-    // printf("\n");
-    // printf("veuillez entrer le\n");
-    // printf("nom du fichier ou se trouve le labyrinthe:\n");
-    // scanf("%s", filename);
+    // // "interface" avec le terminal
+    printf("\n");
+    printf("veuillez entrer le nom \n");
+    printf("du fichier ou se trouve le labyrinthe:\n");
+    scanf("%s", filename);
 
     // on extrait les données + allocation
     char**matrix = get_char_array_fromfile(filename, &x, &y);
