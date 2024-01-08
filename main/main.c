@@ -34,7 +34,8 @@ int main(){
 
     // on extrait les données + allocation
     char**matrix = get_char_array_fromfile(filename, &x, &y);
-
+    char**matrix1=matrix; // pour tester avec un parcour en commençant par la fin
+    char**matrix2=matrix; // tester avec un autre algo spacifique
 
     // j'affiche la matrice avant de rajouter le chemin
     display(matrix, x, y);
@@ -53,20 +54,27 @@ int main(){
             }
         }
     }
-    // on cherche la sortie et onn renvoie le pointeur pour 
-    // libérer la mémoire
+    // on cherche la sortie et on renvoie le pointeur pour libere la memoire
+    // on comence par l'entrée en tournant a droite
     Pion*chemin=add_path(forward_right(matrix, ex, ey, x, y), matrix);
-
     // on commence cette fois par la sortie
     printf("matrice en commencant par l'entrée en méthode rotation a droite:\n");
     // j'affiche la matrice aprés avoir ajouté le chemin    
-    display(matrix, x, y);    
-    Pion*chemin1=add_path(forward_right(matrix, sx, sy, x, y), matrix)
+    display(matrix, x, y); 
 
+    // on comence par la sortie en tournant a droite
+    Pion*chemin1=add_path(forward_right(matrix, sx, sy, x, y), matrix1);
     printf("matrice en commencant par la sortie en méthode rotation a droite:\n");
-    display(matrix, x, y);    
+    display(matrix1, x, y);    
 
-    // j'enregistre le tout dans le répertoire courant
+    // on commmence par l'entrée avec l'algo de proche en proche
+    Pion*chemin2=add_path(forward_right(matrix, sx, sy, x, y), matrix2);
+    printf("matrice en commencant par la sortie en méthode rotation a droite:\n");
+    display(matrix2, x, y);    
+
+    // j'enregistre le tout dans le répertoire courant (pour la première méthode)
+    // on se sauvegarde pas les matrices avec les autres algo car c'est le même
+    // resultat
     // on peut faire la fonction avant ou aprés avoir écrit le chemin de sortie dedans
     save_matr(matrix, x);
 

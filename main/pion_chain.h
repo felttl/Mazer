@@ -276,10 +276,34 @@ Pion * forward_right(char ** matr, int ex, int ey, int longx, int longy){
         }
 
     }
-   // free memo
+   // free memo OK 
    return head_pion;
 }
 
+
+
+/**
+ * @brief trouver la sortie en utilisant le point le plus proche
+ * 
+ * @param ex entrée en x
+ * @param ey entrée en y
+ * @param sx sortie en x
+ * @param sy sortie en y
+ * @param lenx longueur de la matrice verticale
+ * @param leny longueur de la matrice horizontale
+ * @return le pointeur de la chaine de Point a libérer avec free_pion_chain()
+*/
+Pion*shortest_way(char**matrix,int ex,int ey,int sx, int xy, int lenx,int leny){
+    int cx=0; // position du scanner central
+    int cy=0;
+    Point*head_pion;
+    Point*etape=create_Pion();
+    while (matrix[cx][cy] != '3'){
+
+    }
+
+    return scan;
+}// x+1<lenx&&*(*(matr+x+1)+y)!='1'
 
 
 // end page
