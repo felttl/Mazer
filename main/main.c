@@ -68,7 +68,7 @@ int main(){
     display(matrix1, x, y);    
 
     // on commmence par l'entrée avec l'algo de proche en proche
-    Pion*chemin2=add_path(forward_right(matrix, sx, sy, x, y), matrix2);
+    Pion*chemin2=add_path(forward_right(matrix, ex, ey, x, y), matrix2);
     printf("matrice en commencant par la sortie en méthode rotation a droite:\n");
     display(matrix2, x, y);    
 

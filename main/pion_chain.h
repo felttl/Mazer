@@ -1,6 +1,6 @@
 #include "./add_lib.h"
 #include "./tools.h"
-
+#include <math.h>
 /**
  * 
  * la ou le pion se déplacera il y aura le numéro 5 sur la grille
@@ -240,7 +240,8 @@ Pion * forward_right(char ** matr, int ex, int ey, int longx, int longy){
     // limite le nombrre de déplacement (au cas ou le pion tournerait en rond)
     int maxoccur=longx*longy-get_number_borders(longx, longy)+4;
 
-    // calcul de la position du pion + orientation avec l'entree 
+    // calcul de la position du pion + orientation avec 
+    // l'entree la sortie la plus proche (a 1 case)
     if (ex == 0){
         heading=3;
         x=ex+1;
@@ -279,8 +280,15 @@ Pion * forward_right(char ** matr, int ex, int ey, int longx, int longy){
    // free memo OK 
    return head_pion;
 }
-
-
+/**
+ * @brief permet de calculer la distance entre deux points d'une matrice
+ * 
+ * 
+ * @return renvoie la distance entière
+*/
+int short_vec_point(int currentx,int currenty,int sx,int sy){
+    return (int)(abs(currentx-sx)+abs(currenty-sy));
+}
 
 /**
  * @brief trouver la sortie en utilisant le point le plus proche
