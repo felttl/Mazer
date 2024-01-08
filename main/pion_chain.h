@@ -298,8 +298,13 @@ Pion*shortest_way(char**matrix,int ex,int ey,int sx, int xy, int lenx,int leny){
     int cy=0;
     Point*head_pion;
     Point*etape=create_Pion();
-    while (matrix[cx][cy] != '3'){
+    int maxoccur=longx*longy-get_number_borders(longx, longy)+4;
+    int diffx=0; // différence de coordonnées en x
+    int diffy=0; // "" y
+    while (ex != sx && ey != sy && maxoccur != 0){
+        
 
+        maxoccur--;
     }
 
     return scan;
