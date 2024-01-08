@@ -35,27 +35,38 @@ typedef struct Point{
  * 
  * "random shuffle algorithm"
  * 
+ * algorithm :
  * 
- * 
+ * arr a of n elements
+ * for i from n−1 down to 1 do
+ *      j ← random integer such that 0 ≤ j ≤ i
+ *       exchange a[j] and a[i]
 */
-int**random_shuffle(int**dynamic_arr){
-    time(srand(NULL));
+int**random_shuffle(int**dynamic_arr, int len){
+    srand( time( NULL ) );// init random func
     int**temp=dynamic_arr;
+    Point*tem;
     int i=0;
-    while(temp[i] != NULL){
-
+    int rd;
+    while(i < len-1){
+        rd = rand()%(i+1);
+        tem = temp[i];
+        temp[i] = temp[j];
+        temp[j] = tem;
         i++;
     }
-    
+    return temp;
 }   
-// algorithm :
-// arr a of n elements
-// for i from n−1 down to 1 do
-//      j ← random integer such that 0 ≤ j ≤ i
-//      exchange a[j] and a[i]
 
 
 
+/**
+ * @brief permet de générer un chemin aléatoirement (cohérents) 
+ * dans une matrice remplie de murs
+ * 
+ * 
+ * l'algorithme se trouve en anglais tout en haut de la page !!!!!!!!
+*/
 char ** generate_DFS_maze(char**matr, int posx,int posy){
     int x=posx;
     int y=posy;
