@@ -139,7 +139,7 @@ void display(char ** matrice, int row, int column){
                            line+1<row&&*(*(matrice+line+1)+col)=='1'){
                     printf("%s", star);// etoile
                 } else {
-                    printf("0");// erreur de caractère
+                    printf("\033[7;91mR\033[0m");// erreur de caractère
                 }
             } else if(*(*(matrice+line)+col) == '5'){
                 // affichage colorimétrique pour le passage du pion
