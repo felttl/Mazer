@@ -31,6 +31,10 @@ MEMO :
 
 	faire le test pour supprimer une chaine avec chaque pointeurs dans un while
 
+    POUR LE BON FONCTIONNEMENT DU PROGRAMME
+    tester si la taille du fichier dynamique pour 
+    les grandes matrices (plus de 1024 lignes et colonnes) fonctionne correctement
+
 Gestion de la mémoire :
 
     x/20s matrix

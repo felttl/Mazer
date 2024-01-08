@@ -40,7 +40,8 @@ int main(){
         } else {
             // dest bug
             //*(*(matrix+x)+y) = extracted_data[i];
-            *(*(matrix+x)+y) = *(extracted_data+i);
+            //*(*(matrix+x)+y) = *(extracted_data+i);
+
             y++;            
         }
         if (*(extracted_data+i)=='2'){// entree (1 iteration)
@@ -77,6 +78,12 @@ int main(){
     free(extracted_data);
     free(matrix);
     free_pion_chain(chemin);
+
+    // laisse la mémoire
+    for (size_t i = 0; i < total_lines; i++)
+        free(lines[i]);
+    free(lines);
+
     return 0;
 }
 

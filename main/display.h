@@ -89,7 +89,7 @@ void display(char ** matrice, int row, int column){
                 // cas mur horizontal
                 } else if (((col-1>=0&&*(*(matrice+line)+col-1)=='1')||(col+1<column&&*(*(matrice+line)+col+1)=='1'))&&
                             ((line-1<0)||(line-1>=0&&*(*(matrice+line-1)+col)!='1'))&&
-                            ((line+1>=row||line+1<row)&&*(*(matrice+line+1)+col)!='1')){
+                            ((line+1>=row)||(line+1<row&&*(*(matrice+line+1)+col)!='1'))){
                     printf("%s", h);
                 // cas des angles
                 } else if (line+1<row&&*(*(matrice+line+1)+col)=='1'&&

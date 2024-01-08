@@ -56,32 +56,9 @@ char * read_file_char_by_char(char * filename){
     }
     return sortie_donnee;
 }
-// see : https://www.youtube.com/watch?v=R0qIYWo8igs&t=643s
-// fonction de récupération de texte d'un fichier mais ayant moins de performances
-// (contraites de heap suppllémentaires)
-char * read_file_char_by_char_notmine(char * filename){
-    // récupération du nb de lignes et colonnes
-    FILE *fp=fopen(filename,"r");
-    if (fp!=NULL){    
-        fseek(fp, 0, SEEK_END);// récupère le nombre de caractères dans le fichier
-        int length=ftell(fp);
-        fseek(fp, 0, SEEK_SET); // déplace a nouveau le pointeur au début du fichier pour lecture
-        char*sortie_donnee=malloc((length+1)*sizeof(char));
-        char c;
-        int i=0;
-        while((c=fgetc(fp))!=EOF){
-            sortie_donnee[i] = c;
-            i++;
-        }
-        sortie_donnee[i]='\0';
-        fclose(fp);
-        return sortie_donnee;        
-    } else {
-        printf("problème d'ouverture\n\n");
-        exit(EXIT_FAILURE);
-    }
 
-}
+
+
 
 
 
@@ -186,6 +163,67 @@ int ** get_borders(int nblignes, int nbcolonnes){
 int get_number_borders(int line, int col){
     return 2*(line+col-4);
 }
+
+
+
+/**
+ * @brief fonction pour mettre les données d'un fichier 
+ * dans une matrice de char 2d dynamique 
+ * @ref github see : https://github.com/portfoliocourses/c-example-code/blob/main/files_lines_to_dynamic_array.c
+*/
+char ** get_char_array_fromfile(char*filename){
+  FILE *file = fopen(filename, "r");
+  if (file == NULL){
+    printf("Error opening file.\n");
+    exit(EXIT_FAILURE);
+  }
+  char **lines;
+  lines = malloc(sizeof(char*) * MORE_LINES);
+  size_t total_lines = 0;
+  size_t total_chars = 0;
+  char c;
+  do {
+    c = fgetc(file);
+    if (ferror(file)){
+      printf("Error reading from file.\n");
+      return 1;
+    }
+    if (feof(file)){
+      if (total_chars != 0){        
+        lines[total_lines] = realloc(lines[total_lines], total_chars + 1 );
+        lines[total_lines][total_chars] = '\0';
+        total_lines++;
+      }
+      break; 
+    }
+    if (total_chars == 0) lines[total_lines] = malloc(MORE_CHARS); 
+    lines[total_lines][total_chars] = c; 
+    total_chars++;
+    if (c == '\n'){
+      lines[total_lines] = realloc(lines[total_lines], total_chars + 1 );
+      lines[total_lines][total_chars] = '\0';
+      total_lines++;
+      total_chars = 0;
+      if (total_lines % MORE_LINES == 0){
+        size_t new_size = total_lines + MORE_LINES;
+        lines = realloc(lines, sizeof(char *) * new_size);
+      }
+    } else if (total_chars % MORE_CHARS == 0){
+      size_t new_size = total_chars + MORE_CHARS;
+      lines[total_lines] = 
+        realloc(lines[total_lines], new_size); 
+    }
+  } while (true);
+  lines = realloc(lines, sizeof(char *) * total_lines);
+//   for (size_t i = 0; i < total_lines; i++)
+//     free(lines[i]);
+//   free(lines);
+  fclose(file);
+  // maj "param passing"
+
+  return lines;
+}
+
 
 
 

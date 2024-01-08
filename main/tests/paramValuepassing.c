@@ -1,7 +1,7 @@
 #include <stdio.h>
  
 void add(int* i){
-    *(i)+=1;
+    *i+=1;
 }
  
 int main(void){
