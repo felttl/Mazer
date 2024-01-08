@@ -32,6 +32,7 @@ char ** get_char_array_fromfile(char*filename, int*finallines, int*finalcols){
   size_t total_lines = 0;
   size_t total_chars = 0;
   char c;
+  unsigned short carry=1;
   do {
     c = fgetc(file);
     if (ferror(file)){
@@ -44,7 +45,7 @@ char ** get_char_array_fromfile(char*filename, int*finallines, int*finalcols){
         lines[total_lines][total_chars] = '\0';
         total_lines++;
       }
-      break; 
+      carry=0; 
     }
     if (total_chars == 0) lines[total_lines] = malloc(MORE_CHARS); 
     lines[total_lines][total_chars] = c; 
@@ -64,8 +65,8 @@ char ** get_char_array_fromfile(char*filename, int*finallines, int*finalcols){
       size_t new_size = total_chars + MORE_CHARS;
       lines[total_lines] = realloc(lines[total_lines], new_size); 
     }
-  } while (true);
-  lines = realloc(lines, sizeof(char *) * total_lines);
+  } while (carry==1);
+  lines = realloc(lines, sizeof(char *) * total_lines); // ajustement definitif
   fclose(file);
   *finallines=total_lines; // nb lines
   return lines;
