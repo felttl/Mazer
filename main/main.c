@@ -18,7 +18,7 @@ int main(){
     // on dépose un fichier dans la répertoire
 
     // on extrait les données + allocation
-    char*extracted_data = read_file_char_by_char("input.txt");
+    char*extracted_data = read_file_char_by_char("formatted_input.txt");
 
     // allocation d'espace pour la matrice
     char**matrix=(char**)malloc(lines*sizeof(char*));
@@ -28,30 +28,33 @@ int main(){
     int ex=0, ey=0;// entrée de la matrice
     // placement des données dans la matrice
     int x=0,y=0;// ligne colonne
-    for (int i=0;i<strlen(extracted_data);i++){
-        printf("_%c_", *(extracted_data+i));        
-        if (*(extracted_data+i) == '\n'){// changement de ligne   
+    for (int i=2;i<strlen(extracted_data);i++){
+        printf("%C", *(extracted_data+i));   
+        //printf("i: %d, x: %d, y: %d, char: %c\n", i, x, y, *(extracted_data + i));
+        if (*(extracted_data+i) == ' '){// changement de ligne   
             // fin de string
             *(*(matrix+x)+y)='\0';    
             x++;
             y=0;
+            i+=2;
         } else {
             // dest bug
             //*(*(matrix+x)+y) = extracted_data[i];
-            *(*(matrix+x)+y)<=*(extracted_data+i);
+            *(*(matrix+x)+y) = *(extracted_data+i);
             y++;            
         }
         if (*(extracted_data+i)=='2'){// entree (1 iteration)
             ex=x;
             ey=y;
-        } 
+        }             
+ 
+
     }
     // fermeture de pointeur
     *(*(matrix+x)+y) = '\0';
 
     // j'affiche la matrice avant de rajouter le chemin
     display(matrix, lines, cols);
-
     // pour infos on a placé dans l'exemple (fichier txt) :
     // L'entrée à la position (1, 1), et la sortie à la position (15, 15). 
 

@@ -14,24 +14,37 @@ int main(){ // gdb debugger
 
     printf("extracted data:\n\n%s\n\n", get_datas);
 
-    int x=0, y=0;
 
-    for (int i=0;i<strlen(get_datas);i++){
+    // placement des données dans la matrice
+    int x = 0, y = 0; // ligne colonne
+    for (int i = 2; i < strlen(get_datas); i++) {
+        // debugger
+        printf("i: %d, x: %d, y: %d, char: %c\n", i, x, y, *(get_datas + i));
 
-        if (get_datas[i] == '\n'){// changement de ligne   
+        if (*(get_datas + i) == ' ' || *(get_datas + i) == '\t') {
+            // espace ou tabulation
             // fin de string
-            get_data[x][y]='\0';      
-            x++;
-            y=0;
+            *(*(get_data + x) + y) = '\0';
+            y = 0; // réinitialiser la colonne
+        } else if (*(get_datas + i) == '\n') {
+            // changement de ligne ou fin de chaîne
+            // fin de string
+            *(*(get_data + x) + y) = '\0';
+            x++; // passer à la ligne suivante
+            y = 0; // réinitialiser la colonne
         } else {
-            // récupération du caractère et mise dans la matrice
-            get_data[x][y] = get_datas[i]; // concat un char dans un string
-            y++;            
+            // caractère valide
+            *(*(get_data + x) + y) = *(get_datas + i);
+            y++;
         }
-
     }
+
+
+
     // fermeture de pointeur
     *(*(get_data+x)+y) = '\0';
+
+    // series de tests
 
     printf("loop extracted data:\n\n");
     // affichage simple

@@ -30,3 +30,20 @@ MEMO :
 	pointeurs suivants
 
 	faire le test pour supprimer une chaine avec chaque pointeurs dans un while
+
+Gestion de la mémoire :
+
+    x/20s matrix
+
+        est une commande qui permet d'afficher la mémoire contenue dans 
+        la variable matrix (qui re présente les données d'une matrice)
+        a faire aprés la commande gdb ((gdb) x/20s nom_variable)
+
+
+    tr -d '\r\n' < input.txt > formatted_input.txt
+
+        est une commande bash permettant de supprimer les caractères 
+        spéciaux \n et \r du fichier "input.txt" recopié sous le nom "formatted_input"
+
+
+# end page
