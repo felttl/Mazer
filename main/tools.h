@@ -2,61 +2,6 @@
 #include "add_lib.h"
 
 
-/**
- * #tools file
- * @brief charge les données d'un fichier dans une chaine de caractère
- * QUELQUE SOIT LA TAILLE DE CHAQUE LIGNE 
- *
-*/
-char * read_file_char_by_char(char * filename){
-    // récupération du nb de lignes et colonnes
-    // fichier de sortie
-    int size = 5;// taille de départ qui sera réajusté
-    FILE *fp=fopen(filename,"r");
-    char*sortie_donnee=(char*)malloc(size*sizeof(char));
-    // transfert d'addresse pour faire un free en dehors
-    int count=0;
-    char c=fgetc(fp);
-    if (fp!=NULL){
-        do {
-            // récupère un caractère a la fois
-            c=fgetc(fp);
-            //printf("%c", c);                 
-            strncat(sortie_donnee,&c,1); // concat un char dans un string
-            // si pas assez de place en mémoire alors on double l'espace mémoire utilisable
-            if (size<count){
-                size*=2;                
-                sortie_donnee=(char*)realloc(sortie_donnee,size*sizeof(char));
-            }
-            if (sortie_donnee==NULL){// erreur donnnées
-                printf("\n\nproblème de création de l'allocation de mémoire ");
-                printf("dynamique dans la variable pointeur %c mémoire : %p\n\n", sortie_donnee[count], sortie_donnee+count);
-                exit(EXIT_FAILURE);
-            }
-            if (c=='\n'){
-                lines++;
-                if (cols==0){
-                    cols=count-2;
-                }
-            }
-            count++;
-        } while(c != EOF);
-        // réajuste la taille allouée a la bonne taille (pas de perte de mémoire)
-        sortie_donnee=(char*)realloc(sortie_donnee,strlen(sortie_donnee)*sizeof(char));
-        sortie_donnee[strlen(sortie_donnee)*sizeof(char)-1]='\0';
-        fclose(fp);    
-        //printf("%d lignes, %d colonnes\n",++lines,++cols); // affiche le nombre de lignes et colonnes aprés lecture 
-    } else {
-        printf("\n\nerreur : le fichier '%s'n'existe pas ou n'as pas pu être ouvert\n\n", filename);
-    }
-    return sortie_donnee;
-}
-
-
-
-
-
-
 
 /**
  * @brief sauvegarde les données d'une ligne 
@@ -152,7 +97,12 @@ int ** get_borders(int nblignes, int nbcolonnes){
 
 /**
  * @brief permet de récupérer le longueur d'un array de points
+ * qui se situent sur les bords d'une matrice de taille line col
+ * @warning mais n'inclus pas les angles
  * #tools file
+ * 
+ * @param line nombre de lignes
+ * @param col nombre de colonnes
  * @return le nombre déélément dans la liste
 */
 int get_number_borders(int line, int col){

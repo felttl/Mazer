@@ -24,7 +24,7 @@ typedef struct Pion{
 
 
 /**
- * creer pion
+ * @brief permet de creer un pion complet (toutes les instanciations)
 */
 Pion * create_Pion(int x, int y, int num){
     Pion * res;
@@ -152,6 +152,7 @@ Pion*add_path(Pion*head, char**matr){
  * @return renvoie le heading mis a jour
 */
 int move_Pion_right_heading(char**matr, int x, int y, int heading, int lenx, int leny, int etape, Pion*last){
+    //heading=move_Pion_right_heading(matr, x, y, heading, longx, longy, etape, step_pion);
     int res=heading;
     if (heading == 1){
         // on regarde a l'est et au nord 

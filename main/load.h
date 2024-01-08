@@ -72,6 +72,56 @@ char ** get_char_array_fromfile(char*filename, int*finallines, int*finalcols){
 }
 
 
-
+/**
+ * #tools file
+ * @brief charge les données d'un fichier dans une chaine de caractère
+ * QUELQUE SOIT LA TAILLE DE CHAQUE LIGNE 
+ *
+*/
+char * read_file_char_by_char(char * filename, int*nblines, int*nbcols){
+    // récupération du nb de lignes et colonnes
+    // fichier de sortie
+    int size = 5;// taille de départ qui sera réajusté
+    FILE *fp=fopen(filename,"r");
+    char*sortie_donnee=(char*)malloc(size*sizeof(char));
+    // transfert d'addresse pour faire un free en dehors
+    int count=0;
+    char c=fgetc(fp);
+    if (fp!=NULL){
+        do {
+            // récupère un caractère a la fois
+            c=fgetc(fp);
+            //printf("%c", c);                 
+            strncat(sortie_donnee,&c,1); // concat un char dans un string
+            // si pas assez de place en mémoire alors on double l'espace mémoire utilisable
+            if (size<count){
+                size*=2;                
+                sortie_donnee=(char*)realloc(sortie_donnee,size*sizeof(char));
+            }
+            if (sortie_donnee==NULL){// erreur donnnées
+                printf("\n\nproblème de création de l'allocation de mémoire ");
+                printf("dynamique dans la variable pointeur %c mémoire : %p\n\n", sortie_donnee[count], sortie_donnee+count);
+                exit(EXIT_FAILURE);
+            }
+            // sert a renvoyer le nb de lignes et colonnes de la matrice
+            if (c=='\n'){
+                *nblines+=1;
+                if (*nbcols==0){
+                    *nbcols=count-2;
+                }
+            }
+            count++;
+        } while(c != EOF);
+        // réajuste la taille allouée a la bonne taille (pas de perte de mémoire)
+        sortie_donnee=(char*)realloc(sortie_donnee,strlen(sortie_donnee)*sizeof(char));
+        sortie_donnee[strlen(sortie_donnee)*sizeof(char)-1]='\0';
+        fclose(fp);   
+        //  nblines+=1;nbcols+=1;
+        //printf("%d lignes, %d colonnes\n",nblines,nbcols); // affiche le nombre de lignes et colonnes aprés lecture 
+    } else {
+        printf("\n\nerreur : le fichier '%s'n'existe pas ou n'as pas pu être ouvert\n\n", filename);
+    }
+    return sortie_donnee;
+}
 
 // end page
