@@ -9,7 +9,8 @@
  * 
  * le pion ne devra que avancer (sauf cas contraire) 
  * 
- * 
+ * @warning pas besoin d'importer a nouveau tools.h dans les fichier 
+ * qui suivent l'importation de pion_chain.h
  * 
  * 
 */

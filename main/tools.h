@@ -1,11 +1,6 @@
 // package de librairies extérieures
 #include "add_lib.h"
 
-// variables globales non constantes
-#ifndef isdefined
-#define isdefined 0
-    static int lines=0, cols=0;
-#endif
 
 /**
  * #tools file
@@ -166,65 +161,3 @@ int get_number_borders(int line, int col){
 
 
 
-/**
- * @brief fonction pour mettre les données d'un fichier 
- * dans une matrice de char 2d dynamique 
- * @ref github see : https://github.com/portfoliocourses/c-example-code/blob/main/files_lines_to_dynamic_array.c
-*/
-char ** get_char_array_fromfile(char*filename){
-  FILE *file = fopen(filename, "r");
-  if (file == NULL){
-    printf("Error opening file.\n");
-    exit(EXIT_FAILURE);
-  }
-  char **lines;
-  lines = malloc(sizeof(char*) * MORE_LINES);
-  size_t total_lines = 0;
-  size_t total_chars = 0;
-  char c;
-  do {
-    c = fgetc(file);
-    if (ferror(file)){
-      printf("Error reading from file.\n");
-      return 1;
-    }
-    if (feof(file)){
-      if (total_chars != 0){        
-        lines[total_lines] = realloc(lines[total_lines], total_chars + 1 );
-        lines[total_lines][total_chars] = '\0';
-        total_lines++;
-      }
-      break; 
-    }
-    if (total_chars == 0) lines[total_lines] = malloc(MORE_CHARS); 
-    lines[total_lines][total_chars] = c; 
-    total_chars++;
-    if (c == '\n'){
-      lines[total_lines] = realloc(lines[total_lines], total_chars + 1 );
-      lines[total_lines][total_chars] = '\0';
-      total_lines++;
-      total_chars = 0;
-      if (total_lines % MORE_LINES == 0){
-        size_t new_size = total_lines + MORE_LINES;
-        lines = realloc(lines, sizeof(char *) * new_size);
-      }
-    } else if (total_chars % MORE_CHARS == 0){
-      size_t new_size = total_chars + MORE_CHARS;
-      lines[total_lines] = 
-        realloc(lines[total_lines], new_size); 
-    }
-  } while (true);
-  lines = realloc(lines, sizeof(char *) * total_lines);
-//   for (size_t i = 0; i < total_lines; i++)
-//     free(lines[i]);
-//   free(lines);
-  fclose(file);
-  // maj "param passing"
-
-  return lines;
-}
-
-
-
-
-// end page
