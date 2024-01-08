@@ -56,8 +56,7 @@ char ** get_char_array_fromfile(char*filename, int*finallines, int*finalcols){
       }
     } else if (total_chars % MORE_CHARS == 0){
       size_t new_size = total_chars + MORE_CHARS;
-      lines[total_lines] = 
-        realloc(lines[total_lines], new_size); 
+      lines[total_lines] = realloc(lines[total_lines], new_size); 
     }
   } while (true);
   lines = realloc(lines, sizeof(char *) * total_lines);

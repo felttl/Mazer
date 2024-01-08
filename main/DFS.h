@@ -27,6 +27,7 @@ typedef struct Point{
 
 */
 
+
 /**
  * @brief fonction qui permet de mélanger des points aléatoirement en déplacant les
  * éléments contenu dans la liste d'entrée la liste est de la forme suivante :
@@ -42,12 +43,11 @@ typedef struct Point{
  *      j ← random integer such that 0 ≤ j ≤ i
  *       exchange a[j] and a[i]
 */
-int**random_shuffle(int**dynamic_arr, int len){
+Point*random_shuffle(Point*dynamic_arr, int len){
     srand( time( NULL ) );// init random func
     int**temp=dynamic_arr;
     Point*tem;
-    int i=0;
-    int rd;
+    int i=0,rd;
     while(i < len-1){
         rd = rand()%(i+1);
         tem = temp[i];
@@ -57,9 +57,6 @@ int**random_shuffle(int**dynamic_arr, int len){
     }
     return temp;
 }   
-
-
-
 /**
  * @brief permet de générer un chemin aléatoirement (cohérents) 
  * dans une matrice remplie de murs
@@ -67,10 +64,36 @@ int**random_shuffle(int**dynamic_arr, int len){
  * 
  * l'algorithme se trouve en anglais tout en haut de la page !!!!!!!!
 */
-char ** generate_DFS_maze(char**matr, int posx,int posy){
-    int x=posx;
-    int y=posy;
-
+char ** generate_DFS_maze(char**matr, int matr_lines, int matr_cols, int posx,int posy){
+    int i=posx,j=posy;
+    int x, y;
+    Point*dir=(Point*)malloc(4*sizeof(Point));
+    for (int i=0;i<4;i++)dir[i]=malloc(sizeof(Point));
+    Point insert={0, 2};
+    dir[0]=insert;
+    insert.x=0;
+    insert.y=-2;
+    dir[1]=insert;
+    insert.x=2;
+    insert.y=0;    
+    dir[2]=insert;
+    insert.x=-2;
+    insert.y=0;       
+    dir[3]=insert;
+    dir=random_shuffle(dir, 4);
+    // position actuelle
+    insert.x=posx;
+    insert.y=0;       
+    for (int k=0;k<4;k++){
+        x=k+dir[k].x;
+        y=k+dir[k].y;
+        if (x>=0&&x<matr_lines&&y>=0 &&y<matr_cols&&matr[x][y]=='1'){
+            matr[(int)(i+x)/2][(int)(j+y)/2]='0';
+            matr[x][y]='0';
+            generate_DFS_maze(matr, matr_lines, matr_cols, x, y);
+        }
+    }    
+    free(dir);
     return matr;
 }
 
