@@ -69,12 +69,11 @@ void display(char ** matrice, int row, int column){
     printf("\n  ");
     // affichage des indexes 
     for (int i=0;i<column;i++){
-        printf("%c", i+97);
+        printf("%d ", i);
     }
     printf("\n");
     // affichage des éléments
     for (int line=0;line<row;line++){
-        printf("%d ", line);
         for (int col=0;col<column;col++){
             // pas de murs
             if (*(*(matrice+line)+col) == '0'){
@@ -139,11 +138,11 @@ void display(char ** matrice, int row, int column){
                            line+1<row&&*(*(matrice+line+1)+col)=='1'){
                     printf("%s", star);// etoile
                 } else {
-                    printf("\033[7;91mR\033[0m");// erreur de caractère
+                    printf("\033[7;31mR\033[0m");// erreur de caractère
                 }
             } else if(*(*(matrice+line)+col) == '5'){
                 // affichage colorimétrique pour le passage du pion
-                printf("·");
+                printf("\033[7;90m·\033[0m");
             } else if(*(*(matrice+line)+col+1) == '0' && *(*(matrice+line)+col-1) == '0' && *(*(matrice+line+1)+col) == '0' && *(*(matrice+line-1)+col) == '0'){
                 // erreur si pas de points a proximité
                 printf("affichage impossible au point (%d,%d) pas de points autour", line, col);
