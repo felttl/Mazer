@@ -55,11 +55,11 @@ int main(){
     }
     // on cherche la sortie et onn renvoie le pointeur pour 
     // libérer la mémoire
-    // j'affiche la matrice aprés avoir ajouté le chemin
     Pion*chemin=add_path(forward_right(matrix, ex, ey, x, y), matrix);
 
     // on commence cette fois par la sortie
     printf("matrice en commencant par l'entrée en méthode rotation a droite:\n");
+    // j'affiche la matrice aprés avoir ajouté le chemin    
     display(matrix, x, y);    
     Pion*chemin1=add_path(forward_right(matrix, sx, sy, x, y), matrix)
 
