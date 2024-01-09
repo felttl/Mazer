@@ -39,6 +39,7 @@ date : 24/12/2023 - 7/1/2024
 ##### Tasks :
 <h6>
      outils terminés
+</h6>
 
   -    [x] display
   -    [ ] generate
