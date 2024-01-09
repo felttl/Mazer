@@ -96,7 +96,27 @@ void remove_at(Pion * head, int index){
  *  la fonction n'est pas adaptée pour faire ça
  * 
 */
+void insert(Pion* head, Pion * inser, int index){
+    int i=0;
+    Pion*cursor=head;
+    if (index >= 1){
+        while(i != index-1 && cursor != NULL){
+            cursor=cursor->suivant;
+            i++;
+        }     
+        if (cursor != NULL){
+            inser->suivant = cursor->suivant;
+            cursor->suivant = inser;            
+        } else {
+            printf("\nla longueur de la chaine n'est pas suffisante pour une insertion\n");
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        printf("\nimpossible de d'ajouter un maillon qui n'est pas entre deux maillons (nb maillons inférieur a 2)\n");
+        exit(EXIT_FAILURE);
+    }    
 
+}
 
 
 
@@ -112,12 +132,16 @@ void remove_at(Pion * head, int index){
  * @return renvoie la chaine pour pouvoir faire un free dessus 
  * (sinon la chaine n'est pas visible depuis le programme principale)
 */
-Pion * add_path(Pion * head, char**matr){
+Pion * add_path(Pion*head, char**matr){
     Pion*cursor=NULL;
     cursor=(Pion*)malloc(sizeof(Pion));
     cursor=head;
     // parcours des points
     while(cursor != NULL){
+        // attention il droit y avoir les coordonées correctes
+        // sinon problème de mémoire (pas d'erreurs possible puisqe c'est)
+        // uniquement certaines fonctions spécifiques qui peuvent faire 
+        // l'oppération
         matr[cursor->line][cursor->column]='5';
         cursor=cursor->suivant;
     }
@@ -146,27 +170,7 @@ Pion * display_chain(Pion * head){
 
 
 
-void insert(Pion* head, Pion * inser, int index){
-    int i=0;
-    Pion*cursor=head;
-    if (index >= 1){
-        while(i != index-1 && cursor != NULL){
-            cursor=cursor->suivant;
-            i++;
-        }     
-        if (cursor != NULL){
-            inser->suivant = cursor->suivant;
-            cursor->suivant = inser;            
-        } else {
-            printf("\nla longueur de la chaine n'est pas suffisante pour une insertion\n");
-            exit(EXIT_FAILURE);
-        }
-    } else {
-        printf("\nimpossible de d'ajouter un maillon qui n'est pas entre deux maillons (nb maillons inférieur a 2)\n");
-        exit(EXIT_FAILURE);
-    }    
 
-}
 
 
 

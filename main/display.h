@@ -60,11 +60,10 @@ void display(char ** matrice, int row, int column){
     // const char nous[4] = "○"; // priorite 2 d'affichage
     const char entree[4] = "⌂"; // priorite 1 les autres 0   
     printf("\n  ");
-    // affichage des indexes 
-    for (int i=0;i<column-1;i++){
-        printf("%d|", i);
-    }
-    printf("%d", column-1);
+    // // affichage des indexes 
+    // for (int i=0;i<column-1;i++){
+    //     printf("%d|", i);
+    // }
     printf("\n");
     // affichage des éléments
     for (int line=0;line<row;line++){

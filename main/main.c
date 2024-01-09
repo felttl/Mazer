@@ -63,14 +63,19 @@ int main(){
     display(matrix, x, y); 
 
     // on comence par la sortie en tournant a droite
-    Pion*chemin1=add_path(forward_right(matrix, sx, sy, x, y), matrix1);
-    printf("matrice en commencant par la sortie en méthode rotation a droite:\n");
+    Pion*chemin1=add_path(forward_right(matrix1, sx, sy, x, y), matrix1);
+    printf("chemin tracé avec la méthode de début à la fin (+ rotation droite)\n");
     display(matrix1, x, y);    
 
-    // on commmence par l'entrée avec l'algo de proche en proche
-    Pion*chemin2=add_path(forward_right(matrix, ex, ey, x, y), matrix2);
-    printf("matrice en commencant par la sortie en méthode rotation a droite:\n");
-    display(matrix2, x, y);    
+    // on commmence par la sortie avec l'algo de proche en proche
+    Pion*chemin2=add_path(shortest_point_way(matrix2, ex, ey, sx, sy, x, y), matrix2);
+    printf("chemin créé avec la méthode de parcours de proche en proche\n");
+    display(matrix2, x, y);  
+    
+    // on utilise l'algo DFS
+    // Pion*cheminDFS=add_path(          (matrix, ex, ey, sx, sy, x, y), matrix2);
+    // printf("chemin créer avec l'algorithme DFS\n");
+    // display(matrix2, x, y);        
 
     // j'enregistre le tout dans le répertoire courant (pour la première méthode)
     // on se sauvegarde pas les matrices avec les autres algo car c'est le même
@@ -79,7 +84,11 @@ int main(){
     save_matr(matrix, x);
 
     // on lache la mémoire 
-    free_pion_chain(chemin);
+
+    free_pion_chain(chemin);  
+    free_pion_chain(chemin1);   
+    free_pion_chain(chemin2);
+    //free_pion_chain(cheminDFS);    
     for (size_t i = 0; i < x; i++)
         free(matrix[i]);
     free(matrix);
