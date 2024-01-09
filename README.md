@@ -56,6 +56,10 @@ methodes/fonctions de gestion des pions
   -    [x] create pion
   -    [x] forward right
        -    [ ] debugg
+  -    [X] shorterst_vect
+       -    [ ] debugg
+  -    [ ] DFS
+       -    [ ] debugg
   -    [x] add_path
   -    [x] insert
   -    [x] remove_at
