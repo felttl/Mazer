@@ -5,7 +5,6 @@
  * 
 */
 
-
 #include "./add_lib.h"
 #include "./display.h"
 #include "./pion_chain.h" // le fichier #include tools.h
@@ -13,8 +12,6 @@
 #include "./save.h"
 // déja importé dans pion_chain
 //#include "./tools.h"// gestion des fichiers + fonction utiles
-
-
 
 int main(){
     // on dépose un fichier dans la répertoire
