@@ -10,11 +10,9 @@
 #include "./pion_chain.h" // le fichier #include tools.h
 #include "./load.h"
 #include "./save.h"
-// déja importé dans pion_chain
-//#include "./tools.h"// gestion des fichiers + fonction utiles
 
 int main(){
-    // on dépose un fichier dans la répertoire
+    // on dépose un fichier dans le répertoire
 
     // nombre de lignes et nombre de colonnes
     int x=0;
@@ -33,7 +31,7 @@ int main(){
     // on extrait les données + allocation
     char**matrix = get_char_array_fromfile(filename, &x, &y);
     char**matrix1=matrix; // pour tester avec un parcour en commençant par la fin
-    char**matrix2=matrix; // tester avec un autre algo spacifique
+    char**matrix2=matrix; // tester avec un autre algo spécifique
 
     // j'affiche la matrice avant de rajouter le chemin
     display(matrix, x, y);
@@ -52,8 +50,8 @@ int main(){
             }
         }
     }
-    // on cherche la sortie et on renvoie le pointeur pour libere la memoire
-    // on comence par l'entrée en tournant a droite
+    // on cherche la sortie et on renvoie le pointeur pour liberer la memoire
+    // on commence par l'entrée en tournant a droite
     Pion*chemin=add_path(forward_right(matrix, ex, ey, x, y), matrix);
     // on commence cette fois par la sortie
     printf("matrice en commencant par l'entrée en méthode rotation a droite:\n");
