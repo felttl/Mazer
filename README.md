@@ -54,7 +54,8 @@ date : 24/12/2023 - 7/1/2024
 methodes/fonctions de gestion des pions
 
   -    [x] create pion
-  -    [x] forward right -  [0] debugg
+  -    [x] forward right
+       -    [ ] debugg
   -    [x] add_path
   -    [x] insert
   -    [x] remove_at
