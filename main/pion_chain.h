@@ -370,13 +370,23 @@ Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int 
     int scany=ey;
     Pion*head_pion;
     int step=1;
-    Pion*etape=create_Pion(scanx, scany, 0);
-    head_pion=etape;
+
     int maxoccur=lenx*leny-get_number_borders(lenx, leny)+2;// sécurité
     int nsew[4]={0, 0, 0, 0};// nord sud est west
     int togo=0; // récupérer l'index de la direction pour choisir le déplacement
-    Pion*last;
-    Pion*lastless1;
+    // déplacement du pion
+    if (ex == 0){
+        scanx++;
+    } else if (ex == lenx-1){
+        scanx=lenx-2;
+    } else {scanx=ex;}
+    if (ey == 0){
+        scany++;
+    } else if (ey == leny-1){
+        scanx=leny-2;
+    } else {scany=ey;}
+    Pion*etape=create_Pion(scanx, scany, 0);
+    head_pion=etape;    
     do {
         // on va a la case la plus proche de la sortie qui n'est pas un mur
         nsew[0] = scanx-1>=0&&matrix[scanx-1][scany]!='1' ? short_vec_point(scanx-1, scany, sx, sy) : lenx+leny+1;
@@ -401,25 +411,7 @@ Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int 
         } else {
             printf("erreur: max n'est pas trouvé case : (%d,%d)", scanx, scany);
             exit(EXIT_FAILURE);
-        }
-        // si maxoccur prés d'être dépassé on save les 2 deniers points 
-        // trés utile pour debugger        
-        if (maxoccur==1&&lenx*leny>=3){
-            last=etape;
-            printf("proche de la fin 1 occ restantes :[%d,%d,%d,%d]\n",
-            nsew[0],nsew[1],nsew[2],nsew[3]);   
-            printf("index : %d\n", togo);                     
-        } else if (maxoccur==2&&lenx*leny>=3){
-            lastless1=etape;
-            printf("proche de la fin 2 occ restantes :[%d,%d,%d,%d]\n",
-            nsew[0],nsew[1],nsew[2],nsew[3]);
-            printf("index : %d\n", togo);
-        } else if (maxoccur==3&&lenx*leny>=4){
-            lastless1=etape;
-            printf("proche de la fin 3 occ restantes :[%d,%d,%d,%d]\n",
-            nsew[0],nsew[1],nsew[2],nsew[3]);
-            printf("index : %d\n", togo);            
-        }
+        }    
         // en dehors de la matrice pb de caractère
         if ((scanx == 0||scanx==lenx-1||scany==0||scany==leny-1)&&step>2){
             printf("le point est en dehors du labyrinthe il ya  un problème de caractère\n");
@@ -431,15 +423,10 @@ Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int 
         step++;
         maxoccur--;      
     }while (scanx!=sx && scany!=sy && maxoccur!=0 && scanx>=0 && scanx<=lenx && scany>=0 && scany<=leny);
-    if (maxoccur == 0){
+    if (maxoccur == 0){// erreur d'iterations (pb dans la matrice donné en paramètre)
         printf("\nnombre d'iterations dépassée\n");
-        if (lenx*leny>=4){
-            printf("voici les 3 derniers points : \n(%d,%d)\n(%d,%d)\n(%d,%d)", 
-            lastless1->line, lastless1->column, 
-            last->line, last->column, 
-            etape->line, etape->column);
-        
-        }
+        // affichange de la liste
+        display_chain(head_pion);
     }
     printf("\n");
     return head_pion;

@@ -28,6 +28,7 @@ int main(){
     printf("veuillez entrer le nom \n");
     printf("du fichier ou se trouve le labyrinthe:\n");
     scanf("%s", filename);
+    // le fichier est test5ct.txt
 
     // on extrait les données + allocation
     char**matrix = get_char_array_fromfile(filename, &x, &y);
@@ -81,7 +82,6 @@ int main(){
     save_matr(matrix, x);
 
     // on lache la mémoire 
-
     free_pion_chain(chemin);  
     free_pion_chain(chemin1);   
     free_pion_chain(chemin2);
