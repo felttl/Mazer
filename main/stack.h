@@ -93,7 +93,7 @@ int pop(Stack*top){
  * @param top_stack est le haut de la pile (top/head)
 */
 void remove_Stack(Stack*top_stack){
-    if (top_stack->next == NULL){
+    if (top_stack != NULL && top_stack->next == NULL){
         do {
             Stack*lastS=top_stack;        
             top_stack=top_stack->last;
