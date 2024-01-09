@@ -20,7 +20,7 @@ int min(int*list, int size){
     if (size > 0){
         index=0;
         for (int i=1;i<size;i++){
-            if (list[i] < list[0]){
+            if (list[i] < list[index]){
                 index=i;
             }
         }
@@ -35,7 +35,7 @@ int minr(int*list, int size){
     if (size > 0){
         index=0;
         for (int i=size-1;i>0;i--){
-            if (list[i] < list[0]){
+            if (list[i] < list[index]){
                 index=i;
             }
         }
@@ -47,11 +47,15 @@ int minr(int*list, int size){
 }
 Pion * create_Pion(int x, int y, int num){
     Pion * res=(Pion*)malloc(sizeof(Pion));
-    res->line = x;
-    res->column = y;
-    res->num_step = num;
-    res->suivant = NULL;
-    res->character = '\0';    
+    if (res != NULL){
+        res->line = x;
+        res->column = y;
+        res->num_step = num;
+        res->suivant = NULL;
+        res->character = '\0';         
+    } else {
+        printf("le malloc a échoué\n");
+    }
     return res;
 }
 void free_pion_chain(Pion * head){
@@ -92,7 +96,23 @@ Pion * display_chain(Pion * head){
     printf("\n");
     return head;
 }
+/**
+ * @brief renvoie si le pion est déja visité en utilisant la colonne et la ligne de celui ci
+*/
+bool already_seen(Pion*head_chain,int line,int col){
+    bool found=0;    
+    if (head_chain != NULL){
+        Pion*cur=head_chain;
+        while (cur != NULL || found==0){
+            printf("line=%d,col=%d,pionlin=%d,pioncol=%d\n", line, col, cur->line, cur->column);
+            if(cur->column==col && cur->line==line) found=1;
+            cur=cur->suivant;
+        }
+    }
+    return found;
+}
 Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int leny){
+    srand(time(NULL));     // initialisation 1 fois
     int scanx=ex; // position du scanner central
     int scany=ey;
     Pion*head_pion;
@@ -116,17 +136,21 @@ Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int 
     head_pion=etape;    
     do {
         // on va a la case la plus proche de la sortie qui n'est pas un mur
-        nsew[0] = scanx-1>=0&&matrix[scanx-1][scany]!='1' ? short_vec_point(scanx-1, scany, sx, sy) : lenx+leny+1;
-        nsew[1] = scanx+1<lenx-1&&matrix[scanx+1][scany]!='1' ? short_vec_point(scanx+1, scany, sx, sy) : lenx+leny+1;
-        nsew[2] = scany-1>=0&&matrix[scanx][scany-1]!='1' ? short_vec_point(scanx, scany-1, sx, sy) : lenx+leny+1;
-        nsew[3] = scany+1<leny-1&&matrix[scanx][scany+1]!='1' ? short_vec_point(scanx, scany+1, sx, sy) : lenx+leny+1;
+        nsew[0] = scanx-1>=0&&matrix[scanx-1][scany]!='1'&& already_seen(head_pion, scanx-1, scany) ? short_vec_point(scanx-1, scany, sx, sy) : lenx+leny+1;
+        nsew[1] = scanx+1<lenx-1&&matrix[scanx+1][scany]!='1'&&already_seen(head_pion, scanx+1, scany) ? short_vec_point(scanx+1, scany, sx, sy) : lenx+leny+1;
+        nsew[2] = scany-1>=0&&matrix[scanx][scany-1]!='1'&&already_seen(head_pion, scanx, scany-1) ? short_vec_point(scanx, scany-1, sx, sy) : lenx+leny+1;
+        nsew[3] = scany+1<leny-1&&matrix[scanx][scany+1]!='1'&&already_seen(head_pion, scanx-1, scany+1) ? short_vec_point(scanx, scany+1, sx, sy) : lenx+leny+1;
         // permet d'afficher une croix en cas de problèmes de racactères ou d'overflow
         // if(maxoccur==0){
         //     printf("croix : \n %c\n%c", matrix[scanx-1][scany],matrix[scanx+1][scany]);
         //     printf("%c%c\n %c\n",matrix[scanx][scany-1], matrix[scanx][scany-1], matrix[scanx][scany+1]);
         // }
+
+
         // on regarde l'index du min pour se déplacer
-        togo = step%2 ? min(nsew, 4) : minr(nsew, 4); // 1/2 etape au cas ou 2 cas ont la même valeur
+        togo = step % 2 ? min(nsew, 4) : minr(nsew, 4); // 1/2 etape au cas ou 2 cases ont la même valeur
+        printf("%d %d %d %d\n", nsew[0],nsew[1],nsew[2],nsew[3]);
+        
         if (togo==0){
             scanx--; // on va au nord
         } else if (togo==1){
@@ -139,9 +163,11 @@ Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int 
             printf("erreur: min n'est pas trouvé case : (%d,%d)", scanx, scany);
             exit(EXIT_FAILURE);
         }    
+        // on peut checker si on est déja passé par cette case avec la chaine
+        if (scanx)
         // en dehors de la matrice pb de caractère
         if ((scanx == 0||scanx==lenx-1||scany==0||scany==leny-1)&&step>2){
-            printf("le point est en dehors du labyrinthe il ya  un problème de caractère\n");
+            printf("le point est en dehors du labyrinthe il y a un problème de caractère\n");
             if (maxoccur<4) maxoccur--;
             maxoccur=3;            
         }
@@ -152,7 +178,7 @@ Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int 
         maxoccur--;      
     }while (scanx!=sx && scany!=sy && maxoccur!=0 && scanx>=0 && scanx<=lenx && scany>=0 && scany<=leny);
     if (maxoccur == 0){// erreur d'iterations (pb dans la matrice donné en paramètre)
-        printf("\nnombre d'iterations dépassée\n");
+        printf("\nnombre d'iterations dépassés\n");
         // affichange de la liste
         display_chain(head_pion);
     }
