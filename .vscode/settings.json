@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "load3.C": "cpp"
+        "load3.C": "cpp",
+        "tools.h": "c"
     }
 }

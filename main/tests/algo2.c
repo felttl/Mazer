@@ -1,5 +1,6 @@
 #include "../add_lib.h"
 #include "../display.h"
+#include "../pion_chain.h"
 
 
 // la taille de chaque bloc de mémoire qui enregistr tous 
@@ -72,27 +73,41 @@ int main(){ // gdb debugger
     int lines=0, cols=0;
 
     // récupère la chaine de données
-    char ** get_data = get_char_array_fromfile("test4c.txt", &lines, &cols);
+    char ** matrix = get_char_array_fromfile("test5ct.txt", &lines, &cols);
+    printf("\n\nlines : %d cols : %d\n", lines, cols);
+
+    // on récupère l'entrée et la sortie
+    int ex=0, ey=0;
+    int sx=0, sy=0;
+    for (int i=0;i<lines;i++){
+        for (int j=0;j<cols;j++){
+            if (matrix[i][j] == '2'){
+                ex=i;
+                ey=j;
+            } else if (matrix[i][j] == '3'){
+                sx=i;
+                sy=j;                
+            }
+        }
+    }
+    // si l'entrée ou sortie ne sont pas présente
+    //  dans la matrice :
+    if (ex == ey || sx == sy){
+      printf("entrée ou sortie non présente dans la matrice\n\n");
+    }
+
+    // on trace la sortie
+    Pion*chemin=add_path(shortest_point_way(matrix, ex, ey, sx, sy, lines, cols), matrix);
+
+    display(matrix, lines, cols);
 
 
 
-    printf("\n\nlines : %d cols : %d", lines, cols);
-
-    // printf("\n\nour formatted data:\n\n");
-    // affichage simple
-    // for (int i=0;i<lines;i++){
-    //     printf("%s", get_data[i]);
-    // }  
-
-
-    // printf("\n");
-    // affichage basique
-    display(get_data, lines, cols);
-
-    // libération mémoire
+    // relache la mémoire
+    free_pion_chain(chemin);
     for (size_t i = 0; i < lines; i++)
-        free(get_data[i]);
-    free(get_data);
+        free(matrix[i]);
+    free(matrix);
     return 0;
 }
 

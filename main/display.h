@@ -10,13 +10,6 @@
 */
 
 
-
-
-
-
-
-
-
 /**
  * @brief fonction d'affichage d'un labyrinthe dont les données soont extraites d'un fichier txt
  * dans lequel les données seront écrites avec des entiers mais extraites sous forme de caractères
@@ -68,16 +61,18 @@ void display(char ** matrice, int row, int column){
     const char entree[4] = "⌂"; // priorite 1 les autres 0   
     printf("\n  ");
     // affichage des indexes 
-    for (int i=0;i<column;i++){
-        printf("%d ", i);
+    for (int i=0;i<column-1;i++){
+        printf("%d|", i);
     }
+    printf("%d", column-1);
     printf("\n");
     // affichage des éléments
     for (int line=0;line<row;line++){
+        printf("%d\t", line);
         for (int col=0;col<column;col++){
             // pas de murs
             if (*(*(matrice+line)+col) == '0'){
-                printf("%c", ' ');
+                printf("%c", ' ');              
             } else if (*(*(matrice+line)+col) == '1'){ // si on a un mur
                 // cas mur vertical (soit haut soit bas soit les deux 
                 // (attention aux cases en dehors de la matrice))
@@ -148,7 +143,7 @@ void display(char ** matrice, int row, int column){
                 printf("affichage impossible au point (%d,%d) pas de points autour", line, col);
                 exit(EXIT_FAILURE);
             }else if (*(*(matrice+line)+col) == '2'){// si entrée
-                printf("%s", entree);                
+                printf("\033[6;92m%s\033[0m", entree);                
             }else if(*(*(matrice+line)+col) == '3'){
                 printf("%c", ' ');
             } else {// exit error

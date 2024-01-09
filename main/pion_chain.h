@@ -18,7 +18,9 @@
 
 // structure pour déplacement du pion
 typedef struct Pion{
-    int line, column, num_step;
+    int line;
+    int column;
+    int num_step;
     struct Pion * suivant;
 } Pion ;
 
@@ -27,8 +29,7 @@ typedef struct Pion{
  * @brief permet de creer un pion complet (toutes les instanciations)
 */
 Pion * create_Pion(int x, int y, int num){
-    Pion * res;
-    res = (Pion*)malloc(sizeof(Pion));
+    Pion * res=(Pion*)malloc(sizeof(Pion));
     res->line = x;
     res->column = y;
     res->num_step = num;
@@ -95,7 +96,57 @@ void remove_at(Pion * head, int index){
  *  la fonction n'est pas adaptée pour faire ça
  * 
 */
-void insert(Pion * head, Pion * inser, int index){
+
+
+
+
+
+
+
+
+
+
+/**
+ * @brief permet de parcourir la chaine de pions pour placer les coordonnées
+ * dans la matrice
+ * @return renvoie la chaine pour pouvoir faire un free dessus 
+ * (sinon la chaine n'est pas visible depuis le programme principale)
+*/
+Pion * add_path(Pion * head, char**matr){
+    Pion*cursor=NULL;
+    cursor=(Pion*)malloc(sizeof(Pion));
+    cursor=head;
+    // parcours des points
+    while(cursor != NULL){
+        matr[cursor->line][cursor->column]='5';
+        cursor=cursor->suivant;
+    }
+    return head;
+}
+
+
+
+
+/**
+ * @brief affiche la chaine pion par pion
+*/
+Pion * display_chain(Pion * head){
+    printf("\naffichage de pions : \n");
+    Pion*cursor=NULL;
+    cursor=(Pion*)malloc(sizeof(Pion));
+    cursor=head;
+    // parcours des points
+    while(cursor != NULL){
+        printf("(%d,%d)\n", cursor->line, cursor->column);
+        cursor=cursor->suivant;
+    }
+    printf("\n");
+    return head;
+}
+
+
+
+void insert(Pion* head, Pion * inser, int index){
     int i=0;
     Pion*cursor=head;
     if (index >= 1){
@@ -116,21 +167,9 @@ void insert(Pion * head, Pion * inser, int index){
     }    
 
 }
-/**
- * @brief permet de parcourir la chaine de pions pour placer les coordonnées
- * dans la matrice
- * @return renvoie la chaine pour pouvoir faire un free dessus 
- * (sinon la chaine n'est pas visible depuis le programme principale)
-*/
-Pion*add_path(Pion*head, char**matr){
-    Pion*cursor=head;
-    // parcours des points
-    while(cursor != NULL){
-        matr[cursor->line][cursor->column]='5';
-        cursor=cursor->suivant;
-    }
-    return head;
-}
+
+
+
 
 
 /**
@@ -156,7 +195,7 @@ int move_Pion_right_heading(char**matr, int x, int y, int heading, int lenx, int
     int res=heading;
     if (heading == 1){
         // on regarde a l'est et au nord 
-        if (y+1<leny&&*(*(matr+x)+y+1)!='1'){
+        if (y+1<leny-1&&*(*(matr+x)+y+1)!='1'){
             y++;res=2;
         } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){
             x--; 
@@ -164,7 +203,7 @@ int move_Pion_right_heading(char**matr, int x, int y, int heading, int lenx, int
         } else if (y-1>=0&&*(*(matr+x)+y-1)!='1'){
             y--;res=4;             
         // on regarde au sud
-        } else if (x+1<lenx&&*(*(matr+x+1)+y)!='1'){
+        } else if (x+1<lenx-1&&*(*(matr+x+1)+y)!='1'){
             x++;res=3;                 
         // on est bloqué
         } else {
@@ -174,19 +213,19 @@ int move_Pion_right_heading(char**matr, int x, int y, int heading, int lenx, int
         last->suivant=create_Pion(x, y, etape);
         last=last->suivant;            
     } else if (heading == 2){// sens de verification : sud, est, nord west (mêmes if pas dans le même ordre)
-        if (x+1<lenx&&*(*(matr+x+1)+y)!='1'){x++;res=3;          
-        } else if (y+1<leny&&*(*(matr+x)+y+1)!='1'){y++;
+        if (x+1<lenx-1&&*(*(matr+x+1)+y)!='1'){x++;res=3;          
+        } else if (y+1<leny-1&&*(*(matr+x)+y+1)!='1'){y++;
         } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
-        } else if (y-1<leny&&*(*(matr+x)+y-1)!='1'){y--;res=4;           
+        } else if (y-1<leny-1&&*(*(matr+x)+y-1)!='1'){y--;res=4;           
         } else {
             printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
             exit(EXIT_FAILURE);
         }
         last->suivant=create_Pion(x, y, etape);last=last->suivant;
     } else if (heading == 3) {// west sud est nord
-        if (y-1<leny&&*(*(matr+x)+y-1)!='1'){y--;res=4;   
-        } else if (x+1<lenx&&*(*(matr+x+1)+y)!='1'){x++;        
-        } else if (y+1<leny&&*(*(matr+x)+y+1)!='1'){y++;res=2;
+        if (y-1<leny-1&&*(*(matr+x)+y-1)!='1'){y--;res=4;   
+        } else if (x+1<lenx-1&&*(*(matr+x+1)+y)!='1'){x++;        
+        } else if (y+1<leny-1&&*(*(matr+x)+y+1)!='1'){y++;res=2;
         } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
         } else {
             printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
@@ -194,10 +233,10 @@ int move_Pion_right_heading(char**matr, int x, int y, int heading, int lenx, int
         }
         last->suivant=create_Pion(x, y, etape);last=last->suivant;        
     } else if (heading == 4){// sud est nord west
-        if (x+1<lenx&&*(*(matr+x+1)+y)!='1'){x++;res=3;     
-        } else if (y+1<leny&&*(*(matr+x)+y+1)!='1'){y++;res=2;
+        if (x+1<lenx-1&&*(*(matr+x+1)+y)!='1'){x++;res=3;     
+        } else if (y+1<leny-1&&*(*(matr+x)+y+1)!='1'){y++;res=2;
         } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
-        } else if (y-1<leny&&*(*(matr+x)+y-1)!='1'){y--;   
+        } else if (y-1<leny-1&&*(*(matr+x)+y-1)!='1'){y--;   
         } else{printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
             exit(EXIT_FAILURE);              
         }
@@ -291,6 +330,25 @@ int short_vec_point(int currentx,int currenty,int sx,int sy){
 }
 
 /**
+ * @brief renvoie l'index d'une liste dont l'élément est le plus élevé
+*/
+int min(int*list, int size){
+    int index=-1;
+    if (size > 0){
+        index=0;
+        for (int i=1;i<size;i++){
+            if (list[i] < list[0]){
+                index=i;
+            }
+        }
+    } else {
+        printf("la taille ne peut pas être 0 !\n");
+        exit(EXIT_FAILURE);
+    }
+    return index;
+}
+
+/**
  * @brief trouver la sortie en utilisant le point le plus proche
  * 
  * @param ex entrée en x
@@ -299,24 +357,89 @@ int short_vec_point(int currentx,int currenty,int sx,int sy){
  * @param sy sortie en y
  * @param lenx longueur de la matrice verticale
  * @param leny longueur de la matrice horizontale
+ * @warning l'algorithm n'est pas trés puissant car il ne mémorise pas
+ * les points (marquage) qu'il a déja parcouru donc il peut tourner en rond
  * @return le pointeur de la chaine de Point a libérer avec free_pion_chain()
 */
-Pion*shortest_way(char**matrix,int ex,int ey,int sx, int xy, int lenx,int leny){
-    int cx=0; // position du scanner central
-    int cy=0;
-    Point*head_pion;
-    Point*etape=create_Pion();
-    int maxoccur=longx*longy-get_number_borders(longx, longy)+4;
-    int diffx=0; // différence de coordonnées en x
-    int diffy=0; // "" y
-    while (ex != sx && ey != sy && maxoccur != 0){
+Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int leny){
+    int scanx=ex; // position du scanner central
+    int scany=ey;
+    Pion*head_pion;
+    int step=1;
+    Pion*etape=create_Pion(scanx, scany, 0);
+    head_pion=etape;
+    int maxoccur=lenx*leny-get_number_borders(lenx, leny)+2;// sécurité
+    int nsew[4]={0, 0, 0, 0};// nord sud est west
+    int togo=0; // récupérer l'index de la direction pour choisir le déplacement
+    Pion*last;
+    Pion*lastless1;
+    do {
+        // on va a la case la plus proche de la sortie qui n'est pas un mur
+        nsew[0] = scanx-1>=0&&matrix[scanx-1][scany]!='1' ? short_vec_point(scanx-1, scany, sx, sy) : lenx+leny+1;
+        nsew[1] = scanx+1<lenx-1&&matrix[scanx+1][scany]!='1' ? short_vec_point(scanx+1, scany, sx, sy) : lenx+leny+1;
+        nsew[2] = scany-1>=0&&matrix[scanx][scany-1]!='1' ? short_vec_point(scanx, scany-1, sx, sy) : lenx+leny+1;
+        nsew[3] = scany+1<leny-1&&matrix[scanx][scany+1]!='1' ? short_vec_point(scanx, scany+1, sx, sy) : lenx+leny+1;
+        // permet d'afficher une croix en cas de problèmes de racactères ou d'overflow
+        // if(maxoccur==0){
+        //     printf("croix : \n %c\n%c", matrix[scanx-1][scany],matrix[scanx+1][scany]);
+        //     printf("%c%c\n %c\n",matrix[scanx][scany-1], matrix[scanx][scany-1], matrix[scanx][scany+1]);
+        // }
+        // on regarde l'index du min pour se déplacer
+        togo=min(nsew, 4);
+        if (togo==0){
+            scanx--; // on va au nord
+        } else if (togo==1){
+            scanx++; // on va au sud etc...
+        } else if (togo==2){
+            scany++;
+        } else if (togo==3){
+            scany--;
+        } else {
+            printf("erreur: max n'est pas trouvé case : (%d,%d)", scanx, scany);
+            exit(EXIT_FAILURE);
+        }
+        // si maxoccur prés d'être dépassé on save les 2 deniers points 
+        // trés utile pour debugger        
+        if (maxoccur==1&&lenx*leny>=3){
+            last=etape;
+            printf("proche de la fin 1 occ restantes :[%d,%d,%d,%d]\n",
+            nsew[0],nsew[1],nsew[2],nsew[3]);   
+            printf("index : %d\n", togo);                     
+        } else if (maxoccur==2&&lenx*leny>=3){
+            lastless1=etape;
+            printf("proche de la fin 2 occ restantes :[%d,%d,%d,%d]\n",
+            nsew[0],nsew[1],nsew[2],nsew[3]);
+            printf("index : %d\n", togo);
+        } else if (maxoccur==3&&lenx*leny>=4){
+            lastless1=etape;
+            printf("proche de la fin 3 occ restantes :[%d,%d,%d,%d]\n",
+            nsew[0],nsew[1],nsew[2],nsew[3]);
+            printf("index : %d\n", togo);            
+        }
+        // en dehors de la matrice pb de caractère
+        if ((scanx == 0||scanx==lenx-1||scany==0||scany==leny-1)&&step>2){
+            printf("le point est en dehors du labyrinthe il ya  un problème de caractère\n");
+            if (maxoccur<4) maxoccur--;
+            maxoccur=3;            
+        }
+        etape->suivant=create_Pion(scanx, scany, step);
+        etape=etape->suivant;
+        step++;
+        maxoccur--;      
+    }while (scanx!=sx && scany!=sy && maxoccur!=0 && scanx>=0 && scanx<=lenx && scany>=0 && scany<=leny);
+    if (maxoccur == 0){
+        printf("\nnombre d'iterations dépassée\n");
+        if (lenx*leny>=4){
+            printf("voici les 3 derniers points : \n(%d,%d)\n(%d,%d)\n(%d,%d)", 
+            lastless1->line, lastless1->column, 
+            last->line, last->column, 
+            etape->line, etape->column);
         
-
-        maxoccur--;
+        }
     }
-
-    return scan;
-}// x+1<lenx&&*(*(matr+x+1)+y)!='1'
+    printf("\n");
+    return head_pion;
+}
 
 
 // end page
