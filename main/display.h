@@ -39,7 +39,7 @@
  * @param matrice la matrice d'entrée que l'on doit afficher
  * 
  * @warning lorsqu'un nombre ou symbole est trouvé a la périphérie de de la case
- * "scanné" qui n'est pas valide il y aura des 0 affichés
+ * "scanné" qui n'est pas valide il y aura des R affichés
  * le programme renverra une erreur s'il tombe sur l'element en question (dans le scanne)
 */
 void display(char ** matrice, int row, int column){
@@ -143,7 +143,7 @@ void display(char ** matrice, int row, int column){
                 exit(EXIT_FAILURE);
             }else if (*(*(matrice+line)+col) == '2'){// si entrée
                 printf("\033[6;92m%s\033[0m", entree);                
-            }else if(*(*(matrice+line)+col) == '3'){
+            }else if(*(*(matrice+line)+col) == '3'){// si sortie
                 printf("%c", ' ');
             } else {// exit error
                 printf("\nla valeur de la case (%d,%d) de la matrice n'est pas valide\nchar : (%c)", line, col, *(*(matrice+line)+col));
