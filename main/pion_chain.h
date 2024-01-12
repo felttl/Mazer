@@ -176,153 +176,66 @@ Pion * display_chain(Pion * head){
 
 
 
-/**
- * @brief permet d'avancer un pion en fonction des cases qui sont autour
- * et de l'orientation du pion
- * 
- * rappel : (1 N, 2 E, 3 S, 4 W)
- * 
- * verification des cases vides toujours dans le sens inverse des 
- * aiguilles d'une montre
- * 
- * @param matr la matrice contenant les données
- * @param x la position du pion horizontale
- * @param x la position du pion verticale
- * @param heading l'orientation du pion avant modification par la fonction
- * @param lenx longueur de la matrice en horizontal
- * @param leny largeur de la matrice
- * 
- * @return renvoie le heading mis a jour
-*/
-int move_Pion_right_heading(char**matr, int x, int y, int heading, int lenx, int leny, int etape, Pion*last){
-    //heading=move_Pion_right_heading(matr, x, y, heading, longx, longy, etape, step_pion);
-    int res=heading;
-    if (heading == 1){
-        // on regarde a l'est et au nord 
-        if (y+1<leny-1&&*(*(matr+x)+y+1)!='1'){
-            y++;res=2;
-        } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){
-            x--; 
-        // on regarde a l'west              
-        } else if (y-1>=0&&*(*(matr+x)+y-1)!='1'){
-            y--;res=4;             
-        // on regarde au sud
-        } else if (x+1<lenx-1&&*(*(matr+x+1)+y)!='1'){
-            x++;res=3;                 
-        // on est bloqué
-        } else {
-            printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
-            exit(EXIT_FAILURE);
-        }
-        last->suivant=create_Pion(x, y, etape);
-        last=last->suivant;            
-    } else if (heading == 2){// sens de verification : sud, est, nord west (mêmes if pas dans le même ordre)
-        if (x+1<lenx-1&&*(*(matr+x+1)+y)!='1'){x++;res=3;          
-        } else if (y+1<leny-1&&*(*(matr+x)+y+1)!='1'){y++;
-        } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
-        } else if (y-1<leny-1&&*(*(matr+x)+y-1)!='1'){y--;res=4;           
-        } else {
-            printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
-            exit(EXIT_FAILURE);
-        }
-        last->suivant=create_Pion(x, y, etape);last=last->suivant;
-    } else if (heading == 3) {// west sud est nord
-        if (y-1<leny-1&&*(*(matr+x)+y-1)!='1'){y--;res=4;   
-        } else if (x+1<lenx-1&&*(*(matr+x+1)+y)!='1'){x++;        
-        } else if (y+1<leny-1&&*(*(matr+x)+y+1)!='1'){y++;res=2;
-        } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
-        } else {
-            printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
-            exit(EXIT_FAILURE);            
-        }
-        last->suivant=create_Pion(x, y, etape);last=last->suivant;        
-    } else if (heading == 4){// sud est nord west
-        if (x+1<lenx-1&&*(*(matr+x+1)+y)!='1'){x++;res=3;     
-        } else if (y+1<leny-1&&*(*(matr+x)+y+1)!='1'){y++;res=2;
-        } else if (x-1>=0&&*(*(matr+x-1)+y)!='1'){x--;res=1;            
-        } else if (y-1<leny-1&&*(*(matr+x)+y-1)!='1'){y--;   
-        } else{printf("\n\non est cerné dans 4 murs a la position (%d,%d) ou alors bloqué autrement!\n\n", x, y);
-            exit(EXIT_FAILURE);              
-        }
-        last->suivant=create_Pion(x, y, etape);last=last->suivant;        
-    } else {// pas possible
-        printf("l'orientation donné est impossible (%d)\n", heading);
-    }
-    return res;
-}
-
 
 /**
- * @brief permet de déplacer le pion dans la matrice en utilisant
- * sa position de départ en longeant le coté droit du mur auquel 
- * il se trouve (priorité au déplacement a droit puis devant etc...)
+ * @brief trouve la sortie en utilisant ses coordonnées d'entrée
+ * avec l'algorithme de parcours en tournant a droite
  * 
- * créer une chaine de pion menant a la sortie
+ * @param matrix la matrice contenant tout les caractères
+ * @param ex coordonnées d'entrée en x
+ * @param ey coordonnées d'entrée en y 
+ * @param sx coordonnées de sortie en x 
+ * @param sy coordonnées de sortie en y 
+ * on aurait aussi pu donner le caractère qui correspond a la sortie 
+ * (qui doit être unique dans le labyrinthe && présent)
+ * @param lenx taille verticale de la matrice (attention inversé par rapport aux maths)
+ * @param leny taille horizontale de la matrice
+ * @param heading est "l'orientation" du pion (pour connaitre la "droite")
+ * @note idée/idea: utiliser une structure "Scann" avec 5 
+ * points pour voir a chaque étape la progression du parcours du maze
+ * @note optimisation: tester de faire passer la variable heading 
+ * par référence pour avoir une meilleures vitesse d'exec
+ * @note on peut séparer le test d'overflow (lenx leny et ex ey) 
+ * (et le faire au début) pour réduire l'impact de toutes les réccursions
  * 
- * - si le pion revient a une de ses positions précédentes
- *  il y a une erreur (sauf si c'est une impasse)
- * 
- * 3 dirrections possibles 1 pour reculer
- * 
- * les positions de départ sont données en paramètre
- * @param matr la matrice contenant les données
- * @param ex coordonnées x de l'entree
- * @param ey coordonnées y de l'entree
- * @param longx nombre de lignes de la matrice
- * @param longy nombre de colonnes de la matrice
- * 
- * @return renvoie l'entete de la chaine créé (pour la resolution du labyrinthe)
 */
-Pion * forward_right(char ** matr, int ex, int ey, int longx, int longy){
-    // position de départ du pion puis des coordonnées
-    // au fur et a mesure de l'avancement
-    int y=0,x=0;
-    Pion*head_pion;
-    int heading=0; // orientation du pion (1 N, 2 E, 3 S, 4 W)
-    int etape=1;  
-    // limite le nombrre de déplacement (au cas ou le pion tournerait en rond)
-    int maxoccur=longx*longy-get_number_borders(longx, longy)+4;
-
-    // calcul de la position du pion + orientation avec 
-    // l'entree la sortie la plus proche (a 1 case)
-    if (ex == 0){
-        heading=3;
-        x=ex+1;
-    } else if (ex == longx-1){
-        heading=1;
-        x=longx-2;
-    } else {x=ex;}
-    if (ey == 0){
-        heading=2;
-        y=1;
-    } else if (ey == longy-1){
-        heading=4;
-        y=longy-2;
-    } else {y=ey;}
-    Pion * step_pion=create_Pion(x, y, 0); 
-    head_pion=step_pion;// entete de la chaine des pion
-    int carry = 1; 
-
-    // on continue tant que l'on trouve pas le point de sortie 
-    // (on ne met le dernier pion sur la sortie et on écrase la variable dans la matrice)
-    while (carry == 1){
-        // en fonction du heading on regarde pas au même endroit
-        heading=move_Pion_right_heading(matr, x, y, heading, longx, longy, etape, step_pion);
-        etape++;
-        maxoccur--;
-        // on s'arréte quand on est sur la sortie
-        if (matr[x][y] == '3'){
-            carry=0;
+void forward_right(char***matrix, int ex, int ey, int sx,int sy,int lenx,int leny, int heading){
+    printf("%d %d\n", ex, ey);
+    // condition d'arret
+    if(ex == sx && ey == sy){// on est sur la sortie
+        printf("on est sur la sortie:\n");
+    // on cherche a savoir si on est dans la matrice
+    // car il n'y a pas de raisons d'être en dehors de la matrice
+    }else if (ex-1>=0&&ex+1<lenx&&ey+1<leny&&ey-1>=0){// interdiction de toucher un bord
+        display((*matrix), lenx, leny);
+        if ((*matrix)[ex][ey]=='0') (*matrix)[ex][ey]='5';// on marque le point visité
+        // déplacement en fonction du heading
+        if (heading==2){// vue west avancer nord
+            if ((*matrix)[ex-1][ey]!='1')
+                move_to_out(matrix, --ex, ey, sx,sy,lenx,leny, 1);
+            else
+                move_to_out(matrix, ex, ey, sx,sy,lenx,leny, 0);
+        } else if (heading==3){// vue est avancée sud 
+            if ((*matrix)[ex+1][ey]!='1')
+                move_to_out(matrix, ++ex, ey, sx,sy,lenx,leny, 0);
+            else
+                move_to_out(matrix, ex, ey, sx,sy,lenx,leny, 1);
+        } else if (heading==0){// vue west avancée 
+            if ((*matrix)[ex][ey-1]!='1')
+                move_to_out(matrix, ex, --ey, sx,sy,lenx,leny, 2);
+            else
+                move_to_out(matrix, ex, ey, sx,sy,lenx,leny, 3);
+        } else if (heading==1){
+            if ((*matrix)[ex][ey+1]!='1')
+                move_to_out(matrix, ex, ++ey, sx,sy,lenx,leny, 3);
+            else
+                move_to_out(matrix, ex, ey, sx,sy,lenx,leny, 2);            
         }
-        if (maxoccur == 0){
-            carry=0;
-            printf("\nnombre d'iterations maximum dépassées\n\n");
-        }
-
+    } else {
+        printf("erreur \n");
     }
-   // free memo OK 
-   return head_pion;
 }
+
 /**
  * @brief permet de calculer la distance entre deux points d'une matrice
  * 
