@@ -179,7 +179,7 @@ Pion * display_chain(Pion * head){
 
 /**
  * @brief trouve la sortie en utilisant ses coordonnées d'entrée
- * avec l'algorithme de parcours en tournant a droite
+ * avec l'algorithme de parcours en tournant a droite dans un labyrinthe
  * 
  * @param matrix la matrice contenant tout les caractères
  * @param ex coordonnées d'entrée en x
@@ -203,37 +203,36 @@ void forward_right(char***matrix, int ex, int ey, int sx,int sy,int lenx,int len
     printf("%d %d\n", ex, ey);
     // condition d'arret
     if(ex == sx && ey == sy){// on est sur la sortie
-        printf("on est sur la sortie:\n");
+        printf("\r\bon est sur la sortie:\n");
     // on cherche a savoir si on est dans la matrice
     // car il n'y a pas de raisons d'être en dehors de la matrice
-    }else if (ex-1>=0&&ex+1<lenx&&ey+1<leny&&ey-1>=0){// interdiction de toucher un bord
-        display((*matrix), lenx, leny);
-        if ((*matrix)[ex][ey]=='0') (*matrix)[ex][ey]='5';// on marque le point visité
+    } else {// interdiction de toucher un bord
+        (*matrix)[ex][ey]='5';// on marque le point visité        
+        if (heading==2 || heading==3) display((*matrix), lenx, leny);
         // déplacement en fonction du heading
         if (heading==2){// vue west avancer nord
-            if ((*matrix)[ex-1][ey]!='1')
-                move_to_out(matrix, --ex, ey, sx,sy,lenx,leny, 1);
+            if (ex-1>=0&&(*matrix)[ex-1][ey]!='1')
+                forward_right(matrix, --ex, ey, sx,sy,lenx,leny, 1);
             else
-                move_to_out(matrix, ex, ey, sx,sy,lenx,leny, 0);
+                forward_right(matrix, ex, ey, sx,sy,lenx,leny, 0);
         } else if (heading==3){// vue est avancée sud 
-            if ((*matrix)[ex+1][ey]!='1')
-                move_to_out(matrix, ++ex, ey, sx,sy,lenx,leny, 0);
+            if (ex+1<lenx&&(*matrix)[ex+1][ey]!='1')
+                forward_right(matrix, ++ex, ey, sx,sy,lenx,leny, 0);
             else
-                move_to_out(matrix, ex, ey, sx,sy,lenx,leny, 1);
+                forward_right(matrix, ex, ey, sx,sy,lenx,leny, 1);
         } else if (heading==0){// vue west avancée 
-            if ((*matrix)[ex][ey-1]!='1')
-                move_to_out(matrix, ex, --ey, sx,sy,lenx,leny, 2);
+            if (ey-1>=0&&(*matrix)[ex][ey-1]!='1')
+                forward_right(matrix, ex, --ey, sx,sy,lenx,leny, 2);
             else
-                move_to_out(matrix, ex, ey, sx,sy,lenx,leny, 3);
+                forward_right(matrix, ex, ey, sx,sy,lenx,leny, 3);
         } else if (heading==1){
-            if ((*matrix)[ex][ey+1]!='1')
-                move_to_out(matrix, ex, ++ey, sx,sy,lenx,leny, 3);
+            if (ey+1<leny&&(*matrix)[ex][ey+1]!='1')
+                forward_right(matrix, ex, ++ey, sx,sy,lenx,leny, 3);
             else
-                move_to_out(matrix, ex, ey, sx,sy,lenx,leny, 2);            
+                forward_right(matrix, ex, ey, sx,sy,lenx,leny, 2);            
         }
-    } else {
-        printf("erreur \n");
     }
+    printf("\n");
 }
 
 /**

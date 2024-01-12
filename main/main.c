@@ -19,19 +19,19 @@ int main(){
     int y=0;
 
     // on demande le nom du fichier
-    char filename[60];
+    char filename[60]="test5ct.txt";
 
     // // "interface" avec le terminal
-    printf("\n");
-    printf("veuillez entrer le nom \n");
-    printf("du fichier ou se trouve le labyrinthe:\n");
-    scanf("%s", filename);
+    // printf("\n");
+    // printf("veuillez entrer le nom \n");
+    // printf("du fichier ou se trouve le labyrinthe:\n");
+    // scanf("%s", filename);
     // le fichier est test5ct.txt
 
     // on extrait les données + allocation
-    char**matrix = get_char_array_fromfile(filename, &x, &y);
-    char**matrix1=matrix; // pour tester avec un parcour en commençant par la fin
-    char**matrix2=matrix; // tester avec un autre algo spécifique
+    char**matrix=get_char_array_fromfile(filename, &x, &y);
+    char**matrix1=get_char_array_fromfile(filename, &x, &y); // tester en passant par la sortie
+    char**matrix2=get_char_array_fromfile(filename, &x, &y); // tester avec un autre algo spécifique
 
     // j'affiche la matrice avant de rajouter le chemin
     display(matrix, x, y);
@@ -39,7 +39,7 @@ int main(){
     // on récupère les données d'initialisation/collect data for init
     int ex=0, ey=0;// l'entrée/input
     int sx=0, sy=0;// sortie/output
-    int heading; 
+    int heading; // orientation
     for (int i=0;i<x;i++){
         for (int j=0;j<y;j++){
             if (matrix[i][j] == '2'){
@@ -48,12 +48,11 @@ int main(){
                 // calculate heading
                 if (ex == 0){// we are in nort
                     heading=1;
-                } else if (ex == longx-1){// we are in south
+                } else if (ex == x-1){// we are in south
                     heading=0;
-                }
-                if (ey == 0){// we are in est
+                } else if (ey == 0){// we are in est
                     heading=2;
-                } else if (ey == longy-1){// we are in west
+                } else if (ey == y-1){// we are in west
                     heading=3;
                 }
             } else if (matrix[i][j] == '3'){
@@ -62,18 +61,18 @@ int main(){
             }
         }
     }
-    // on cherche la sortie et on renvoie le pointeur pour liberer la memoire
-    // on commence par l'entrée en tournant a droite
-    forward_right(matrix, ex, ey, x, y);
     // on commence cette fois par la sortie
     printf("matrice en commencant par l'entrée en méthode rotation a droite:\n");
-    // j'affiche la matrice aprés avoir ajouté le chemin    
-    display(matrix, x, y); 
+    // on cherche la sortie et on renvoie le pointeur pour liberer la memoire
+    // on commence par l'entrée en tournant a droite
+    forward_right(&matrix, ex, ey, sx, sy, x, y, heading);    
+
 
     // on comence par la sortie en tournant a droite
-    Pion*chemin1=add_path(forward_right(matrix1, sx, sy, x, y), matrix1);
-    printf("chemin tracé avec la méthode de début à la fin (+ rotation droite)\n");
-    display(matrix1, x, y);    
+    printf("méthode en commençant par la sortie(+ rotation droite)\n");    
+    forward_right(&matrix1, sx, sy, ex, ey, x, y, 1);
+
+    // display(matrix1, x, y);    
 
     // on commmence par la sortie avec l'algo de proche en proche
     Pion*chemin2=add_path(shortest_point_way(matrix2, ex, ey, sx, sy, x, y), matrix2);
@@ -83,7 +82,7 @@ int main(){
     // on utilise l'algo DFS
     // Pion*cheminDFS=add_path(          (matrix, ex, ey, sx, sy, x, y), matrix2);
     // printf("chemin créer avec l'algorithme DFS\n");
-    // display(matrix2, x, y);        
+    // display(matrix3, x, y);        
 
     // j'enregistre le tout dans le répertoire courant (pour la première méthode)
     // on se sauvegarde pas les matrices avec les autres algo car c'est le même
@@ -91,15 +90,22 @@ int main(){
     // on peut faire la fonction avant ou aprés avoir écrit le chemin de sortie dedans
     save_matr(matrix, x);
 
-    // on lache la mémoire 
-    free_pion_chain(chemin);  
-    free_pion_chain(chemin1);   
+    // on lache la mémoire  
     free_pion_chain(chemin2);
-    //free_pion_chain(cheminDFS);    
-    for (size_t i = 0; i < x; i++)
-        free(matrix[i]);
-    free(matrix);
+    //free_pion_chain(cheminDFS);  
 
+    // pas besoin de léibérer chaque valeur dynamique
+    // matrix1 et 2 déja libéré par les lignes qui suivent:
+    // REGLE d'or/Golden Rule: 
+    // 1 free par 1 malloc/calloc/realloc utilisés
+    for (size_t i = 0; i < x; i++){
+        free(matrix[i]);   
+        free(matrix1[i]);           
+        free(matrix2[i]);                 
+    }
+    free(matrix);   
+    free(matrix1);      
+    free(matrix2);          
     return 0;
 }
 

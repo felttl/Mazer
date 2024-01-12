@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "tools.h": "c"
+        "tools.h": "c",
+        "display.h": "c"
     }
 }
