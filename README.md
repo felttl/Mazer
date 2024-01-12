@@ -6,7 +6,7 @@
 # Mazer
 <h6>
 autor : felix TTL<br>
-date : 24/12/2023 - 7/1/2024
+date : 24/12/2023 - 9/1/2024 (official)
 </h6>
 
 #### fonctionnalités principales
