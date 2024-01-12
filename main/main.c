@@ -45,8 +45,8 @@ int main(){
             if (matrix[i][j] == '2'){
                 ex=i;
                 ey=j;
-                // calculate heading
-                if (ex == 0){// we are in nort
+                // calcul de l'orientation (seulement pour le point d'entrée pas de sortie)
+                if (ex == 0){// we are in north
                     heading=1;
                 } else if (ex == x-1){// we are in south
                     heading=0;
@@ -98,7 +98,7 @@ int main(){
     // matrix1 et 2 déja libéré par les lignes qui suivent:
     // REGLE d'or/Golden Rule: 
     // 1 free par 1 malloc/calloc/realloc utilisés
-    for (size_t i = 0; i < x; i++){
+    for (size_t i=0; i<x; i++){
         free(matrix[i]);   
         free(matrix1[i]);           
         free(matrix2[i]);                 
