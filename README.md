@@ -1,5 +1,5 @@
 
-<img class="mainimg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO5DN1ccVOiQsl485bbf5ADzUuPXuDwL72sA&usqp=CAU"
+<img class="mainimg" src="./displayable/Capture d&apos;écran 2024-01-12 192730.png"
      alt="Markdown Monster icon"
      style="margin: auto;width: 100%;height: 50%;object-fit: contain;object-position: 90% 0%;resize:none;"
      />
