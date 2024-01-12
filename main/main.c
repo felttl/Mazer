@@ -36,14 +36,26 @@ int main(){
     // j'affiche la matrice avant de rajouter le chemin
     display(matrix, x, y);
 
-    // on récupère l'entrée et la sortie
-    int ex=0, ey=0;
-    int sx=0, sy=0;
+    // on récupère les données d'initialisation/collect data for init
+    int ex=0, ey=0;// l'entrée/input
+    int sx=0, sy=0;// sortie/output
+    int heading; 
     for (int i=0;i<x;i++){
         for (int j=0;j<y;j++){
             if (matrix[i][j] == '2'){
                 ex=i;
                 ey=j;
+                // calculate heading
+                if (ex == 0){// we are in nort
+                    heading=1;
+                } else if (ex == longx-1){// we are in south
+                    heading=0;
+                }
+                if (ey == 0){// we are in est
+                    heading=2;
+                } else if (ey == longy-1){// we are in west
+                    heading=3;
+                }
             } else if (matrix[i][j] == '3'){
                 sx=i;
                 sy=j;                
@@ -52,7 +64,7 @@ int main(){
     }
     // on cherche la sortie et on renvoie le pointeur pour liberer la memoire
     // on commence par l'entrée en tournant a droite
-    Pion*chemin=add_path(forward_right(matrix, ex, ey, x, y), matrix);
+    forward_right(matrix, ex, ey, x, y);
     // on commence cette fois par la sortie
     printf("matrice en commencant par l'entrée en méthode rotation a droite:\n");
     // j'affiche la matrice aprés avoir ajouté le chemin    
