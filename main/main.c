@@ -98,7 +98,7 @@ int main(){
     // matrix1 et 2 déja libéré par les lignes qui suivent:
     // REGLE d'or/Golden Rule: 
     // 1 free par 1 malloc/calloc/realloc utilisés
-    for (size_t i=0; i<x; i++){
+    for (short int i=0; i<x; i++){
         free(matrix[i]);   
         free(matrix1[i]);           
         free(matrix2[i]);                 
