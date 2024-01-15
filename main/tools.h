@@ -71,6 +71,7 @@ int ** get_borders(int nblignes, int nbcolonnes){
 /**
  * @brief permet de récupérer le longueur d'un array de points
  * qui se situent sur les bords d'une matrice de taille line col
+ * sans inclure les 4 angles
  * @warning mais n'inclus pas les angles
  * #tools file
  * 
@@ -86,7 +87,8 @@ int get_number_borders(int line, int col){
 /**
  * 
  * @brief récupère les coordonnées de l'entrée et la sortie du mazer 
- * selon leurs caractères passé en paramètres
+ * selon leurs caractères passé en paramètres 
+ * 0 nord 1 south 2 west 3 Est
  * 
  * @param matrix est la matrice d'entrée ou trouver l'entrée et la sortie
  * @param x taile de ma matrice verticale
@@ -113,13 +115,13 @@ bool get_mazer_io(char**matrix,char in,char out,int x,int y,int*ex,
                 *ex=i;
                 *ey=j;
                 // calcul de l'orientation entrée
-                if (*ex == 0){// we are in north
+                if (i == 0){// we are in north
                     *heading_in=1;
-                } else if (*ex == x-1){// we are in south
+                } else if (i == x-1){// we are in south
                     *heading_in=0;
-                } else if (*ey == 0){// we are in est
+                } else if (j == 0){// we are in est
                     *heading_in=2;
-                } else if (*ey == y-1){// we are in west
+                } else if (j == y-1){// we are in west
                     *heading_in=3;
                 }
                 found++;
@@ -127,13 +129,13 @@ bool get_mazer_io(char**matrix,char in,char out,int x,int y,int*ex,
                 *sx=i;
                 *sy=j;  
                 // calcul de l'orientation (seulement pour le point d'entrée pas de sortie)
-                if (*sx == 0){// we are in north
+                if (i == 0){// we are in north
                     *heading_out=1;
-                } else if (*sx == x-1){// we are in south
+                } else if (i == x-1){// we are in south
                     *heading_out=0;
-                } else if (*sy == 0){// we are in est
+                } else if (j == 0){// we are in est
                     *heading_out=2;
-                } else if (*sy == y-1){// we are in west
+                } else if (j == y-1){// we are in west
                     *heading_out=3;
                 } 
                 found++;                             
