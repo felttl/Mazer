@@ -42,7 +42,7 @@ int main(){
     int heading_in; // orientation de pour le pion de l'entrée
     int heading_out; // orientation de pour le pion de la sortie
     // si on a trouvé les coordonées entree sortie on continue    
-    if (get_mazer_io(matrix, '2', '3', &ex, &ey, &sx, &sy, &heading_in, &heading_out)){
+    if (get_mazer_io(matrix, '2', '3', x, y, &ex, &ey, &sx, &sy, &heading_in, &heading_out)){
         printf("matrice en commencant par l'entrée en méthode rotation a droite:\n");
         // on commence par l'entrée en tournant a droite
         // affichange déja inclu dans la fonction réccursive  
@@ -74,8 +74,8 @@ int main(){
         free_pion_chain(chemin2);        
         //free_pion_chain(cheminDFS);  
     } else {
-        printf("les coordonnées d'entrée/sortie n'ont pas étés trouvées 
-        ou incohérence des données(ex: plusieurs entrées\n");
+        printf("les coordonnées d'entrée/sortie n'ont pas étés trouvées");
+        printf("ou incohérence des données(ex: plusieurs entrées\n");
     }
 
 
