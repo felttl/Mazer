@@ -49,15 +49,14 @@ Stack*create_Stack(int line int column, int num_step){
  * 1) |||→NULL
  * 2) |||→new
  * 3) |||↔new
- * 4) top = new
+ * 4) top = new→NULL
  * 5) ||||→NULL
- * 
  * 
  * @param top_main_stack est l'élément qui se sittue tout au dessus de la pile
  * @param add_to_main est l'élément a ajouter a la pile
 */
 void push(Stack *top_main_stack, Stack*add_to_main) {
-    if (top_main_stack != NULL && add_to_main != NULL){
+    if (top_main_stack != NULL && add_to_main != NULL && top_main_stack->last != NULL){
         add_to_main->last=top_main_stack;
         // déplacement de l'entete
         top_main_stack=add_to_main;
