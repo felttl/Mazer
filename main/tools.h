@@ -89,6 +89,8 @@ int get_number_borders(int line, int col){
  * selon leurs caractères passé en paramètres
  * 
  * @param matrix est la matrice d'entrée ou trouver l'entrée et la sortie
+ * @param x taile de ma matrice verticale
+ * @param y taile de la matrice horizontale
  * @param in est le caractère d'entrée
  * @param out est le caractère de sortie
  * @param ex est le paramètre de passage par référence 
@@ -101,11 +103,12 @@ int get_number_borders(int line, int col){
  * @return renvoie si les coordonées sont trouvées dans le labyrinthe
  * 
 */
-void get_mazer_io(char**matrix, char in, char out, int*ex, int*ey, int*sx, int*sy, int*heading_in, int*heading_out){
+bool get_mazer_io(char**matrix,char in,char out,int x,int y,int*ex, 
+    int*ey, int*sx, int*sy, int*heading_in, int*heading_out){
     // on récupère les données d'initialisation/collect data for init
     int found=0;// pas besoin de continuer le parcours quand on a trouvé les deux coordonnées
-    for (int i=0;i<x&&found!=2;i++){
-        for (int j=0;j<y&&found!=2;j++){
+    for (int i=0;i<x && found!=2;i++){
+        for (int j=0;j<y && found!=2;j++){
             if (matrix[i][j] == in){
                 *ex=i;
                 *ey=j;
