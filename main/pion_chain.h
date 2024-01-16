@@ -131,6 +131,7 @@ void insert(Pion* head, Pion * inser, int index){
  * dans la matrice
  * @return renvoie la chaine pour pouvoir faire un free dessus 
  * (sinon la chaine n'est pas visible depuis le programme principale)
+ * @warning attention sur la gestion des erreurs absentes
 */
 Pion * add_path(Pion*head, char**matr){
     Pion*cursor=NULL;
