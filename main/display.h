@@ -1,5 +1,5 @@
 #include "add_lib.h"
-
+#include <math.h>
 
 
 /**
@@ -158,5 +158,44 @@ void display(char ** matrice, int row, int column){
 // linux bash grey color 840
 // \u{001B}[\(iii);\(ii)\(i)m
 // \n{001B}[\8;40m
+
+
+
+
+void simple_display(char**matr, int row, int column){
+    for (int line=0;line<row;line++){
+        printf("%d\t", line);
+        for (int col=0;col<column;col++){    
+            if (matr[line][col] == '1'){
+                printf("■");
+            }
+        }
+        printf("\n");
+    }
+}
+
+/**
+ * @brief représente les nombres sur plusieurs lignes verticallement
+ * exemple : 
+ * 12345678911111111112222222222333333333344444444445
+ *          01234567890123456789012345678901234567890
+ *
+ * 
+*/
+void complex_line_display(int nbline){
+    int sizeint=0;
+    for (int i=0;i<nbline,i++){
+        if (sizeint != 0){
+            printf("%d", i/(sizeint*10));            
+            if(log(i)>sizeint){
+                sizeint++;
+            }
+        } else {
+            printf("%d", i);
+        }
+    }
+
+}
+
 
 // end page
