@@ -24,7 +24,7 @@ sci(){
     clear
     pwd
     echo -e "\n"
-    gcc -Wall -g $( echo "$1") -o $( echo "${1/.c/''}")
+    gcc -Wall -g $( echo "$1") -o $( echo "${1/.c/''}") -lm
     gdb $( echo "${1/.c/''}")
     # manually run and quit with q
 
