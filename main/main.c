@@ -78,6 +78,8 @@ int main(){
         printf("ou incohérence des données(ex: plusieurs entrées\n");
     }
 
+    printf("\n");
+    simple_display(matrix, x, y); // exemple simpliste
 
 
     // libération de mémoire
