@@ -1,6 +1,6 @@
 #include "add_lib.h"
+#include <errno.h>
 #include <math.h>
-
 
 /**
  * author : felix TTL 
@@ -92,7 +92,7 @@ void display(char ** matrice, int row, int column){
                     printf("%s", nw);
                 } else if (col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
                            line+1<row&&*(*(matrice+line+1)+col)=='1'&&
-                           ((col+1>=column||col+1<column)&&*(*(matrice+line)+col+1)!='1')&&
+                           ((col+1>=column)||(col+1<column&&*(*(matrice+line)+col+1)!='1'))&& // mod
                            ((line-1<0)||(line-1>=0&&*(*(matrice+line-1)+col)!='1'))){
                     printf("%s", ne);                    
                 } else if (col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
@@ -167,7 +167,9 @@ void simple_display(char**matr, int row, int column){
         printf("%d\t", line);
         for (int col=0;col<column;col++){    
             if (matr[line][col] == '1'){
-                printf("■");
+                printf("██");
+            } else {
+                printf("  ");                
             }
         }
         printf("\n");
@@ -184,7 +186,7 @@ void simple_display(char**matr, int row, int column){
 */
 void complex_line_display(int nbline){
     int sizeint=0;
-    for (int i=0;i<nbline,i++){
+    for (int i=0;i<nbline;i++){
         if (sizeint != 0){
             printf("%d", i/(sizeint*10));            
             if(log(i)>sizeint){
