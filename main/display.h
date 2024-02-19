@@ -75,25 +75,25 @@ void display(char ** matrice, int row, int column){
             } else if (*(*(matrice+line)+col) == '1'){ // si on a un mur
                 // cas mur vertical (soit haut soit bas soit les deux 
                 // (attention aux cases en dehors de la matrice))
-                if (((line-1>=0 && matrice[line-1][col]=='1')||(line+1<row&&*(*(matrice+line+1)+col)=='1'))&& 
-                    ((col+1>=column)||(col+1<column&&*(*(matrice+line)+col+1)!='1'))&&
-                    ((col-1<0)||(col-1>=0&&*(*(matrice+line)+col-1)!='1'))){
+                if (((line-1>=0 && matrice[line-1][col]=='1')||(line+1<row&&matrice[line+1][col]=='1'))&& 
+                    ((col+1>=column)||(col+1<column&&matrice[line][col+1]!='1'))&&
+                    ((col-1<0)||(col-1>=0&&matrice[line][col-1]!='1'))){
                     printf("%s", v);
                 // cas mur horizontal
-                } else if (((col-1>=0&&*(*(matrice+line)+col-1)=='1')||(col+1<column&&*(*(matrice+line)+col+1)=='1'))&&
-                            ((line-1<0)||(line-1>=0&&*(*(matrice+line-1)+col)!='1'))&&
-                            ((line+1==row)||(line+1<row&&*(*(matrice+line+1)+col)!='1'))){
+                } else if (((col-1>=0&&matrice[line][col-1]=='1')||(col+1<column&&matrice[line][col+1]=='1'))&&
+                            ((line-1<0)||(line-1>=0&&matrice[line-1][col]!='1'))&&
+                            ((line+1==row)||(line+1<row&&matrice[line+1][col]!='1'))){
                     printf("%s", h);
                 // cas des angles
-                } else if (line+1<row&&*(*(matrice+line+1)+col)=='1'&&
-                           col+1<column&&*(*(matrice+line)+col+1)=='1'&&
-                           ((col-1<0)||(col-1>=0&&*(*(matrice+line)+col-1)!='1'))&&     
-                           ((line-1<0)||(line-1>=0&&*(*(matrice+line-1)+col)!='1'))){
+                } else if ((line+1<row&&matrice[line+1][col])=='1'&&
+                           col+1<column&&matrice[line][col+1]=='1'&&
+                           ((col-1<0)||(col-1>=0&&matrice[line][col-1]!='1'))&&     
+                           ((line-1<0)||(line-1>=0&&matrice[line-1][col]!='1'))){
                     printf("%s", nw);
-                } else if (col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
-                           line+1<row&&*(*(matrice+line+1)+col)=='1'&&
-                           ((col+1>=column)||(col+1<column&&*(*(matrice+line)+col+1)!='1'))&& // mod
-                           ((line-1<0)||(line-1>=0&&*(*(matrice+line-1)+col)!='1'))){
+                } else if (col-1>=0&&matrice[line][col-1]=='1'&&
+                           (line+1<row&&matrice[line+1][col])=='1'&&
+                           ((col+1>=column)||(col+1<column&&matrice[line][col+1]!='1'))&& // mod
+                           ((line-1<0)||(line-1>=0&&matrice[line-1][col]!='1'))){
                     printf("%s", ne);                    
                 } else if (col-1>=0&&*(*(matrice+line)+col-1)=='1'&&
                            line-1>=0&&*(*(matrice+line-1)+col)=='1'&&
