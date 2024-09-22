@@ -178,24 +178,28 @@ void simple_display(char**matr, int row, int column){
 
 /**
  * @brief représente les nombres sur plusieurs lignes verticallement
- * exemple : 
- * 12345678911111111112222222222333333333344444444445
- *          01234567890123456789012345678901234567890
- *
+ * exemple (apperçut simplifié) : 
+ * 12345678911111111112222222222333333333344444444445...9111111111111111111111
+ *          01234567890123456789012345678901234567890...9000000000011111111112
+ *                                                       012345678901234567890
  * 
+ * formule pour connaitre le nombre de chiffre a afficher verticalement :
+ * = (log10(n)+1) (n pour le chiffre à afficher, log10="log en math" car ln=log())
+ * 
+ * @param number le nombre de colonnes a afficher
+ *  
 */
-void complex_line_display(int nbline){
+void complex_line_display(int number){
     int sizeint=0;
-    for (int i=0;i<nbline;i++){
-        if (sizeint != 0){
-            printf("%d", i/(sizeint*10));            
-            if(log(i)>sizeint){
-                sizeint++;
-            }
-        } else {
-            printf("%d", i);
+    print("\n");
+    for (int i=0;i<(log10(number)+1);i++){
+        for (int j=0;j<number;j++){
+            // condition d'affichage des chiffres
+            // formule mathématique avancée nécessaire
+            printf("%d", (j+1)*(log10(number)));
         }
     }
+    print("\n");
 
 }
 
