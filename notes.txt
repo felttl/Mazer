@@ -49,5 +49,6 @@ Gestion de la mémoire :
         est une commande bash permettant de supprimer les caractères 
         spéciaux \n et \r du fichier "input.txt" recopié sous le nom "formatted_input"
 
+// reste a optimiser l'affichage
 
 # end page
