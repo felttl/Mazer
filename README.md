@@ -68,11 +68,11 @@ methodes/fonctions de gestion des pions
 </h6>
 
 
-run file with sh preset with settings (be carefull you can only compile
+run file with sh presets with settings (be carefull you can only compile
 with all parameters with the file that include all things we need)
 
 > on windows (with WSL) or Linux directly
-th efile content bellow(latest version)
+the file content bellow(latest version)
 
 ```sh
 sci() {
