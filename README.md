@@ -66,3 +66,27 @@ methodes/fonctions de gestion des pions
   -    [x] free_pion_chain
 
 </h6>
+
+
+run file with sh preset with settings (be carefull you can only compile
+with all parameters with the file that include all things we need)
+
+> on windows (with WSL) or Linux directly
+th efile content bellow(latest version)
+
+```sh
+sci() {
+     clear
+     pwd
+     echo -e "\n"
+     gcc -Wall -g "$1" -o "${1%.c}" -lm && gdb "${1%.c}"; 
+}
+sci "$1"
+```
+
+> on mac
+
+```sh
+// use lldb instead (remove gdb allowed)
+// or find a compatible gdb version
+```
