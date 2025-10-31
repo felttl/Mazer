@@ -162,10 +162,10 @@ void display(char ** matrice, int row, int column){
 
 
 
-void simple_display(char**matr, int row, int column){
-    for (int line=0;line<row;line++){
+void simple_display(char**matr, int max_row, int max_column){
+    for (int line=0;line<max_row;line++){
         printf("%d\t", line);
-        for (int col=0;col<column;col++){    
+        for (int col=0;col<max_column;col++){    
             if (matr[line][col] == '1'){
                 printf("██");
             } else {
@@ -191,7 +191,7 @@ void simple_display(char**matr, int row, int column){
 */
 void complex_line_display(int number){
     int sizeint=0;
-    print("\n");
+    printf("\n");
     for (int i=0;i<(log10(number)+1);i++){
         for (int j=0;j<number;j++){
             // condition d'affichage des chiffres
@@ -199,7 +199,7 @@ void complex_line_display(int number){
             printf("%d", (j+1)*(log10(number)));
         }
     }
-    print("\n");
+    printf("\n");
 
 }
 

@@ -19,7 +19,7 @@ typedef struct Stack{
  * 
  * 
 */
-Stack*create_Stack(int line int column, int num_step){
+Stack*create_Stack(int line, int column, int num_step){
     Stack*stack=malloc(sizeof(Stack));
     if (stack != NULL){
         stack->character='\0';

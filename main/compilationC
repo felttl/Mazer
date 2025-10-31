@@ -1,3 +1,5 @@
+#!bin/sh
+
 # EN
 
 # Script to automate compilation of c files with GCC
@@ -19,13 +21,9 @@
 #           si le fichier file_sortie est donné il portera ce nom
 #           sinon le fichier créé sera aléatoire et sera ensuite lancé
 
-
 sci(){
-    clear
-    pwd
-    echo -e "\n"
-    gcc -Wall -g $( echo "$1") -o $( echo "${1/.c/''}") -lm
-    gdb $( echo "${1/.c/''}")
+    clear;pwd;echo "\n"
+    gcc -Wall -g "$1" -o "${1%.c}" -lm && lldb "${1%.c}"
     # manually run and quit with q
 
     # # 3 steps compiling : 
@@ -36,3 +34,5 @@ sci(){
 sci $1
 
 # end page
+
+
