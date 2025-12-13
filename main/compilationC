@@ -33,6 +33,8 @@ sci(){
 }
 sci $1
 
+# make it cross platform later ....(or just unix and macos if possible (on windows using WSL))
+
 # end page
 
 

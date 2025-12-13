@@ -141,9 +141,9 @@ void display(char ** matrice, int row, int column){
                 // erreur si pas de points a proximité
                 printf("affichage impossible au point (%d,%d) pas de points autour", line, col);
                 exit(EXIT_FAILURE);
-            }else if (*(*(matrice+line)+col) == '2'){// si entrée
+            } else if (*(*(matrice+line)+col) == '2'){// si entrée
                 printf("\033[6;92m%s\033[0m", entree);                
-            }else if(*(*(matrice+line)+col) == '3'){// si sortie
+            } else if(*(*(matrice+line)+col) == '3'){// si sortie
                 printf("%c", ' ');
             } else {// exit error
                 printf("\nla valeur de la case (%d,%d) de la matrice n'est pas valide\nchar : (%c)", line, col, *(*(matrice+line)+col));
@@ -189,18 +189,23 @@ void simple_display(char**matr, int max_row, int max_column){
  * @param number le nombre de colonnes a afficher
  *  
 */
-void complex_line_display(int number){
-    int sizeint=0;
-    printf("\n");
-    for (int i=0;i<(log10(number)+1);i++){
-        for (int j=0;j<number;j++){
-            // condition d'affichage des chiffres
-            // formule mathématique avancée nécessaire
-            printf("%d", (j+1)*(log10(number)));
+void complex_line_display(int number) {
+    if (number <= 0) return;
+    int height = (int)log10(number) + 1; // nombre de lignes = nombre de chiffres du plus grand nombre
+    int row, j, num_digits, digit;
+    for (row = 0; row < height; ++row) {
+        for (j = 1; j <= number; ++j) {
+            num_digits = (int)log10(j) + 1; // nombre de chiffres du nombre courant
+            if (num_digits > row) {
+                // on récupère le chiffre correspondant au poids fort de la ligne
+                digit = (j / (int)pow(10, num_digits - row - 1)) % 10;
+                putchar('0' + digit);
+            } else {
+                putchar(' '); // pas de chiffre à ce poids
+            }
         }
+        putchar('\n');
     }
-    printf("\n");
-
 }
 
 
