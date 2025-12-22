@@ -7,7 +7,7 @@ typedef struct Pion{
     int column;
     int num_step;
     struct Pion * suivant;
-} Pion ;
+} Pion;
 
 
 

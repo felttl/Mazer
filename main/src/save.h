@@ -1,4 +1,7 @@
-#include "./add_lib.h"
+/* save.h */
+#ifndef SAVE_H
+#define SAVE_H
+
 /**
  * @brief sauvegarde les données d'une ligne 
  *  (séparateur avec \n pour plusieurs lignes)
@@ -12,17 +15,8 @@
  * 
  * 
 */
-void save_matr(char**matr, int nbline){
-    FILE *fp;
-    fp = fopen("out.txt", "w+");
-	if(fp == NULL){
-        /* File not created hence exit */
-        printf("impossible de créer le fichier : (%s)\n", "out.txt");
-        exit(EXIT_FAILURE);
-    }
-    // pour chaque ligne
-    for (int i=0;i<nbline;i++){
-        fputs(matr[i], fp);
-    }
-    fclose(fp);
-}
+void save_matr(char** matr, int nbline);
+
+#endif
+
+// end page

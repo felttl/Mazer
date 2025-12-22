@@ -97,7 +97,7 @@ int main(){ // gdb debugger
     }
 
     // on trace la sortie
-    Pion*chemin=add_path(shortest_point_way(matrix, ex, ey, sx, sy, lines, cols), matrix);
+    Pion*chemin=pn_add_path(pn_shortest_way(matrix, ex, ey, sx, sy, lines, cols), matrix);
 
     display(matrix, lines, cols);
 

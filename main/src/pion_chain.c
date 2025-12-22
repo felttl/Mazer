@@ -1,6 +1,14 @@
-#include "./add_lib.h"
+/* pion_chain.c */
+#include "./pion_chain.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
 #include "./tools.h"
 #include <math.h>
+#include "ui/term/display.h"
+
+
 /**
  * 
  * la ou le pion se déplacera il y aura le numéro 5 sur la grille
@@ -12,23 +20,17 @@
  * @warning pas besoin d'importer a nouveau tools.h dans les fichier 
  * qui suivent l'importation de pion_chain.h
  * 
- * 
 */
 
-
-// structure pour déplacement du pion
-typedef struct Pion{
+struct Pion {
     int line;
     int column;
     int num_step;
     struct Pion * suivant;
-} Pion ;
+};
 
 
-/**
- * @brief permet de creer un pion complet (toutes les instanciations)
-*/
-Pion * create_Pion(int x, int y, int num){
+Pion* pn_create(int x, int y, int num){
     Pion * res=(Pion*)malloc(sizeof(Pion));
     res->line = x;
     res->column = y;
@@ -37,14 +39,7 @@ Pion * create_Pion(int x, int y, int num){
     return res;
 }
 
-/**
- * libere la mémoire dont l'entete est donné en paramètres
- * 
- * on libere chaque element tant qu'il y en as encore un 
- * mais si l'entete n'est pas suivie de variable alors 
- * on doit la liberer elle
-*/
-void free_pion_chain(Pion * head){
+void pn_free_chain(Pion * head){
     Pion*temp=head;
     Pion*last=head;
     // et pas temp->null car il manque le dernier
@@ -55,16 +50,7 @@ void free_pion_chain(Pion * head){
     }
 }
 
-/**
- * @brief permet de supprimer un maillon de la chaine de pion
- * 
- * ex avec les indexes des maillons:
- * 
- *      0->1->2->3->4->NULL
- *      0->1->2->4->NULL
- * 
-*/
-void remove_at(Pion * head, int index){
+void pn_remove_at(Pion * head, int index){
     int i=0;
     Pion * cursor = head;
     if (index > 1){
@@ -79,24 +65,8 @@ void remove_at(Pion * head, int index){
         exit(EXIT_FAILURE);
     }
 }
-/**
- * @brief permet d'insérer un maillon entre deux maillons
- * 
- * exemple avec les indexes des maillons :
- * 
- *      0->1->2->3->4->NULL
- *      0   />1->2->3->4->NULL
- *       \ /
- *        1'
- *      0->1->2->3->4->5->NULL
- * 
- * @warning
- *  pas d'insertions "append" c'est a dire que l'on ne peut
- *  pas ajouter de pion a la fin d'une chaine de pion
- *  la fonction n'est pas adaptée pour faire ça
- * 
-*/
-void insert(Pion* head, Pion * inser, int index){
+
+void pn_insert(Pion* head, Pion * inser, int index){
     int i=0;
     Pion*cursor=head;
     if (index >= 1){
@@ -118,44 +88,23 @@ void insert(Pion* head, Pion * inser, int index){
 
 }
 
-
-
-
-
-
-
-
-
-/**
- * @brief permet de parcourir la chaine de pions pour placer les coordonnées
- * dans la matrice
- * @return renvoie la chaine pour pouvoir faire un free dessus 
- * (sinon la chaine n'est pas visible depuis le programme principale)
- * @warning attention sur la gestion des erreurs absentes
-*/
-Pion * add_path(Pion*head, char**matr){
+Pion * pn_add_path(Pion*head, char**matr){
     Pion*cursor=NULL;
     cursor=(Pion*)malloc(sizeof(Pion));
     cursor=head;
     // parcours des points
     while(cursor != NULL){
         // attention il droit y avoir les coordonées correctes
-        // sinon problème de mémoire (pas d'erreurs possible puisqe c'est)
+        // sinon problème de mémoire (pas d'erreurs possible puisque c'est
         // uniquement certaines fonctions spécifiques qui peuvent faire 
-        // l'oppération
+        // l'oppération)
         matr[cursor->line][cursor->column]='5';
         cursor=cursor->suivant;
     }
     return head;
 }
 
-
-
-
-/**
- * @brief affiche la chaine pion par pion
-*/
-Pion * display_chain(Pion * head){
+Pion* pn_display_chain(Pion* head){
     printf("\naffichage de pions : \n");
     Pion*cursor=NULL;
     cursor=(Pion*)malloc(sizeof(Pion));
@@ -169,37 +118,6 @@ Pion * display_chain(Pion * head){
     return head;
 }
 
-
-
-
-
-
-
-
-
-
-/**
- * @brief trouve la sortie en utilisant ses coordonnées d'entrée
- * avec l'algorithme de parcours en tournant a droite dans un labyrinthe
- * 
- * @param matrix la matrice contenant tout les caractères
- * @param ex coordonnées d'entrée en x
- * @param ey coordonnées d'entrée en y 
- * @param sx coordonnées de sortie en x 
- * @param sy coordonnées de sortie en y 
- * on aurait aussi pu donner le caractère qui correspond a la sortie 
- * (qui doit être unique dans le labyrinthe && présent)
- * @param lenx taille verticale de la matrice (attention inversé par rapport aux maths)
- * @param leny taille horizontale de la matrice
- * @param heading est "l'orientation" du pion (pour connaitre la "droite")
- * @note idée/idea: utiliser une structure "Scann" avec 5 
- * points pour voir a chaque étape la progression du parcours du maze
- * @note optimisation: tester de faire passer la variable heading 
- * par référence pour avoir une meilleures vitesse d'exec
- * @note on peut séparer le test d'overflow (lenx leny et ex ey) 
- * (et le faire au début) pour réduire l'impact de toutes les réccursions
- * 
-*/
 void forward_right(char***matrix, int ex, int ey, int sx,int sy,int lenx,int leny, int heading){
     printf("%d %d\n", ex, ey);
     // condition d'arret
@@ -221,7 +139,7 @@ void forward_right(char***matrix, int ex, int ey, int sx,int sy,int lenx,int len
                 forward_right(matrix, ++ex, ey, sx,sy,lenx,leny, 0);
             else
                 forward_right(matrix, ex, ey, sx,sy,lenx,leny, 1);
-        } else if (heading==0){// vue west avancée 
+        } else if (heading==0){// vue west avancée
             if (ey-1>=0&&(*matrix)[ex][ey-1]!='1')
                 forward_right(matrix, ex, --ey, sx,sy,lenx,leny, 2);
             else
@@ -236,19 +154,10 @@ void forward_right(char***matrix, int ex, int ey, int sx,int sy,int lenx,int len
     printf("\n");
 }
 
-/**
- * @brief permet de calculer la distance entre deux points d'une matrice
- * 
- * 
- * @return renvoie la distance entière
-*/
 int short_vec_point(int currentx,int currenty,int sx,int sy){
     return (int)(abs(currentx-sx)+abs(currenty-sy));
 }
 
-/**
- * @brief renvoie l'index d'une liste dont l'élément est le plus élevé
-*/
 int min(int*list, int size){
     int index=-1;
     if (size > 0){
@@ -265,23 +174,10 @@ int min(int*list, int size){
     return index;
 }
 
-/**
- * @brief trouver la sortie en utilisant le point le plus proche
- * 
- * @param ex entrée en x
- * @param ey entrée en y
- * @param sx sortie en x
- * @param sy sortie en y
- * @param lenx longueur de la matrice verticale
- * @param leny longueur de la matrice horizontale
- * @warning l'algorithm n'est pas trés puissant car il ne mémorise pas
- * les points (marquage) qu'il a déja parcouru donc il peut tourner en rond
- * @return le pointeur de la chaine de Point a libérer avec free_pion_chain()
-*/
-Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int leny){
+Pion* pn_shortest_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int leny){
     int scanx=ex; // position du scanner central
     int scany=ey;
-    Pion*head_pion;
+    Pion* head_pion;
     int step=1;
 
     int maxoccur=lenx*leny-get_number_borders(lenx, leny)+2;// sécurité
@@ -298,7 +194,7 @@ Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int 
     } else if (ey == leny-1){
         scanx=leny-2;
     } else {scany=ey;}
-    Pion*etape=create_Pion(scanx, scany, 0);
+    Pion*etape=pn_create(scanx, scany, 0);
     head_pion=etape;    
     do {
         // on va a la case la plus proche de la sortie qui n'est pas un mur
@@ -331,15 +227,15 @@ Pion*shortest_point_way(char**matrix,int ex,int ey,int sx, int sy, int lenx,int 
             if (maxoccur<4) maxoccur--;
             maxoccur=3;            
         }
-        etape->suivant=create_Pion(scanx, scany, step);
+        etape->suivant=pn_create(scanx, scany, step);
         etape=etape->suivant;
         step++;
-        maxoccur--;      
-    }while (scanx!=sx && scany!=sy && maxoccur!=0 && scanx>=0 && scanx<=lenx && scany>=0 && scany<=leny);
+        maxoccur--;   
+    } while (scanx!=sx && scany!=sy && maxoccur!=0 && scanx>=0 && scanx<=lenx && scany>=0 && scany<=leny);
     if (maxoccur == 0){// erreur d'iterations (pb dans la matrice donné en paramètre)
         printf("\nnombre d'iterations dépassée\n");
         // affichange de la liste
-        display_chain(head_pion);
+        pn_display_chain(head_pion);
     }
     printf("\n");
     return head_pion;

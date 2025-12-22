@@ -1,7 +1,6 @@
 {
     "files.associations": {
-        "tools.h": "c",
-        "display.h": "c",
-        "add_lib.h": "c"
+        "*.h": "c",
+        "*.c": "c"
     }
 }
