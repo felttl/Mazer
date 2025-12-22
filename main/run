@@ -1,0 +1,15 @@
+#!/bin/bash
+# run file
+
+# Fichier principal par défaut
+DEFAULT_MAIN="src/main.c"
+
+# Si aucun argument n'est passé, utiliser le fichier par défaut
+if [ -z "$1" ]; then
+    mainfile="$DEFAULT_MAIN"
+else
+    mainfile="$1"
+fi
+
+# Appeler le script de compilation
+bash ./UNIXcompilC "$mainfile"

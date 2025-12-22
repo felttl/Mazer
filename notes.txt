@@ -1,14 +1,9 @@
 
-
-
-1) on ne peut pas scanner une zone en dehors de la matrice quand on utilise une matrice dynamique
-    mais on peut le faire avec une matrice normale (avec la taille définie préalablement, donc fixe)
-    ou on pourrait le faire avec une matrice dyna mais il faudrait gérer les overflow
-
-2) on a besoin de récupérer la valeur d'entrée et la position du pion pour les
-    déplacements dans la labyrinthe et mettre la surbrillance a l'affichange pour 
-    le tracé du chemin avec la liste chainée
-
+1. les fichier .h définissent les fonction (et ne les implmentent pas) le fichier
+    définit également les documentation au format Doxygen pour les fonctions 
+    implémentées de manière très précise (s'il y a modification de la signature les
+    fichiers .h doivent être modifiées en conséquence (même pour la documentation 
+    qui y figure))
 
 
 

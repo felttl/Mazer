@@ -60,7 +60,7 @@ methodes/fonctions de gestion des pions
        -    [ ] debugg
   -    [ ] DFS
        -    [ ] debugg
-  -    [x] add_path
+  -    [x] pn_add_path
   -    [x] insert
   -    [x] remove_at
   -    [x] free_pion_chain

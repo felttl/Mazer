@@ -1,0 +1,34 @@
+#!bin/bash
+
+# Script pour compiler tous les fichiers .c du projet avec GCC
+# Exclut certains fichiers ou répertoires unitiles ou non souhaitable
+
+# Fichier principal et nom du binaire
+mainfile=$1
+binname=bin/$(basename "$mainfile" .c)
+
+# Tableau des fichiers ou répertoires à exclure
+exclude=("src/utils/GrInter")  # ajouter ici d'autres chemins si nécessaire
+
+# Construire l'expression grep pour exclure
+grep_expr=""
+for e in "${exclude[@]}"; do
+    if [ -z "$grep_expr" ]; then
+        grep_expr="$e"
+    else
+        grep_expr="$grep_expr\|$e"
+    fi
+done
+
+# Trouver tous les fichiers .c sauf ceux à exclure
+files=$(find src -name "*.c" | grep -v -E "$grep_expr")
+
+# Créer le dossier bin si nécessaire
+mkdir -p bin
+
+# Compiler avec GCC et lancer dans lldb
+gcc -Wall -g $files -o "$binname" -lm && lldb "$binname"
+
+# end page
+
+
