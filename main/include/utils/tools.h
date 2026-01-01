@@ -1,7 +1,9 @@
 /* tools.h */
 #ifndef TOOLS_H
 #define TOOLS_H
-#include <stdbool.h>
+
+#include "map.h"
+#include <stdbool.h> // bool
 
 /**
  * @brief permet de récupérer les points qui sont au bords
@@ -37,28 +39,26 @@ int** get_borders(int nblignes, int nbcolonnes);
 int get_number_borders(int line, int col);
 
 /**
- * 
  * @brief récupère les coordonnées de l'entrée et la sortie du mazer 
  * selon leurs caractères passé en paramètres 
  * 0 nord 1 south 2 west 3 Est
  * 
  * @param matrix est la matrice d'entrée ou trouver l'entrée et la sortie
- * @param x taile de ma matrice verticale
- * @param y taile de la matrice horizontale
  * @param in est le caractère d'entrée
  * @param out est le caractère de sortie
+ * @param x taile de ma matrice verticale
+ * @param y taile de la matrice horizontale
  * @param ex est le paramètre de passage par référence 
- *  pour les coordonnées de sortie en x
+ * pour les coordonnées de sortie en x
  * @param ey '' pour les coordonnées de sortie en y
  * @param sx '' pour les coordonnées de sortie en x
  * @param sy '' pour les coordonnées de sortie en y
- * @param heading orientation (passsage par ref'')
- * 
- * @return renvoie si les coordonées sont trouvées dans le labyrinthe
- * 
-*/
-bool get_mazer_io(char**matrix,char in,char out,int x,int y,int*ex, 
- int*ey, int*sx, int*sy, int*heading_in, int*heading_out);
+ * @param heading_in orientation de l'entrée (passsage par ref'')
+ * @param heading_out orientation de la sortie (passsage par ref'')
+ * @return bool : renvoie si les coordonées sont trouvées dans le labyrinthe 
+ */
+bool get_mazer_io(char** matrix,char in,char out,int x,int y,int* ex, 
+ int* ey, int* sx, int* sy, _4d_heading*heading_in, _4d_heading*heading_out);
 
 
 #endif

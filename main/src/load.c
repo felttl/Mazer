@@ -1,20 +1,22 @@
 /*load.c*/
-#include "./load.h"
+// internal librairies
+#include "../include/load.h"
+// external librairies
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 
-char ** get_char_array_fromfile(char*filename, int*finallines, int*finalcols){
+char** get_char_array_fromfile(char* filename, int* finallines, int* finalcols){
 	// la taille de chaque bloc de mémoire qui enregistr tous 
 	// les caractères dans chaque lignes (more_chars)
 	// et pour la liste dynamique de pointeurs ver les caractères
 	// qui pointent ver la chaine/lignes (more_lines)  
 	int more_lines=1024;
 	int more_chars=1024;
-	FILE *file = fopen(filename, "r");
+	FILE* file = fopen(filename, "r");
 	if (file == NULL){
-		printf("Error opening file.\n");
+		printf("Error opening file \"%s\" \n", filename);
 		exit(EXIT_FAILURE);
 	}
 	char **lines;

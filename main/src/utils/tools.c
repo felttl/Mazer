@@ -1,4 +1,7 @@
 /* tools.c */
+// lib internes
+#include "../../include/utils/tools.h"
+#include "../../include/utils/map.h"
 // package de librairies extérieures
 #include <stdlib.h>
 #include <stdio.h>
@@ -58,7 +61,7 @@ int get_number_borders(int line, int col){
 }
 
 bool get_mazer_io(char**matrix,char in,char out,int x,int y,int*ex, 
-    int*ey, int*sx, int*sy, int*heading_in, int*heading_out){
+    int*ey, int*sx, int*sy, _4d_heading* heading_in, _4d_heading* heading_out){
     // on récupère les données d'initialisation/collect data for init
     int found=0;// pas besoin de continuer le parcours quand on a trouvé les deux coordonnées
     for (int i=0;i<x && found!=2;i++){
@@ -68,13 +71,13 @@ bool get_mazer_io(char**matrix,char in,char out,int x,int y,int*ex,
                 *ey=j;
                 // calcul de l'orientation entrée
                 if (i == 0){// we are in north
-                    *heading_in=1;
+                    *heading_in=_4DH_TOP;
                 } else if (i == x-1){// we are in south
-                    *heading_in=0;
+                    *heading_in=_4DH_BOTTOM;
                 } else if (j == 0){// we are in est
-                    *heading_in=2;
+                    *heading_in=_4DH_RIGHT;
                 } else if (j == y-1){// we are in west
-                    *heading_in=3;
+                    *heading_in=_4DH_LEFT;
                 }
                 found++;
             } else if (matrix[i][j] == out){
@@ -82,13 +85,13 @@ bool get_mazer_io(char**matrix,char in,char out,int x,int y,int*ex,
                 *sy=j;  
                 // calcul de l'orientation (seulement pour le point d'entrée pas de sortie)
                 if (i == 0){// we are in north
-                    *heading_out=1;
+                    *heading_out=_4DH_TOP;
                 } else if (i == x-1){// we are in south
-                    *heading_out=0;
+                    *heading_out=_4DH_BOTTOM;
                 } else if (j == 0){// we are in est
-                    *heading_out=2;
+                    *heading_out=_4DH_RIGHT;
                 } else if (j == y-1){// we are in west
-                    *heading_out=3;
+                    *heading_out=_4DH_LEFT;
                 } 
                 found++;                             
             }

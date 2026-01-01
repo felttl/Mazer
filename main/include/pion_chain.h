@@ -24,6 +24,12 @@
  * @info pn (used in front of functions that use Pion)
  */
 typedef struct Pion Pion;
+struct Pion {
+    int line;
+    int column;
+    int num_step;
+    Pion* suivant;
+};
 
 
 /**

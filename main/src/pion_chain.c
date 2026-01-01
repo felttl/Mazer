@@ -1,12 +1,15 @@
 /* pion_chain.c */
-#include "./pion_chain.h"
+// internal librairies
+#include "../include/pion_chain.h"
+#include "../include/utils/tools.h"
+#include "../include/ui/term/display.h"
+// external librairies
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
-#include "./tools.h"
 #include <math.h>
-#include "ui/term/display.h"
+
 
 
 /**
@@ -21,13 +24,6 @@
  * qui suivent l'importation de pion_chain.h
  * 
 */
-
-struct Pion {
-    int line;
-    int column;
-    int num_step;
-    struct Pion * suivant;
-};
 
 
 Pion* pn_create(int x, int y, int num){

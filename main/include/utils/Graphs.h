@@ -1,7 +1,7 @@
 /* Graph.h */
 #ifndef GRAPHS_H
 #define GRAPHS_H
-
+#include <stdbool.h>
 
 /**
  * @brief data structure to show the path and store data on a maze
@@ -10,7 +10,9 @@
  * 
  * - y int : coordinate on the map vertically
  */
-typedef struct Point2D Point2D;
+typedef struct Point2D {
+    int x, y;
+} Point2D;
 
 /**
  * @brief cell container that store cell states
@@ -24,12 +26,22 @@ typedef struct Point2D Point2D;
  * 
  * - exit : is where the user wants to go
  * 
+ * - next : next step
+ * 
  * - visited : the user already moved this way
  * 
  * - forbiden : all cells marked as forbiden
  * 
  */
-typedef enum Cell Cell;
+typedef enum Cell {
+    c_way = 0,
+    c_wall = 1,
+    c_home = 2,
+    c_exit = 3,
+    c_next = 4,
+    c_visited = 7,
+    c_forbiden = 8
+} Cell;
 
 /**
  * @brief fonction qui permet de mélanger des points aléatoirement
@@ -90,9 +102,12 @@ char** pt_generate_DFS_maze(int matr_lines, int matr_cols, Point2D start, Point2
  * @param matr_cols int : npmbre de colonnes de la matrice
  * @param start Point : position du point initiale (entrée du labyrinthe)
  * @param stop Point : position de la sortie
+ * @param visitedCoors bool[] : positions visitées
  * @return char** : une matrice 2D avec les murs générés
  */
-char** pt_generate_DFS_maze_rec(char** matr, int matr_lines, int matr_cols, Point2D start, Point2D stop);
+char** pt_generate_DFS_maze_rec(char** matr, 
+ int matr_lines, int matr_cols, Point2D start, Point2D stop,
+ bool visitedCoors[]);
 
 #endif
 

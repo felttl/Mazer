@@ -1,55 +1,54 @@
-#include "./Stack.h"
+/* Stack.c */
+// internal librairies
+#include "../../include/utils/Stack.h"
+#include "../../include/utils/err_manager.h"
+// external librairies
 #include <stdlib.h> // exit(), EXIT_FAILURE
-#include <stdio.h> // perror()
+#include <stdio.h> // terror()
+#include <limits.h>
 
-struct Stack{
-    // data
-    int line;
-    int column;
-    int num_step;
-    int index; 
-    char character; // gestion des erreurs pour matrice
-    // structure
-    Stack* last;
-};
 
-Stack* Sk_create(int line, int column, int num_step){
+Stack* sk_create(void* data){
     Stack* stack=malloc(sizeof(Stack));
     if (stack == NULL){
-        perror("malloc didn't worked for `Stack` mem alloc\n");
-        exit(EXIT_FAILURE);
+        terror("malloc didn't worked for `Stack` mem alloc\n");
     }
-    stack->character='\0';
-    stack->column=column;
-    stack->line=line;
-    stack->num_step=num_step;
+    stack->data=data;
+    stack->index=0;
     stack->last=NULL;
     return stack;
 }
 
-void Sk_push(Stack* top_main_stack, Stack* add_to_main) {
-    if (top_main_stack != NULL && add_to_main != NULL && top_main_stack->last != NULL){
-        add_to_main->last=top_main_stack;
-        // déplacement de l'entete
-        top_main_stack=add_to_main;
-    } else {
-        perror("les données saisies doivent être correctes\n");
-        exit(EXIT_FAILURE);
+void sk_push(Stack* top_stack, Stack* add_to) {
+    if (top_stack == NULL){
+        terror("empty top stack, must be initialized first");
     }
+    if (add_to == NULL){
+        terror("empty add_to stack");
+    }
+    if (add_to->last != NULL){
+        terror("top Stack is not alone (not a single element)");
+    }
+    // we suppose that "top_stack->index" exists as uint (is not null)
+    if(top_stack->index+1 > UINT_MAX){ // limit case
+        terror("max items counts on the stack reached (index count overflow)");
+    }
+    add_to->index=top_stack->index+1;
+    add_to->last=top_stack;
+    // move the head
+    top_stack=add_to;
 }
 
 
 int sk_pop(Stack* top){
     // top item stored before removing
-    int res=top->num_step;
     if (top == NULL) {
-        printf("error: la pile est vide\n");
-        exit(EXIT_FAILURE);
+        terror("la pile est nulle\n");
     }
+    int res=top->index;    
     // A VERIFIER (cmportement étrange si l'élément reste seul et qu'il y en as 1)
     if (top->last == NULL){
-        printf("error: impossible de libérer la pile elle ne contient pas d'éléments\n");
-        exit(EXIT_FAILURE);   
+        terror("impossible de libérer la pile elle ne contient pas d'éléments\n");
     }
     Stack* tmp=top;
     top=top->last;
@@ -57,18 +56,18 @@ int sk_pop(Stack* top){
     return res;
 }
 
-void Sk_remove(Stack* top_stack){
-    if (top_stack != NULL && top_stack->last == NULL){
-        do {
-            Stack*lastS=top_stack;        
-            top_stack=top_stack->last;
-            free(lastS);
-        }while (top_stack != NULL);        
-    } else {
-        printf("ce n'est pas le haut de la pile\nil est nécessaire ");
-        printf("de dépiler avant(index=%d)\n", top_stack->num_step);
-        exit(EXIT_FAILURE);
+void sk_remove(Stack* top_stack){
+    if (top_stack == NULL)
+        terror("sommet de la pile nulle, opération `sk_remove() impossible`");
+    if (top_stack->last == NULL){
+        free(top_stack);
+        return;
     }
+    do {
+        Stack* lastS=top_stack;
+        top_stack=top_stack->last;
+        free(lastS);
+    } while (top_stack != NULL);
 }
 
 

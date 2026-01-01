@@ -1,5 +1,9 @@
 /* display.c */
-#include "./display.h"
+
+// internal librairies
+#include "../../../include/ui/term/display.h"
+#include "../../../include/utils/time_and_date.h"
+// external librairies
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -46,7 +50,7 @@ void display(char ** matrice, int row, int column){
         for (int col=0;col<column;col++){
             // pas de murs
             if (*(*(matrice+line)+col) == '0'){
-                printf("%c", ' ');              
+                printf("%c", ' ');                             
             } else if (*(*(matrice+line)+col) == '1'){ // si on a un mur
                 // cas mur vertical (soit haut soit bas soit les deux 
                 // (attention aux cases en dehors de la matrice))
@@ -131,18 +135,73 @@ void display(char ** matrice, int row, int column){
 }
 
 
-void simple_display(char**matr, int max_row, int max_column){
+void simple_display(char** matr, int max_row, int max_column){
+    double start = get_time_sec();
+    const char reset[] = "\x1B[0m";
+    const char us[7] = "◖◗";//"⊂⊃";//⏴⏵ // display prior 2
+    //const char entert[7] = "◀▶";//"◢◣";//◖◗"; // prior 1 others 0
+    const char enter[7] = "[]";//◖◗"; // prior 1 others 0
+    const char visited[] = "░░"; // background grey nothing else
+    const char next[] = "\x1B[1;5;30;44m";// background blue; black bold front
+    const char wall[] = "██";
+    const char way[] = "\x1B[7;90m██";
+    const char out[7] = "[]";
+    // 𖨆
+    const char bold_g_on_grey_bg[] = "\033[1;32;100m";
+    const char bold_r_on_grey_bg[] = "\033[1;33;100m";
+    const int bold = 1;
+    const int black_bg = 40;
+    const int red_fg = 31;
+    const int green_fg = 32;
+    printf("\033[H"); // cursor top left       
+    printf("exit : \033[1;91m%s%s\t pawn:    %s\n", out, reset, us);
+    printf("enter : \033[1;92m%s%s\t visited: %s\n", enter, reset, visited);
+    printf("exit+pawn : %s%s%s\t wall:    %s\n", bold_r_on_grey_bg, out, reset, wall);
+    printf("enter+pawn : %s%s%s\t way:     %s%s\n", bold_g_on_grey_bg, enter, reset, way, reset);
+    printf("\n");
+ 
     for (int line=0;line<max_row;line++){
         printf("%d\t", line);
-        for (int col=0;col<max_column;col++){    
+        for (int col=0;col<max_column;col++){
             if (matr[line][col] == '1'){
-                printf("██");
+                printf("%s", reset);
+                printf("%s", wall);                
+                printf("%s", reset);
+            } else if (matr[line][col] == '0'){
+                printf("%s", way);
+                printf("%s", reset);    
+            } else if (matr[line][col] == '4') {
+                printf("%s", us);
+                printf("%s", reset);
+            } else if (matr[line][col] == '5') { // visited
+                printf("%s", way);
+                printf("%s", reset);
+            } else if (matr[line][col] == '6'){ // us + enter
+                printf("%s",bold_g_on_grey_bg);
+                printf("%s", enter);
+                printf("%s", reset);
+            } else if (matr[line][col] == '7') { // us + out
+                printf("%s", bold_r_on_grey_bg);
+                printf("%s", out);
+                printf("%s", reset);
+            } else if (matr[line][col] == '2'){
+                //printf("\033[1;92m"); // vert + bold sans fond
+                printf("\x1B[%d;%d;%dm", bold, green_fg, black_bg); // printf("\x1B[1;32;40m[]\x1B[0m");
+                printf("%s", enter);
+                printf("%s", reset);
+            } else if (matr[line][col] == '3'){
+                printf("\033[1;91m"); // rouge + bold sans fond
+                printf("%s", out);
+                printf("%s", reset);
             } else {
-                printf("  ");                
+                perror("invalid matrix value");
+                exit(EXIT_FAILURE);
             }
         }
         printf("\n");
     }
+    printf("simple_display(...) in %.9f seconds\n", get_time_sec() - start);
+    fflush(stdout);
 }
 
 void complex_line_display(int number) {

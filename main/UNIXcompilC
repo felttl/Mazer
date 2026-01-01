@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 # Script pour compiler tous les fichiers .c du projet avec GCC
 # Exclut certains fichiers ou répertoires unitiles ou non souhaitable

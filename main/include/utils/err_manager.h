@@ -9,15 +9,23 @@
 /**
  * @brief preprocessor macro reminder
  * 
- * __FILE__
- * __Line__
- * __func__
+ * - __FILE__
+ * 
+ * - __Line__
+ * 
+ * - __func__
+ * 
  * 
  */
-
 #define LOG_ERROR(msg) \
     fprintf(stderr, "[ERROR] %s:%d (%s) : %s | errno=%d (%s)\n", \
         __FILE__, __LINE__, __func__, msg, errno, strerror(errno))
+
+/**
+ * @brief on error SIG
+ * 
+ */
+void terror(const char* msg);
 
 #endif
 

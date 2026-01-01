@@ -1,0 +1,18 @@
+#!/bin/bash 
+clear;clear
+set -e
+rm -rf build/**
+cd build
+cmake .. -DCMAKE_PREFIX_PATH="/opt/homebrew/opt/googletest"
+cmake --build . --verbose
+# list all tests
+ctest -N
+# exec tests
+ctest --output-on-failure
+# to see run errors when running directly the Tests source
+#touch rerun_build
+echo "#!/bin/bash" > rerun_build
+echo "clear;clear" >> rerun_build
+echo "cmake --build . --verbose" >> rerun_build
+chmod 700 rerun_build
+# end page
