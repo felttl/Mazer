@@ -17,8 +17,8 @@ Queue* qu_create(void* data){
 }
 
 void qu_push(Queue* q, QueueNode* to_add){
-    if (q == NULL) terror("q is null in qu_push() arg 1");
-    if (to_add == NULL) terror("to_add is null in qu_push() arg 2");
+    if (q == NULL) TERROR("q is null in qu_push() arg 1");
+    if (to_add == NULL) TERROR("to_add is null in qu_push() arg 2");
     to_add->qn_next = NULL;
     q->qu_tail->qn_next = to_add;
     q->qu_tail = to_add;
@@ -41,6 +41,12 @@ static void _p_qu_destroy_rec(){ // private
 void qu_destroy(Queue* q){
     // us this to remove chain reccursively
     // _p_qu_destroy_rec
+    if(q == NULL) TERROR("q must not be NULL, arg 1");
+    while (q->qu_size > 0)
+        qu_pop(q);
+    if (q->qu_tail != NULL) // not sure
+        free(q->qu_tail);
+    free(q);
 }
 
 // end page

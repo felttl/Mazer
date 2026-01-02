@@ -17,15 +17,22 @@
  * 
  * 
  */
-#define LOG_ERROR(msg) \
-    fprintf(stderr, "[ERROR] %s:%d (%s) : %s | errno=%d (%s)\n", \
-        __FILE__, __LINE__, __func__, msg, errno, strerror(errno))
+#define TERROR(msg) terror(msg, __FILE__, __LINE__, __func__)
 
 /**
- * @brief on error SIG
+ * @brief to use instead of `perror()` to get 
+ * mode details about an error
+ * @note to improve function may add 
  * 
+ * Stack structure to create StackTrace 
+ * 
+ * of errors to log the path of the errors 
+ * 
+ * across the whole app and all programs
+ * 
+ * in later versions...
  */
-void terror(const char* msg);
+void terror(const char* msg, const char* file, int line, const char* caller);
 
 #endif
 
