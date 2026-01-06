@@ -40,12 +40,12 @@ void sk_push(Stack* top_stack, Stack* add_to) {
 }
 
 
-int sk_pop(Stack* top){
+void* sk_pop(Stack* top){
     // top item stored before removing
     if (top == NULL) {
         TERROR("la pile est nulle\n");
     }
-    int res=top->index;    
+    void* res=top->data;
     // A VERIFIER (cmportement étrange si l'élément reste seul et qu'il y en as 1)
     if (top->last == NULL){
         TERROR("impossible de libérer la pile elle ne contient pas d'éléments\n");

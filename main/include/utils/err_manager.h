@@ -7,6 +7,27 @@
 #include <string.h>  // strerrors
 
 /**
+ * @brief store a level of information (to see the full StackTrace errors "in-depth")
+ * 
+ * - msg `const char*` : message from the system to see precisely the error
+ * 
+ * - file `const char*` : the file where an event occurend (for the final error)
+ * 
+ * - line `int` : the number of the line in the file where the code throw an event
+ * 
+ * - caller `const char*` : where the function that throw the event was
+ * 
+ */
+typedef struct StackTraceLink StackTraceLink;
+struct StackTraceLink{
+    const char* msg;
+    const char* file;
+    int line;
+    const char* caller;
+}; 
+
+
+/**
  * @brief preprocessor macro reminder
  * 
  * - __FILE__
@@ -17,7 +38,14 @@
  * 
  * 
  */
-#define TERROR(msg) terror(msg, __FILE__, __LINE__, __func__)
+#define TERROR(msg) __err_terror(msg, __FILE__, __LINE__, __func__)
+
+/**
+ * @brief must be initialized after each function 
+ * 
+ * @warning initialized after each function signature that use TERROR later in the code
+ */
+#define ERR_PUSH_STACKTRACE() err_push_StackTrace(__FILE__, __LINE__, __func__)
 
 /**
  * @brief to use instead of `perror()` to get 
@@ -32,7 +60,7 @@
  * 
  * in later versions...
  */
-void terror(const char* msg, const char* file, int line, const char* caller);
+void __err_terror(const char* msg, const char* file, int line, const char* caller);
 
 #endif
 

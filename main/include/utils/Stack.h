@@ -70,9 +70,9 @@ void sk_push(Stack* top_stack, Stack* add_to);
 /**
  * @short permet de dépiler une pile
  * @param top le sommet de la pile
- * @return renvoie l'index du dernier élément supprimé
+ * @return renvoie les données contenu dans le niveau de pile supprimé
 */
-int sk_pop(Stack* top);
+void* sk_pop(Stack* top);
 
 /**
  * @brief permet de supprimer une pile entièrement

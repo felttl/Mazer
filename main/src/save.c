@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h> // import EXIT_FAILURE
 
-void save_matr(char**matr, int nbline){
+void save_matr(char**matr, int nbline, char* filepath){
     FILE *fp;
-    fp = fopen("out.txt", "w+");
+    fp = fopen(filepath, "w+");
 	if(fp == NULL){
         /* File not created hence exit */
         printf("impossible de créer le fichier : (%s)\n", "out.txt");

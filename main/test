@@ -7,10 +7,16 @@ cmake .. -DCMAKE_PREFIX_PATH="/opt/homebrew/opt/googletest"
 cmake --build . --verbose
 # list all tests
 ctest -N
-# exec tests
-ctest --output-on-failure
+# execution des tests
+
+# -> centralise les résultats dans un fichier xml format junit 
+# (lisible Jenkins, GitLab CI, GitHub Actions)
+# -> rapports de tests automatisés
+ctest --test-dir build \
+      --output-on-failure \
+      --output-junit ../dependencies/CTest/ctest_report.xml
 # to see run errors when running directly the Tests source
-#touch rerun_build
+touch rerun_build
 echo "#!/bin/bash" > rerun_build
 echo "clear;clear" >> rerun_build
 echo "cmake --build . --verbose" >> rerun_build

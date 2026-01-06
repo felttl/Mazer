@@ -7,7 +7,7 @@
 #include "../include/save.h"
 #include "../include/utils/tools.h"
 #include "../include/utils/map.h"
-/* generic librairies */
+/* external librairies */
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -64,9 +64,8 @@ int main(){
         // on se sauvegarde pas les matrices avec les autres algo car c'est le même
         // resultat
         // on peut faire la fonction avant ou aprés avoir écrit le chemin de sortie dedans
-        save_matr(matrix, x);      
+        save_matr(matrix, x, "./out.txt");
     }
-           
 
 
     printf("\n");

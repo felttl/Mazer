@@ -1,0 +1,28 @@
+#!/bin/bash
+clear; clear
+
+# On ne stoppe PAS si les tests échouent (sinon pas de couverture)
+set +e
+
+cd build
+
+echo "===== RUNNING TESTS ====="
+ctest --output-on-failure
+
+set -e
+
+echo "===== GENERATING COVERAGE ====="
+
+mkdir -p ../dependencies/gcovr
+
+gcovr \
+  --root .. \
+  --object-directory . \
+  --exclude '.*tests_v2_cpp.*' \
+  --exclude '.*dependencies.*' \
+  --html-details \
+  --html ../dependencies/gcovr/coverage.html \
+  --xml ../dependencies/gcovr/coverage.xml \
+  --print-summary
+
+echo "Coverage reports generated in main/dependencies/gcovr/"
