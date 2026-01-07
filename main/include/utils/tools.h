@@ -49,10 +49,10 @@ int get_number_borders(int line, int col);
  * @param x taile de ma matrice verticale
  * @param y taile de la matrice horizontale
  * @param ex est le paramètre de passage par référence 
- * pour les coordonnées de sortie en x
- * @param ey '' pour les coordonnées de sortie en y
- * @param sx '' pour les coordonnées de sortie en x
- * @param sy '' pour les coordonnées de sortie en y
+ * pour les coordonnées d'entrée en x
+ * @param ey '' coordonnées d'entrée en y
+ * @param sx '' coordonnées de sortie en x
+ * @param sy '' coordonnées de sortie en y
  * @param heading_in orientation de l'entrée (passsage par ref'')
  * @param heading_out orientation de la sortie (passsage par ref'')
  * @return bool : renvoie si les coordonées sont trouvées dans le labyrinthe 

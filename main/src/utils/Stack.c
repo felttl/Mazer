@@ -4,70 +4,57 @@
 #include "../../include/utils/err_manager.h"
 // external librairies
 #include <stdlib.h> // exit(), EXIT_FAILURE
-#include <stdio.h> // TERROR()
+#include <stdio.h> // ERR_TERROR()
 #include <limits.h>
 
 
 Stack* sk_create(void* data){
     Stack* stack=malloc(sizeof(Stack));
-    if (stack == NULL){
-        TERROR("malloc didn't worked for `Stack` mem alloc\n");
-    }
-    stack->data=data;
-    stack->index=0;
-    stack->last=NULL;
+    if (!stack) // eq to : "stack == NULL"
+        ERR_TERROR("malloc didn't worked for `Stack` mem alloc\n");    
+    Node* node = malloc(sizeof(Node));
+    if(!node)
+        ERR_TERROR("malloc didn't worked for `Node` mem alloc\n");
+    node->n_data = data;
+    node->n_next = NULL;
+    stack->sk_last = node;
+    stack->sk_size = 1;
     return stack;
 }
 
-void sk_push(Stack* top_stack, Stack* add_to) {
-    if (top_stack == NULL){
-        TERROR("empty top stack, must be initialized first");
-    }
-    if (add_to == NULL){
-        TERROR("empty add_to stack");
-    }
-    if (add_to->last != NULL){
-        TERROR("top Stack is not alone (not a single element)");
-    }
-    // we suppose that "top_stack->index" exists as uint (is not null)
-    if(top_stack->index+1 > UINT_MAX){ // limit case
-        TERROR("max items counts on the stack reached (index count overflow)");
-    }
-    add_to->index=top_stack->index+1;
-    add_to->last=top_stack;
-    // move the head
-    top_stack=add_to;
+void sk_push(Stack* stack, void* data) {
+    if (!stack)
+        ERR_TERROR("\"stack\" is NULL");
+    Node* node = malloc(sizeof(Node));
+    if (!node)
+        ERR_TERROR("malloc for Node failed");
+    node->n_data = data;
+    node->n_next = stack->sk_last;
+    stack->sk_last = node;
+    stack->sk_size++;
 }
 
 
-void* sk_pop(Stack* top){
-    // top item stored before removing
-    if (top == NULL) {
-        TERROR("la pile est nulle\n");
-    }
-    void* res=top->data;
-    // A VERIFIER (cmportement étrange si l'élément reste seul et qu'il y en as 1)
-    if (top->last == NULL){
-        TERROR("impossible de libérer la pile elle ne contient pas d'éléments\n");
-    }
-    Stack* tmp=top;
-    top=top->last;
-    free(tmp);
+void* sk_pop(Stack* stack){
+    // stack item stored before removing
+    if (!stack || !stack->sk_last) 
+        ERR_TERROR("la pile \"stack\" est vide\n");
+    Node* node = stack->sk_last;
+    void* res = node->n_data;
+    stack->sk_last = node->n_next;
+    stack->sk_size--;
+    free(node);
     return res;
 }
 
-void sk_remove(Stack* top_stack){
-    if (top_stack == NULL)
-        TERROR("sommet de la pile nulle, opération `sk_remove() impossible`");
-    if (top_stack->last == NULL){
-        free(top_stack);
-        return;
+void sk_remove(Stack* stack){
+    if (!stack) return;
+    Node* node;
+    while (stack->sk_last){
+        node=stack->sk_last;
+        stack->sk_last=node->n_next;
+        free(node);
     }
-    do {
-        Stack* lastS=top_stack;
-        top_stack=top_stack->last;
-        free(lastS);
-    } while (top_stack != NULL);
 }
 
 

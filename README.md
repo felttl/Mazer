@@ -19,7 +19,7 @@ version : v2 (dec 2025)
 ```bash
 brew install cmake gcovr googletest
 xcode-select --install
-# install cmake is needed
+# install cmake, if not installed it's needed
 brew install cmake
 ```
 

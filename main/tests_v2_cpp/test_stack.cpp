@@ -3,32 +3,26 @@
 
 extern "C" {
     #include "utils/Stack.h"
+    #include "utils/err_manager.h"
 }
 
 TEST(StackTest, Push) {
-    int val = 33;
-    Stack* s = sk_create(&val); // ptr addr
-    ASSERT_NE(s, nullptr);
+    int* val = (int*)malloc(sizeof(int));
+    *val = 33;
+    Stack* s = sk_create(val);
 
-    int pushed_value = 42;
-    Stack* astk = sk_create(&pushed_value);
+    int* pushed_value = (int*)malloc(sizeof(int));
+    *pushed_value = 42;
 
-    sk_push(s, astk);
-    EXPECT_EQ(sk_pop(s), 1);
-    sk_remove(s);
+    sk_push(s, pushed_value);
+
+    int* popped = (int*)sk_pop(s);
+    EXPECT_EQ(*popped, 42);
+
+    sk_remove(s);      // libère uniquement la pile
+    free(val);
+    free(pushed_value);
 }
 
-TEST(StackTest, Pop) {
-    int val = 33;
-    Stack* s = sk_create(&val); // ptr addr
-    ASSERT_NE(s, nullptr);
-
-    int pushed_value = 42;
-    Stack* astk = sk_create(&pushed_value);
-
-    sk_push(s, astk);
-    EXPECT_EQ(sk_pop(s), 1);
-    sk_remove(s);
-}
 
 // end page

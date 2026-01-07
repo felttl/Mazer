@@ -16,7 +16,7 @@
  * - line `int` : the number of the line in the file where the code throw an event
  * 
  * - caller `const char*` : where the function that throw the event was
- * 
+ * @version v2
  */
 typedef struct StackTraceLink StackTraceLink;
 struct StackTraceLink{
@@ -28,7 +28,9 @@ struct StackTraceLink{
 
 
 /**
- * @brief preprocessor macro reminder
+ * @brief preprocessor macro to make the stuff working under the hood 
+ * much clear and eazy to understand.
+ * @version v2
  * 
  * - __FILE__
  * 
@@ -36,21 +38,32 @@ struct StackTraceLink{
  * 
  * - __func__
  * 
- * 
+ * @note optional to write ERR_PUSH... and ERR_POP... on the function
+ * that call `ERR_TERROR(msg)`
  */
-#define TERROR(msg) __err_terror(msg, __FILE__, __LINE__, __func__)
+#define ERR_TERROR(msg) __err_terror(msg, __FILE__, __LINE__, __func__)
 
 /**
  * @brief must be initialized after each function 
+ * @version v2
  * 
- * @warning initialized after each function signature that use TERROR later in the code
+ * @warning to call after each function signature that use TERROR later in the code
  */
-#define ERR_PUSH_STACKTRACE() err_push_StackTrace(__FILE__, __LINE__, __func__)
+#define ERR_PUSH_STACKTRACE() err_push_StackTrace(__FILE__, __LINE__-1, __func__)
+
+/**
+ * @brief must be written after each function that use later TERROR
+ * @version v2
+ * 
+ * @warning to call before each function ends that use TERROR later in the code
+ */
+#define ERR_POP_STACKTRACE() err_pop_StackTrace()
 
 /**
  * @brief to use instead of `perror()` to get 
  * mode details about an error
  * @note to improve function may add 
+ * @version v2
  * 
  * Stack structure to create StackTrace 
  * 

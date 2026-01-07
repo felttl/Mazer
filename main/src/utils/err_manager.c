@@ -7,37 +7,33 @@
 #include "../../include/utils/Stack.h"
 
 /**
- * on ne garde pas l'idée de plusieurs étages pour l'instant
- * on fait en sorte que ça fonctionne pour le reste on verra plus tar
- * 
+ * @brief internal stackTrace 
+ * (faster to understand errors)
  */
-
-
 static Stack* StackTrace = NULL;
 
-/* called once */
-void err_manager_init(){
+/* called once, internal function */
+void __err_init_StackTrace(){
+    // impossible : ERR_PUSH_STACKTRACE();
     if(StackTrace == NULL)
         StackTrace = sk_create((StackTraceLink*)NULL);
+    // impossible : ERR_POP_STACKTRACE();
 }
 
 void err_push_StackTrace(const char* file, int line, const char* caller){
-    init_stack_trace();
-
-    // créer le node
+    __err_init_StackTrace();
     StackTraceLink* link = malloc(sizeof(StackTraceLink));
     link->msg = NULL;  // pas de message pour ce push
     link->file = file;
     link->line = line;
-    link->caller = caller;
-
-    // empiler
     Stack* nodeStack = sk_create(link);
     sk_push(StackTrace, nodeStack);
 }
 
 void err_pop_StackTrace(){
-    // ... // a construire 
+    if(!StackTrace || StackTrace->sk_size == 0) return;
+    StackTraceLink* link = (StackTraceLink*) sk_pop(StackTrace);
+    free(link);
 }
 
 /* internal function */
@@ -47,19 +43,24 @@ void __err_show_1lvl(const char* msg, const char* file, int line, const char* ca
     // Appliquer la couleur directement à stderr
     fprintf(stderr, "%s", red_bold);
     fprintf(stderr, "[ERROR] %s:%d\n", file, line);
-    fprintf(stderr, "\t(called from %s) : %s\n", caller, msg);
+    fprintf(stderr, "\t(called from %s) : %s\n", caller, msg ? msg : "<no message>");
     fprintf(stderr, "%s", reset);
 }
 
 /* internal function */
 void __err_terror(const char* msg, const char* file, int line, const char* caller){
-    // show all levels 
+    // show all levels
+    Stack* nodeStack;
     StackTraceLink* current;
-    while(StackTrace->index > 0){
+    while(StackTrace->sk_size > 0){
+        nodeStack = sk_pop(StackTrace);
+        if(!nodeStack) continue;
         current = (StackTraceLink*) sk_pop(StackTrace);
         __err_show_1lvl(current->msg,current->file,
             current->line,current->caller
         );
+        free(current);
+        free(nodeStack);
     }
     __err_show_1lvl(msg,file,line,caller);
     exit(EXIT_FAILURE);
