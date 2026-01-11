@@ -1,3 +1,5 @@
 main/.DS_Store
 main/build/**
 main/out.txt
+main/bin/main
+main/bin/main.dSYM/Contents/Resources/DWARF/main
