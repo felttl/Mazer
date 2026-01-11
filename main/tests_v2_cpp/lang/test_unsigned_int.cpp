@@ -9,7 +9,7 @@ TEST(UnsignedIntTest, MaxValueIsCorrect) {
     unsigned int max = UINT_MAX;
 
     // Vérifie que UINT_MAX est bien > 0
-    EXPECT_GT(max, 0u);
+    EXPECT_GT(max, 0u); // 0 = 0u (typed like java)
 
     // Vérifie le wrap-around (comportement défini)
     unsigned int overflow = max + 1;

@@ -1,6 +1,6 @@
 /* Graphs.c */
-#include "../../include/utils/Graphs/Graphs.h"
-#include "../../include/utils/err_manager.h"
+#include "../../../include/utils/Graphs/Graphs.h"
+#include "../../../include/utils/err_manager.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -21,29 +21,6 @@ Point2D* pt_random_shuffle(Point2D* dynamic_arr, int len){
         i++;
     }
     return *temp;
-}
-
-char** pt_generate_DFS_maze(
- int matr_lines, int matr_cols, Point2D start, Point2D stop){
-    // construction d'une matrice avec que des murs
-    char** matr = (char**)malloc(sizeof(char*)*matr_lines);
-    Point2D current_p = start;
-    Point2D end_p = stop;    
-    if (!matr) {
-        perror("malloc matr");
-        return NULL;
-    }
-    bool visited[matr_lines*matr_cols];    
-    for (unsigned int i = 0; i < matr_lines; i++){
-        matr[i] = (char*) malloc (sizeof(char)*matr_cols);
-        for (unsigned int j = 0; j < matr_cols; j++){
-            matr[i][j] = '1'; // 1 = murs; 0 = passage
-            visited[j+i*matr_cols] = false;
-        }
-    }
-    return __pt_generate_DFS_maze_rec(
-        matr, matr_lines, matr_cols, current_p, end_p, visited
-    );
 }
 
 char** __pt_generate_DFS_maze_rec(char** matr,
@@ -84,6 +61,29 @@ char** __pt_generate_DFS_maze_rec(char** matr,
         );
     }
     return matr;
+}
+
+char** pt_generate_DFS_maze(
+ int matr_lines, int matr_cols, Point2D start, Point2D stop){
+    // construction d'une matrice avec que des murs
+    char** matr = (char**)malloc(sizeof(char*)*matr_lines);
+    Point2D current_p = start;
+    Point2D end_p = stop;    
+    if (!matr) {
+        perror("malloc matr");
+        return NULL;
+    }
+    bool visited[matr_lines*matr_cols];    
+    for (unsigned int i = 0; i < matr_lines; i++){
+        matr[i] = (char*) malloc (sizeof(char)*matr_cols);
+        for (unsigned int j = 0; j < matr_cols; j++){
+            matr[i][j] = '1'; // 1 = murs; 0 = passage
+            visited[j+i*matr_cols] = false;
+        }
+    }
+    return __pt_generate_DFS_maze_rec(
+        matr, matr_lines, matr_cols, current_p, end_p, visited
+    );
 }
 
 

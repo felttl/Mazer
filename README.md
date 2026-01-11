@@ -67,3 +67,47 @@ in `mazer/main/`
 ./run_test # run compiled tests
 ./gcovr # run gcovr using specific settings in the project
 ```
+
+## technical choice
+
+### StackTrace in C
+
+comparison
+
+- libunwind [CROSS 1 CODE]
+- glib (GLib) (GTK) [CROSS 1 CODE]
+- Boost.Stacktrace [CROSS 1 CODE]
+- addr2line + backtrace (POSIX)
+
+
+
+> [!note]
+> we will compare only the code that doesn't change 
+> across platforms for the dedicated Library used
+> (except if it change just a bit with minor changes)
+> $\rightarrow$ that's our constraint
+
+
+- Boost.StackTrace
+
+Boost.StackTrace : https://www.boost.org/doc/libs/master/doc/html/stacktrace/getting_started.html
+
+
+- eazy to understand, to use
+- good, clear documentation with examples
+
+$\rightarrow$ taken for the project
+
+---
+
+Solution|unique code|Portable|Précision (lines/files)|Complexity
+|--|--|--|--|--|
+Boost.Stacktrace|yes|★★★★★|★★★★★|weak
+libunwind + wrapper|yes*|★★★★★|★★★★★|Average
+GLib|yes|★★★★☆|★★★☆☆|weak
+addr2line + backtrace|no|★★★☆☆|★★★★☆|High
+Cpptrace|yes|★★★★★|★★★★☆|weak
+
+\* : his API and his implementation change a bit depending on the platform
+
+<!-- end page -->

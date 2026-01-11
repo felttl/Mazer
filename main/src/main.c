@@ -7,7 +7,6 @@
 #include "../include/save.h"
 #include "../include/utils/tools.h"
 #include "../include/utils/map.h"
-#include "../include/utils/err_manager.h"
 /* external librairies */
 #include <stdio.h>
 #include <stdlib.h>

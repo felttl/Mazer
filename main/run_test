@@ -4,4 +4,4 @@ cd dependencies/CTest/bin
 echo "---------- enumerate tests ---------"
 ./test_app --gtest_list_tests
 echo "------------------------------------"
-./test_app --gtest_color=yes
+lldb --batch -o "run --gtest_color=yes" -o "quit" ./test_app

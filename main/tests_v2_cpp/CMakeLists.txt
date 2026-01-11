@@ -6,7 +6,7 @@ find_package(GTest REQUIRED)
 # qu'il faut lancer (les fichiers de tests)
 add_executable(test_app
     test_stack.cpp
-    test_unsigned_int.cpp
+    lang/test_unsigned_int.cpp
 )
 add_subdirectory(${CMAKE_SOURCE_DIR}/dependencies/googletest googletest_build)
 # Lier la librairie et gtest

@@ -47,14 +47,16 @@ void* sk_pop(Stack* stack){
     return res;
 }
 
-void sk_remove(Stack* stack){
+void sk_destroy(Stack* stack){
     if (!stack) return;
     Node* node;
     while (stack->sk_last){
         node=stack->sk_last;
         stack->sk_last=node->n_next;
+        free(node->n_data);        
         free(node);
     }
+    free(stack);
 }
 
 

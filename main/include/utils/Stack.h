@@ -70,7 +70,7 @@ void* sk_pop(Stack* stack);
  * et de manière sécurisé (mémoire)
  * @param stack `explicit`
 */
-void sk_remove(Stack* stack);
+void sk_destroy(Stack* stack);
 
 #endif
 

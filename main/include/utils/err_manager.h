@@ -6,6 +6,28 @@
 #include <errno.h>   // errno
 #include <string.h>  // strerrors
 
+
+/**
+ * @brief why this file ?
+ * 
+ * -> make a minimal StackTrace in C to see clear errors
+ * 
+ * pros :
+ * - no need framework
+ * - fast
+ * - no configuration
+ * - eazy to use
+ * 
+ * cons :
+ * - heavy, manual update on stackTrace (need to write Err_PUSH/POP on every function that
+ * can potentially fail)
+ * - difficult when writing on multi-threaded and/or
+ * concurrent/parallel programming (but can evolve to this way)
+ * 
+ * 
+ */
+
+
 /**
  * @brief store a level of information (to see the full StackTrace errors "in-depth")
  * 
@@ -26,6 +48,24 @@ struct StackTraceLink{
     const char* caller;
 }; 
 
+/**
+ * @brief to use instead of `perror()` to get 
+ * mode details about an error
+ * @note to improve function may add 
+ * @version v2
+ * 
+ * Stack structure to create StackTrace 
+ * 
+ * of errors to log the path of the errors 
+ * 
+ * across the whole app and all programs
+ * 
+ * in later versions...
+ */
+void __err_terror(const char* msg, const char* file, int line, const char* caller);
+
+void err_push_StackTrace(const char* file, int line, const char* caller);
+void err_pop_StackTrace();
 
 /**
  * @brief preprocessor macro to make the stuff working under the hood 
@@ -59,21 +99,6 @@ struct StackTraceLink{
  */
 #define ERR_POP_STACKTRACE() err_pop_StackTrace()
 
-/**
- * @brief to use instead of `perror()` to get 
- * mode details about an error
- * @note to improve function may add 
- * @version v2
- * 
- * Stack structure to create StackTrace 
- * 
- * of errors to log the path of the errors 
- * 
- * across the whole app and all programs
- * 
- * in later versions...
- */
-void __err_terror(const char* msg, const char* file, int line, const char* caller);
 
 #endif
 
