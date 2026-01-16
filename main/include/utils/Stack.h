@@ -2,7 +2,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "Graphs/Node.h"
+#include "Graphs/ChainedNode.h"
 
 /**
  * @author Félix TTL
@@ -26,7 +26,7 @@
 typedef struct Stack Stack;
 struct Stack {
     unsigned int sk_size;
-    Node* sk_last;
+    ChainedNode* sk_last;
 };
 
 
@@ -67,7 +67,7 @@ void* sk_pop(Stack* stack);
 
 /**
  * @brief permet de supprimer une pile entièrement 
- * et de manière sécurisé (mémoire)
+ * et de manière sécurisé (mémoire) (free la Stack et son contenu)
  * @param stack `explicit`
 */
 void sk_destroy(Stack* stack);

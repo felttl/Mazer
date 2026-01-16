@@ -14,12 +14,13 @@
  * - _4DH_LEFT
  * 
  */
-typedef enum _4d_heading {
+typedef enum _4dHeading _4dHeading;
+typedef enum _4dHeading {
     _4DH_TOP,
     _4DH_BOTTOM, 
     _4DH_RIGHT, 
     _4DH_LEFT    
-} _4d_heading ;
+};
 
 
 

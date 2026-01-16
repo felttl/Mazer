@@ -74,6 +74,8 @@ in `mazer/main/`
 
 comparison
 
+CROSS = cross platforms (1 code for all platforms)
+
 - libunwind [CROSS 1 CODE]
 - glib (GLib) (GTK) [CROSS 1 CODE]
 - Boost.Stacktrace [CROSS 1 CODE]

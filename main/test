@@ -1,24 +1,96 @@
-#!/bin/bash 
-clear;clear
-set -e
-rm -rf build/**
-cd build
-cmake .. -DCMAKE_PREFIX_PATH="/opt/homebrew/opt/googletest"
-cmake --build . --verbose
-# list all tests
-ctest -N
-# execution des tests
+#!/bin/bash
+# =========================
+# Test build & run script
+# Cross-platform: macOS / Unix
+# Compiles code with AddressSanitizer
+# Runs GoogleTest with colored output
+# Generates CTest JUnit XML report
+# Displays ASan memory leak report at the end
+# =========================
 
-# -> centralise les résultats dans un fichier xml format junit 
-# (lisible Jenkins, GitLab CI, GitHub Actions)
-# -> rapports de tests automatisés
-ctest --test-dir build \
-      --output-on-failure \
+clear; clear
+set -e  # Exit immediately if a command fails
+
+# -------------------------
+# Remove previous build
+# -------------------------
+rm -rf build/**
+mkdir -p build
+cd build
+
+# -------------------------
+# Detect OS
+# -------------------------
+OS_NAME=$(uname)
+echo "Detected OS: $OS_NAME"
+
+ASAN_FLAGS="-fsanitize=address -g"
+
+# -------------------------
+# Configure CMake with ASan and GTest
+# -------------------------
+if [[ "$OS_NAME" == "Darwin" ]]; then
+    # macOS
+    echo "Configuring for macOS with AddressSanitizer..."
+elif [[ "$OS_NAME" != "Darwin" ]]; then
+    # Other Unix-like OS
+    echo "Configuring for Unix with AddressSanitizer..."
+fi
+
+cmake .. \
+    -DCMAKE_PREFIX_PATH="/opt/homebrew/opt/googletest" \
+    -DCMAKE_C_FLAGS="${ASAN_FLAGS}" \
+    -DCMAKE_CXX_FLAGS="${ASAN_FLAGS}"
+
+# -------------------------
+# Build the project
+# -------------------------
+cmake --build . --verbose
+
+# -------------------------
+# List all tests
+# -------------------------
+ctest -N
+
+# -------------------------
+# Run tests via CTest with JUnit XML output
+# This is useful for CI (Jenkins, GitLab, GitHub Actions)
+# -------------------------
+ctest --output-on-failure \
       --output-junit ../dependencies/CTest/ctest_report.xml
-# to see run errors when running directly the Tests source
-touch rerun_build
+
+# -------------------------
+# Prepare a quick rebuild script
+# -------------------------
 echo "#!/bin/bash" > rerun_build
-echo "clear;clear" >> rerun_build
+echo "clear; clear" >> rerun_build
 echo "cmake --build . --verbose" >> rerun_build
 chmod 700 rerun_build
-# end page
+
+# -------------------------
+# Run GoogleTest directly with color and AddressSanitizer
+# All memory leaks will be logged to dependencies/gcovr/asan_log.txt
+# -------------------------
+ASAN_OPTIONS=detect_leaks=1:log_path=../dependencies/gcovr/asan_log.txt \
+../dependencies/CTest/bin/test_app --gtest_color=yes
+
+# -------------------------
+# Display memory leak report at the end
+# -------------------------
+if [ -s ../dependencies/gcovr/asan_log.txt ]; then
+    echo "-------------------------------------------"
+    echo "Memory leaks detected by ASan:"
+    echo "-------------------------------------------"
+    cat ../dependencies/gcovr/asan_log.txt
+else
+    echo "-------------------------------------------"
+    echo "No memory leaks detected by ASan."
+    echo "-------------------------------------------"
+fi
+
+# Print current directory for debugging
+pwd
+
+# =========================
+# End of script
+# =========================

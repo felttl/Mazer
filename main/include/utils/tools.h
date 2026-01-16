@@ -58,7 +58,7 @@ int get_number_borders(int line, int col);
  * @return bool : renvoie si les coordonées sont trouvées dans le labyrinthe 
  */
 bool get_mazer_io(char** matrix,char in,char out,int x,int y,int* ex, 
- int* ey, int* sx, int* sy, _4d_heading*heading_in, _4d_heading*heading_out);
+ int* ey, int* sx, int* sy, _4dHeading*heading_in, _4dHeading*heading_out);
 
 
 #endif

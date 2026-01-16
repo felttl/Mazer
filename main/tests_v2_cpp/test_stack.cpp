@@ -14,14 +14,13 @@ TEST(StackTest, Create) { // OK
     ASSERT_NE(s, nullptr); // stack créée
     EXPECT_EQ(s->sk_size, 1); // 1 élément
     ASSERT_NE(s->sk_last, nullptr); // premier node existe
-    EXPECT_EQ(s->sk_last->n_data, val); // data correcte
-    EXPECT_EQ(s->sk_last->n_next, nullptr); // pas de suivant
+    EXPECT_EQ(s->sk_last->cn_data, val); // data correcte
+    EXPECT_EQ(s->sk_last->cn_next, nullptr); // pas de suivant
 
     sk_destroy(s);
 }
 
-
-TEST(StackTest, Push) {
+TEST(StackTest, Push) { // OK
     int* val = (int*)malloc(sizeof(int));
     *val = 330;
     Stack* s = sk_create(val);
@@ -34,18 +33,18 @@ TEST(StackTest, Push) {
     EXPECT_NE(s, nullptr); // stack not destroyed after push
     EXPECT_EQ(s->sk_size, 2); // 2 items
     ASSERT_NE(s->sk_last, nullptr); // first node exist
-    EXPECT_EQ(s->sk_last->n_data, pushed_value); // data correct
+    EXPECT_EQ(s->sk_last->cn_data, pushed_value); // data correct
 
     // second layer
-    EXPECT_NE(s->sk_last->n_next, nullptr); // exactly on next exist
-    EXPECT_EQ(s->sk_last->n_next->n_data, val); // exact match value
-    EXPECT_EQ(s->sk_last->n_next->n_next, nullptr); // only 2 items
+    EXPECT_NE(s->sk_last->cn_next, nullptr); // exactly on next exist
+    EXPECT_EQ(s->sk_last->cn_next->cn_data, val); // exact match value
+    EXPECT_EQ(s->sk_last->cn_next->cn_next, nullptr); // only 2 items
 
     //WARNING: this part not checked yet (tested later)
     sk_destroy(s); // free the wole stack
 }
 
-TEST(StackTest, Pop) {
+TEST(StackTest, Pop) { // OK
     int* val = (int*)malloc(sizeof(int));
     *val = 25;
     Stack* s = sk_create(val);
@@ -64,14 +63,14 @@ TEST(StackTest, Pop) {
 
     ASSERT_NE(s->sk_last, nullptr); // first node exist  
 
-    EXPECT_NE(s->sk_last->n_next, nullptr); // last item deleted well
-    EXPECT_EQ(s->sk_last->n_data, val); // data still there
+    EXPECT_EQ(s->sk_last->cn_next, nullptr); // last item deleted well
+    EXPECT_EQ(s->sk_last->cn_data, val); // data still there
 
     //WARNING: this part not checked yet
     sk_destroy(s); // free the wole stack
 }
 
-TEST(StackTest, Destroy) {
+TEST(StackTest, Destroy) { // OK
     int* val = (int*)malloc(sizeof(int));
     *val = 33;
     Stack* s = sk_create(val);
@@ -94,6 +93,6 @@ TEST(StackTest, Destroy) {
 
     // how to test here ?
     // > impossible : use Valgrind or LLDB to see memory leaks
-
 }
+
 // end page

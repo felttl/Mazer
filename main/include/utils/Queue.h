@@ -2,7 +2,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "Graphs/Node.h"
+#include "Graphs/ChainedNode.h"
 
 /**k
  * @brief Queue system
@@ -18,8 +18,8 @@
  * a->b->c->d->e->NULL
  */
 typedef struct {
-    Node* qu_head;
-    Node* qu_tail;
+    ChainedNode* qu_head;
+    ChainedNode* qu_tail;
     unsigned int qu_size;
 } Queue ;
 
@@ -36,9 +36,9 @@ Queue* qu_create(void* data);
  * @brief add a node in the queue (clean way)
  * abstract all others things that happens
  * @param q Queue* : the queue where adding the "chain" link 
- * @param to_add QueueNode* : the "chain" link to add
+ * @param to_add ChainedNode* : the "chain" link to add
  */
-void qu_push(Queue* q, Node* to_add);
+void qu_push(Queue* q, ChainedNode* to_add);
 
 /**
  * @brief remove the last (tail) element and send his data content
@@ -50,7 +50,7 @@ void* qu_pop(Queue* q);
 
 /**
  * @brief remove everything allocated and related to the Queue input
- * 
+ * (including all sub structures inside it)
  * @param q Queue* : a Queue to process `free()` cleanly
  */
 void qu_destroy(Queue* q);

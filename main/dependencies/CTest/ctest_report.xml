@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="5"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-01-11T19:03:58"
+	>
+	<testcase name="StackTest.Create" classname="StackTest.Create" time="0.0393228" status="run">
+		<properties/>
+		<system-out>Running main() from /private/tmp/googletest-20250808-4780-aa0gxy/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = StackTest.Create
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StackTest
+[ RUN      ] StackTest.Create
+[       OK ] StackTest.Create (0 ms)
+[----------] 1 test from StackTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="StackTest.Push" classname="StackTest.Push" time="0.0420683" status="run">
+		<properties/>
+		<system-out>Running main() from /private/tmp/googletest-20250808-4780-aa0gxy/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = StackTest.Push
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StackTest
+[ RUN      ] StackTest.Push
+[       OK ] StackTest.Push (0 ms)
+[----------] 1 test from StackTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="StackTest.Pop" classname="StackTest.Pop" time="0.0422318" status="run">
+		<properties/>
+		<system-out>Running main() from /private/tmp/googletest-20250808-4780-aa0gxy/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = StackTest.Pop
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StackTest
+[ RUN      ] StackTest.Pop
+[       OK ] StackTest.Pop (0 ms)
+[----------] 1 test from StackTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="StackTest.Destroy" classname="StackTest.Destroy" time="0.0445025" status="run">
+		<properties/>
+		<system-out>Running main() from /private/tmp/googletest-20250808-4780-aa0gxy/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = StackTest.Destroy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StackTest
+[ RUN      ] StackTest.Destroy
+[       OK ] StackTest.Destroy (0 ms)
+[----------] 1 test from StackTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+	<testcase name="UnsignedIntTest.MaxValueIsCorrect" classname="UnsignedIntTest.MaxValueIsCorrect" time="0.0420454" status="run">
+		<properties/>
+		<system-out>Running main() from /private/tmp/googletest-20250808-4780-aa0gxy/googletest-1.17.0/googletest/src/gtest_main.cc
+Note: Google Test filter = UnsignedIntTest.MaxValueIsCorrect
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from UnsignedIntTest
+[ RUN      ] UnsignedIntTest.MaxValueIsCorrect
+[       OK ] UnsignedIntTest.MaxValueIsCorrect (0 ms)
+[----------] 1 test from UnsignedIntTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</system-out>
+	</testcase>
+</testsuite>

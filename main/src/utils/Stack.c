@@ -12,11 +12,11 @@ Stack* sk_create(void* data){
     Stack* stack=malloc(sizeof(Stack));
     if (!stack) // eq to : "stack == NULL"
         ERR_TERROR("malloc didn't worked for `Stack` mem alloc\n");    
-    Node* node = malloc(sizeof(Node));
+    ChainedNode* node = malloc(sizeof(ChainedNode));
     if(!node)
         ERR_TERROR("malloc didn't worked for `Node` mem alloc\n");
-    node->n_data = data;
-    node->n_next = NULL;
+    node->cn_data = data;
+    node->cn_next = NULL;
     stack->sk_last = node;
     stack->sk_size = 1;
     return stack;
@@ -25,11 +25,11 @@ Stack* sk_create(void* data){
 void sk_push(Stack* stack, void* data) {
     if (!stack)
         ERR_TERROR("\"stack\" is NULL");
-    Node* node = malloc(sizeof(Node));
+    ChainedNode* node = malloc(sizeof(ChainedNode));
     if (!node)
         ERR_TERROR("malloc for Node failed");
-    node->n_data = data;
-    node->n_next = stack->sk_last;
+    node->cn_data = data;
+    node->cn_next = stack->sk_last;
     stack->sk_last = node;
     stack->sk_size++;
 }
@@ -39,9 +39,9 @@ void* sk_pop(Stack* stack){
     // stack item stored before removing
     if (!stack || !stack->sk_last) 
         ERR_TERROR("la pile \"stack\" est vide\n");
-    Node* node = stack->sk_last;
-    void* res = node->n_data;
-    stack->sk_last = node->n_next;
+    ChainedNode* node = stack->sk_last;
+    void* res = node->cn_data;
+    stack->sk_last = node->cn_next;
     stack->sk_size--;
     free(node);
     return res;
@@ -49,11 +49,11 @@ void* sk_pop(Stack* stack){
 
 void sk_destroy(Stack* stack){
     if (!stack) return;
-    Node* node;
+    ChainedNode* node;
     while (stack->sk_last){
         node=stack->sk_last;
-        stack->sk_last=node->n_next;
-        free(node->n_data);        
+        stack->sk_last=node->cn_next;
+        free(node->cn_data);        
         free(node);
     }
     free(stack);

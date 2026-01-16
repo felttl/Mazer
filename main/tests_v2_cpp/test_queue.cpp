@@ -7,32 +7,40 @@ extern "C" {
 
 TEST(QueueTest, Create) { // OK
     int* val = (int*)malloc(sizeof(int));
-    *val = 33;
+    *val = 89;
 
     Queue* q = qu_create(val);
 
     ASSERT_NE(q, nullptr); // stack créée
     EXPECT_EQ(q->qu_size, 1); // 1 élément
-    ASSERT_NE(q->qu_last, nullptr); // premier node existe
-    EXPECT_EQ(q->qu_head->q, val); // data correcte
-    EXPECT_EQ(q->qu_head->qn_next, nullptr); // pas de suivant
+    ASSERT_NE(q->qu_head, nullptr); // premier node existe
+    EXPECT_EQ(q->qu_head->cn_data, val); // data correcte
+    EXPECT_EQ(q->qu_head->cn_next, nullptr); // pas de suivant
 
-    qu_remove(q);
+    qu_destroy(q);
     free(val);
 }
 
 
-TEST(StackTest, Push) {
+TEST(QueueTest, Push) {
     int* val = (int*)malloc(sizeof(int));
-    *val = 33;
-    Stack* s = sk_create(val);
+    *val = 126;
+    Queue* q = qu_create(val);
 
     int* pushed_value = (int*)malloc(sizeof(int));
-    *pushed_value = 42;
+    *pushed_value = 13;
 
-    sk_push(s, pushed_value);
+    // on devrait surement créer des functions
+    // pou créer et supprimer des nodes
+    // pour mermettre une mailleurs réutilisation pas les autres
+    // structures plus grandes (Stack, Queue, Graphs, ...)
+    ChainedNode* node= cn_create(pushed_value);
+    qu_push(q, node);
 
-    sk_destroy(s); // libère uniquement la pile
+    // a remplacer dans les premiers tests car 
+    // on est pas encore sur de son fonctionnement
+    // (sera testé plus tard)
+    qu_destroy(q); // libère toutes la file donc pas besoin de faire de free après
     free(val);
     free(pushed_value);
 }
@@ -40,18 +48,47 @@ TEST(StackTest, Push) {
 TEST(StackTest, Pop) {
     int* val = (int*)malloc(sizeof(int));
     *val = 33;
-    Stack* s = sk_create(val);
+    Queue* q = qu_create(val);
+
+    int* pushed_value = (int*)malloc(sizeof(int));
+    int value = 49;
+    *pushed_value = value;
+
+    ChainedNode* node= cn_create(pushed_value);
+    qu_push(q, node);
+
+    int* popped = (int*)qu_pop(q);
+    EXPECT_EQ(*popped, value);
+
+    // éviter d'utiliser "qu_destroy()"  
+    // avant d'avoir fait le test
+    // dans un test dédié
+    qu_destroy(q); // libère uniquement la pile
+    free(val);
+    free(pushed_value);
+}
+
+TEST(StackTest, Destroy) {
+    int* val = (int*)malloc(sizeof(int));
+    *val = 33;
+    Queue* q = qu_create(val);
 
     int* pushed_value = (int*)malloc(sizeof(int));
     *pushed_value = 42;
 
-    sk_push(s, pushed_value);
+    ChainedNode* node= cn_create(pushed_value);
+    qu_push(q, node);
+    *pushed_value = 29;
+    node= cn_create(pushed_value);
+    qu_push(q, node);
+    *pushed_value = 280;
+    node= cn_create(pushed_value);
+    qu_push(q, node);
 
-    int* popped = (int*)sk_pop(s);
-    EXPECT_EQ(*popped, 42);
+    // on test ici
+    qu_destroy(q); // free the whole queue
+    qu_destroy(NULL); // safe
 
-    sk_destroy(s); // libère uniquement la pile
-    free(val);
-    free(pushed_value);
+    // no more free if everything is done correctly
 }
 // end page

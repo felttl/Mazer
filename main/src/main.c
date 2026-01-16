@@ -22,7 +22,6 @@
  * @project_name : Mazer
  */
 int main(){
-    ERR_PUSH_STACKTRACE();
     // init once the rand() function (ONLY ONCE PLZ)
     srand( time( NULL ) ); // init random func
 
@@ -44,8 +43,8 @@ int main(){
     // on récupère les données d'initialisation/collect data for init
     int ex=0, ey=0;// l'entrée/input
     int sx=0, sy=0;// sortie/output
-    _4d_heading heading_in; // orientation pour le pion de l'entrée
-    _4d_heading heading_out; // orientation pour le pion de la sortie
+    _4dHeading heading_in; // orientation pour le pion de l'entrée
+    _4dHeading heading_out; // orientation pour le pion de la sortie
     // si on a trouvé les coordonées entree sortie on continue    
     if (!get_mazer_io(matrix, '2', '3', x, y, &ex, &ey, &sx, &sy, &heading_in, &heading_out)){
         printf("les coordonnées d'entrée/sortie n'ont pas étés trouvées");

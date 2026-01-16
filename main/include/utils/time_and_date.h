@@ -12,8 +12,11 @@
 
 /**
  * @brief cross platforme sync to measure 
+ * 
  * elapsed time between intevals
+ * 
  * (modify precision depending on the OS) 
+ * 
  * @version 2.1 (not windows friendly with WSL or other stuff...)
  */
 double get_time_sec();
